@@ -1,0 +1,165 @@
+  # In this example, we are using secrets stored in the same namespace as the Netbird deployment.
+  # The secrets are created by the user and are not part of the Netbird chart yet.
+  # Refer to [vals](https://github.com/helmfile/vals) for reference on how to create the secrets.
+configuration: |-
+    {
+      "Stuns": [
+        {
+          "Proto": "udp",
+          "URI": "stun:ref+k8s://v1/Secret/netbird/netbird-management/stunServer+",
+          "Username": "",
+          "Password": ""
+        }
+      ],
+      "TURNConfig": {
+        "TimeBasedCredentials": false,
+        "CredentialsTTL": "12h0m0s",
+        "Secret": "secret",
+        "Turns": [
+          {
+            "Proto": "udp",
+            "URI": "turn:ref+k8s://v1/Secret/netbird/netbird-management/turnServer+",
+            "Username": "ref+k8s://v1/Secret/netbird/netbird-management/turnServerUser+",
+            "Password": "ref+k8s://v1/Secret/netbird/netbird-management/turnServerPassword+"
+          }
+        ]
+      },
+      "Signal": {
+        "Proto": "https",
+        "URI": "netbird.example.com:443",
+        "Username": "",
+        "Password": ""
+      },
+      "HttpConfig": {
+        "LetsEncryptDomain": "",
+        "CertFile": "",
+        "CertKey": "",
+        "AuthAudience": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
+        "AuthIssuer": "https://authentik.example.com/application/o/netbird/",
+        "AuthUserIDClaim": "",
+        "AuthKeysLocation": "https://authentik.example.com/application/o/netbird/jwks/",
+        "OIDCConfigEndpoint": "https://authentik.example.com/application/o/netbird/.well-known/openid-configuration",
+        "IdpSignKeyRefreshEnabled": false
+      },
+      "IdpManagerConfig": {
+        "ManagerType": "authentik",
+        "ClientConfig": {
+          "Issuer": "https://authentik.example.com/application/o/netbird",
+          "TokenEndpoint": "https://authentik.example.com/application/o/token/",
+          "ClientID": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
+          "ClientSecret": "",
+          "GrantType": "client_credentials"
+        },
+        "ExtraConfig": {
+          "Password": "ref+k8s://v1/Secret/netbird/netbird-management/idpServiceAccountPassword+",
+          "Username": "ref+k8s://v1/Secret/netbird/netbird-management/idpServiceAccountUser+"
+        },
+        "Auth0ClientCredentials": null,
+        "AzureClientCredentials": null,
+        "KeycloakClientCredentials": null,
+        "ZitadelClientCredentials": null
+      },
+      "DeviceAuthorizationFlow": {
+        "Provider": "hosted",
+        "ProviderConfig": {
+          "ClientID": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
+          "ClientSecret": "",
+          "Domain": "authentik.example.com",
+          "Audience": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
+          "TokenEndpoint": "https://authentik.example.com/application/o/token/",
+          "DeviceAuthEndpoint": "https://authentik.example.com/application/o/device/",
+          "AuthorizationEndpoint": "",
+          "Scope": "openid",
+          "UseIDToken": false,
+          "RedirectURLs": null
+        }
+      },
+      "PKCEAuthorizationFlow": {
+        "ProviderConfig": {
+          "ClientID": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
+          "ClientSecret": "",
+          "Domain": "",
+          "Audience": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
+          "TokenEndpoint": "https://authentik.example.com/application/o/token/",
+          "DeviceAuthEndpoint": "",
+          "AuthorizationEndpoint": "https://authentik.example.com/application/o/authorize/",
+          "Scope": "openid profile email offline_access api",
+          "UseIDToken": false,
+          "RedirectURLs": [
+            "http://localhost:53000"
+          ]
+        }
+      },
+      "StoreConfig": {
+        "Engine": "postgres"
+      },
+      "ReverseProxy": {
+        "TrustedHTTPProxies": null,
+        "TrustedHTTPProxiesCount": 0,
+        "TrustedPeers": null
+      }
+    }
+envRaw:
+  - name: NETBIRD_STORE_ENGINE_POSTGRES_DSN
+    valueFrom:
+      secretKeyRef:
+        name: netbird-management
+        key: postgresDSN
+management:
+  ingress:
+    enabled: true
+    className: public
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-issuer
+    hosts:
+      - host: netbird.example.com
+        paths:
+          - path: /api
+            pathType: ImplementationSpecific
+    tls:
+      - secretName: netbird-api-tls
+        hosts:
+          - netbird.example.com
+  ingressGrpc:
+    enabled: true
+    className: public
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-issuer
+      nginx.ingress.kubernetes.io/backend-protocol: GRPC
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    hosts:
+      - host: netbird.example.com
+        paths:
+          - path: /management.ManagementService
+            pathType: ImplementationSpecific
+    tls:
+      - secretName: netbird-grpc-tls
+        hosts:
+          - netbird.example.com
+
+  persistentVolume:
+    enabled: false
+    accessModes:
+      - ReadWriteOnce
+    size: 100Mi
+  podCommand:
+    xtraArgs:
+      - --single-account-mode-domain=example.com
+signal:
+  ingress:
+    enabled: true
+    className: public
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-issuer
+      nginx.ingress.kubernetes.io/backend-protocol: GRPC
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    hosts:
+      - host: netbird.example.com
+        paths:
+          - path: /signalexchange.SignalExchange
+            pathType: ImplementationSpecific
+    tls:
+      - secretName: netbird-signal-tls
+        hosts:
+          - netbird.example.com
+

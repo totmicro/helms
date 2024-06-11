@@ -1,0 +1,517 @@
+---
+## @section Netbird configuration
+## Configuration is done via management.json file and environment variables for database config.
+## Check netbird documentation for more information.
+## https://docs.netbird.io/selfhosted/selfhosted-guide
+## To manage secrets in configuration, we use vals as a helper tool which can get secrets
+## from most of the secret managers and inject them into the configuration file.
+## Check vals documentation for more information. https://github.com/helmfile/vals
+
+configuration: |-
+
+  configmap: |-
+    # Sample configuration to use authentik as idp and read secrets from k8s
+    # Adjust the vals references to fit your needs
+    # {
+    #   "Stuns": [
+    #     {
+    #       "Proto": "udp",
+    #       "URI": "stun:ref+k8s://v1/Secret/netbird/netbird-management/stunServer+",
+    #       "Username": "",
+    #       "Password": ""
+    #     }
+    #   ],
+    #   "TURNConfig": {
+    #     "TimeBasedCredentials": false,
+    #     "CredentialsTTL": "12h0m0s",
+    #     "Secret": "secret",
+    #     "Turns": [
+    #       {
+    #         "Proto": "udp",
+    #         "URI": "turn:ref+k8s://v1/Secret/netbird/netbird-management/turnServer+",
+    #         "Username": "ref+k8s://v1/Secret/netbird/netbird-management/turnServerUser+",
+    #         "Password": "ref+k8s://v1/Secret/netbird/netbird-management/turnServerPassword+"
+    #       }
+    #     ]
+    #   },
+    #   "Signal": {
+    #     "Proto": "https",
+    #     "URI": "netbird.example.com:443",
+    #     "Username": "",
+    #     "Password": ""
+    #   },
+    #   "HttpConfig": {
+    #     "LetsEncryptDomain": "",
+    #     "CertFile": "",
+    #     "CertKey": "",
+    #     "AuthAudience": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
+    #     "AuthIssuer": "https://authentik.example.com/application/o/netbird/",
+    #     "AuthUserIDClaim": "",
+    #     "AuthKeysLocation": "https://authentik.example.com/application/o/netbird/jwks/",
+    #     "OIDCConfigEndpoint": "https://authentik.example.com/application/o/netbird/.well-known/openid-configuration",
+    #     "IdpSignKeyRefreshEnabled": false
+    #   },
+    #   "IdpManagerConfig": {
+    #     "ManagerType": "authentik",
+    #     "ClientConfig": {
+    #       "Issuer": "https://authentik.example.com/application/o/netbird",
+    #       "TokenEndpoint": "https://authentik.example.com/application/o/token/",
+    #       "ClientID": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
+    #       "ClientSecret": "",
+    #       "GrantType": "client_credentials"
+    #     },
+    #     "ExtraConfig": {
+    #       "Password": "ref+k8s://v1/Secret/netbird/netbird-management/idpServiceAccountPassword+",
+    #       "Username": "ref+k8s://v1/Secret/netbird/netbird-management/idpServiceAccountUser+"
+    #     },
+    #     "Auth0ClientCredentials": null,
+    #     "AzureClientCredentials": null,
+    #     "KeycloakClientCredentials": null,
+    #     "ZitadelClientCredentials": null
+    #   },
+    #   "DeviceAuthorizationFlow": {
+    #     "Provider": "hosted",
+    #     "ProviderConfig": {
+    #       "ClientID": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
+    #       "ClientSecret": "",
+    #       "Domain": "authentik.example.com",
+    #       "Audience": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
+    #       "TokenEndpoint": "https://authentik.example.com/application/o/token/",
+    #       "DeviceAuthEndpoint": "https://authentik.example.com/application/o/device/",
+    #       "AuthorizationEndpoint": "",
+    #       "Scope": "openid",
+    #       "UseIDToken": false,
+    #       "RedirectURLs": null
+    #     }
+    #   },
+    #   "PKCEAuthorizationFlow": {
+    #     "ProviderConfig": {
+    #       "ClientID": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
+    #       "ClientSecret": "",
+    #       "Domain": "",
+    #       "Audience": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
+    #       "TokenEndpoint": "https://authentik.example.com/application/o/token/",
+    #       "DeviceAuthEndpoint": "",
+    #       "AuthorizationEndpoint": "https://authentik.example.com/application/o/authorize/",
+    #       "Scope": "openid profile email offline_access api",
+    #       "UseIDToken": false,
+    #       "RedirectURLs": [
+    #         "http://localhost:53000"
+    #       ]
+    #     }
+    #   },
+    #   "StoreConfig": {
+    #     "Engine": "postgres"
+    #   },
+    #   "ReverseProxy": {
+    #     "TrustedHTTPProxies": null,
+    #     "TrustedHTTPProxiesCount": 0,
+    #     "TrustedPeers": null
+    #   }
+    # }
+
+## Database additional config is managed via env variables
+## https://docs.netbird.io/selfhosted/postgres-store
+env: {}
+envRaw: {}
+# - name: NETBIRD_STORE_ENGINE_POSTGRES_DSN
+#   valueFrom:
+#     secretKeyRef:
+#       name: netbird-management
+#       key: postgresDSN
+
+## @Section for Common configuration
+
+## @param nameOverride
+##
+nameOverride: ""
+
+## @param fullnameOverride
+##
+fullnameOverride: ""
+
+## @section NetBird Management
+
+management:
+  initPod:
+    image:
+      repository: marcportabellaclotet/vals
+      tag: 0.37.1
+
+  podCommand:
+    #command: netbird
+    args:
+      - --port=80
+      - --log-file=console
+      - --log-level=info
+      - --disable-anonymous-metrics=false
+      - --dns-domain=netbird.selfhosted"
+    xtraArgs: {}
+      # - --single-account-mode-domain=example.com
+
+  lifecycle: {}
+
+
+  ## @param management.replicaCount
+  ##
+  replicaCount: 1
+
+  image:
+    ## @param management.image.repository
+    ##
+    repository: netbirdio/management
+
+    ## @param management.image.pullPolicy
+    ##
+    pullPolicy: IfNotPresent
+
+    # yamllint disable-line rule:line-length
+    ## @param management.image.tag Overrides the image tag whose default is the chart appVersion.
+    ##
+    tag: ""
+
+  ## @param management.imagePullSecrets
+  imagePullSecrets: []
+
+  serviceAccount:
+    # yamllint disable-line rule:line-length
+    ## @param management.serviceAccount.create Specifies whether a service account should be created.
+    ##
+    create: true
+
+    # yamllint disable-line rule:line-length
+    ## @param management.serviceAccount.annotations Annotations to add to the service account.
+    ##
+    annotations: {}
+
+    # yamllint disable-line rule:line-length
+    ## @param management.serviceAccount.name The name of the service account to use.
+    ##
+    name: ""
+
+  # yamllint disable-line rule:line-length
+  ## @param management.deploymentAnnotations Annotations to add to the management deployment.
+  ##
+  deploymentAnnotations: {}
+
+  # yamllint disable-line rule:line-length
+  ## @param management.podAnnotations Annotations to add to the management pod(s).
+  ##
+  podAnnotations: {}
+
+  ## @param management.podSecurityContext
+  ##
+  podSecurityContext:
+    {}
+    # fsGroup: 2000
+
+  ## @param management.securityContext
+  ##
+  securityContext:
+    {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  service:
+    ## @param management.service.type
+    ##
+    type: ClusterIP
+
+    ## @param management.service.port
+    ##
+    port: 80
+
+  ingress:
+    ## @param management.ingress.enabled
+    ##
+    enabled: false
+
+    ## @param management.ingress.className
+    ##
+    className: ""
+
+    ## @param management.ingress.annotations
+    ##
+    annotations:
+      {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+
+    hosts:
+      ## @param management.ingress.hosts[0].host
+      ##
+      - host: example.com
+        paths:
+          ## @param management.ingress.hosts[0].paths[0].path
+          ##
+          - path: /
+            ## @param management.ingress.hosts[0].paths[0].pathType
+            ##
+            pathType: ImplementationSpecific
+    ## @param management.ingress.tls
+    ##
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+  ingressGrpc:
+    ## @param management.ingress.enabled
+    ##
+    enabled: false
+
+    ## @param management.ingress.className
+    ##
+    className: ""
+
+    ## @param management.ingress.annotations
+    ##
+    annotations:
+      {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+
+    hosts:
+      ## @param management.ingress.hosts[0].host
+      ##
+      - host: example.com
+        paths:
+          ## @param management.ingress.hosts[0].paths[0].path
+          ##
+          - path: /
+            ## @param management.ingress.hosts[0].paths[0].pathType
+            ##
+            pathType: ImplementationSpecific
+    ## @param management.ingress.tls
+    ##
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+  ## @param management.resources
+  ##
+  resources:
+    {}
+    # We usually recommend not to specify default resources and to leave this as
+    # a conscious choice for the user. This also increases chances charts run on
+    # environments with little resources, such as Minikube. If you do want to
+    # specify resources, uncomment the following lines, adjust them as
+    # necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  autoscaling:
+    ## @param management.autoscaling.enabled
+    ##
+    enabled: false
+
+    ## @param management.autoscaling.minReplicas
+    ##
+    minReplicas: 1
+
+    ## @param management.autoscaling.maxReplicas
+    ##
+    maxReplicas: 100
+
+    ## @param management.autoscaling.targetCPUUtilizationPercentage
+    ##
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+  ## @param management.nodeSelector
+  ##
+  nodeSelector: {}
+
+  ## @param management.tolerations
+  ##
+  tolerations: []
+
+  ## @param management.affinity
+  ##
+  affinity: {}
+
+  persistentVolume:
+    ## @param management.persistentVolume.enabled
+    ##
+    enabled: true
+
+    ## @param management.persistentVolume.accessModes
+    ##
+    accessModes:
+      - ReadWriteOnce
+
+    ## @param management.persistentVolume.size
+    ##
+    size: 100Mi
+
+  ## @param management.dnsDomain
+  ##
+  dnsDomain: netbird.selfhosted
+
+## @section NetBird Signal
+
+signal:
+  ## @param signal.logLevel
+  ##
+  logLevel: info
+
+  ## @param signal.replicaCount
+  ##
+  replicaCount: 1
+
+  image:
+    ## @param signal.image.repository
+    ##
+    repository: netbirdio/signal
+
+    ## @param signal.image.pullPolicy
+    ##
+    pullPolicy: IfNotPresent
+
+    # yamllint disable-line rule:line-length
+    ## @param signal.image.tag Overrides the image tag whose default is the chart appVersion.
+    ##
+    tag: ""
+
+  ## @param signal.imagePullSecrets
+  imagePullSecrets: []
+
+  serviceAccount:
+    # yamllint disable-line rule:line-length
+    ## @param signal.serviceAccount.create Specifies whether a service account should be created.
+    ##
+    create: true
+
+    # yamllint disable-line rule:line-length
+    ## @param signal.serviceAccount.annotations Annotations to add to the service account.
+    ##
+    annotations: {}
+
+    ## @param signal.serviceAccount.name The name of the service account to use.
+    ##
+    name: ""
+
+  # yamllint disable-line rule:line-length
+  ## @param signal.deploymentAnnotations Annotations to add to the signal deployment.
+  ##
+  deploymentAnnotations: {}
+
+  ## @param signal.podAnnotations Annotations to add to the signal pod(s).
+  ##
+  podAnnotations: {}
+
+  ## @param signal.podSecurityContext
+  ##
+  podSecurityContext:
+    {}
+    # fsGroup: 2000
+
+  ## @param signal.securityContext
+  ##
+  securityContext:
+    {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  service:
+    ## @param signal.service.type
+    ##
+    type: ClusterIP
+    name: grpc
+    ## @param signal.service.port
+    ##
+    port: 80
+
+  ingress:
+    ## @param signal.ingress.enabled
+    ##
+    enabled: false
+
+    ## @param signal.ingress.className
+    ##
+    className: ""
+
+    ## @param signal.ingress.annotations
+    ##
+    annotations:
+      {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+
+    hosts:
+      ## @param signal.ingress.hosts[0].host
+      ##
+      - host: example.com
+        paths:
+          ## @param signal.ingress.hosts[0].paths[0].path
+          ##
+          - path: /
+            ## @param signal.ingress.hosts[0].paths[0].pathType
+            ##
+            pathType: ImplementationSpecific
+    ## @param signal.ingress.tls
+    ##
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+  ## @param signal.resources
+  ##
+  resources:
+    {}
+    # We usually recommend not to specify default resources and to leave this as
+    # a conscious choice for the user. This also increases chances charts run on
+    # environments with little resources, such as Minikube. If you do want to
+    # specify resources, uncomment the following lines, adjust them as
+    # necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  autoscaling:
+    ## @param signal.autoscaling.enabled
+    ##
+    enabled: false
+
+    ## @param signal.autoscaling.minReplicas
+    ##
+    minReplicas: 1
+
+    ## @param signal.autoscaling.maxReplicas
+    ##
+    maxReplicas: 100
+
+    ## @param signal.autoscaling.targetCPUUtilizationPercentage
+    ##
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+  ## @param signal.nodeSelector
+  ##
+  nodeSelector: {}
+
+  ## @param signal.tolerations
+  ##
+  tolerations: []
+
+  ## @param signal.affinity
+  ##
+  affinity: {}
+

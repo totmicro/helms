@@ -1,0 +1,43 @@
+
+ingress:
+  enabled: true
+  className: public
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+  hosts:
+    - host: netbird-dashboard.example.com
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls:
+    - secretName: netbird-dashboard-tls
+      hosts:
+        - netbird-dashboard.example.com
+image:
+  tag: v2.3.0
+env:
+  # Endpoints
+  NETBIRD_MGMT_API_ENDPOINT: https://netbird.example.com:443
+  NETBIRD_MGMT_GRPC_API_ENDPOINT: https://netbird.example.com:443
+  # OIDC
+  AUTH_CLIENT_SECRET:
+  AUTH_AUTHORITY: https://authentik.example.com/application/o/netbird/
+  USE_AUTH0: false
+  AUTH_SUPPORTED_SCOPES: openid profile email offline_access api
+  AUTH_REDIRECT_URI:
+  AUTH_SILENT_REDIRECT_URI:
+  NETBIRD_TOKEN_SOURCE: accessToken
+  NGINX_SSL_PORT:
+  LETSENCRYPT_DOMAIN:
+  LETSENCRYPT_EMAIL:
+envRaw:
+  - name: AUTH_CLIENT_ID
+    valueFrom:
+      secretKeyRef:
+        name: netbird-management
+        key: idpClientID
+  - name: AUTH_AUDIENCE
+    valueFrom:
+      secretKeyRef:
+        name: netbird-management
+        key: idpClientID

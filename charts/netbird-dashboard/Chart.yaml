@@ -1,0 +1,7 @@
+---
+apiVersion: v2
+name: netbird-dashboard
+description: UI for the NetBird Network Mesh management platform
+type: application
+version: 1.0.0
+appVersion: "v2.3.0"

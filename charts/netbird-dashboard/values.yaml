@@ -1,0 +1,176 @@
+---
+## @section Netbird Dashboard configuration
+## Configuration is done via environment variables.
+## Check netbird documentation for more information.
+## https://docs.netbird.io/selfhosted/selfhosted-guide
+
+env: {}
+  # # Endpoints
+  # NETBIRD_MGMT_API_ENDPOINT: https://netbird.example.com:443
+  # NETBIRD_MGMT_GRPC_API_ENDPOINT: https://netbird.example.com:443
+  # # OIDC
+  # AUTH_CLIENT_SECRET:
+  # AUTH_AUTHORITY: https://authentik.example.com/application/o/netbird/
+  # USE_AUTH0: false
+  # AUTH_SUPPORTED_SCOPES: openid profile email offline_access api
+  # AUTH_REDIRECT_URI:
+  # AUTH_SILENT_REDIRECT_URI:
+  # NETBIRD_TOKEN_SOURCE: accessToken
+  # NGINX_SSL_PORT:
+  # LETSENCRYPT_DOMAIN:
+  # LETSENCRYPT_EMAIL:
+envRaw: {}
+  #- name: AUTH_CLIENT_ID
+  #  valueFrom:
+  #    secretKeyRef:
+  #      name: netbird-management
+  #      key: idpClientID
+  #- name: AUTH_AUDIENCE
+  #  valueFrom:
+  #    secretKeyRef:
+  #      name: netbird-management
+  #      key: idpClientID
+
+disableIPv6: true
+## @section Common configuration
+
+## @descriptionStart
+## This section contains parameters, that are common for most Helm charts.
+## @descriptionEnd
+
+## @param replicaCount Number of replicas to deploy
+replicaCount: 1
+
+image:
+  ## @param image.repository image repository
+  repository: netbirdio/dashboard
+
+  ## @param image.pullPolicy image pull policy
+  pullPolicy: IfNotPresent
+
+  ## @param image.tag image tag (immutable tags are recommended)
+  tag: ""
+
+## @param imagePullSecrets image pull secrets
+imagePullSecrets: []
+
+## @param nameOverride String to partially override common.names.fullname
+nameOverride: ""
+
+## @param fullnameOverride String to fully override common.names.fullname
+fullnameOverride: ""
+
+serviceAccount:
+  ## @param serviceAccount.create Specifies whether a service account should be
+  ## created
+  create: true
+
+  ## @param serviceAccount.annotations Annotations to add to the service account
+  annotations: {}
+
+  ## @param serviceAccount.name The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname
+  # template
+  name: ""
+
+## @param podAnnotations Annotations for pods
+## ref:
+## https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+podAnnotations: {}
+
+## Configure Pods Security Context
+## ref:
+## https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
+## @param podSecurityContext
+podSecurityContext:
+  {}
+  # fsGroup: 2000
+
+## Configure Container Security Context
+## ref:
+## https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
+## @param securityContext
+securityContext:
+  {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  ## @param service.type
+  type: ClusterIP
+
+  ## @param service.port
+  port: 80
+
+ingress:
+  ## @param ingress.enabled
+  enabled: false
+
+  ## @param ingress.className
+  className: ""
+
+  ## @param ingress.annotations
+  annotations:
+    {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+
+  hosts:
+    ## @param ingress.hosts[0].host
+    - host: chart-example.local
+      ## @param ingress.hosts[0].host
+      paths:
+        ## @param ingress.hosts[0].paths[0].path
+        - path: /
+          ## @param ingress.hosts[0].paths[0].pathType
+          pathType: ImplementationSpecific
+
+  ## @param ingress.tls
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+## @param resources
+resources:
+  {}
+  # We usually recommend not to specify default resources and to leave this as a
+  # conscious choice for the user. This also increases chances charts run on
+  # environments with little resources, such as Minikube. If you do want to
+  # specify resources, uncomment the following lines, adjust them as necessary,
+  # and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  ## @param autoscaling.enabled
+  enabled: false
+
+  ## @param autoscaling.minReplicas
+  minReplicas: 1
+
+  ## @param autoscaling.maxReplicas
+  maxReplicas: 100
+
+  ## @param autoscaling.targetCPUUtilizationPercentage
+  targetCPUUtilizationPercentage: 80
+
+  ## @param autoscaling.targetCPUUtilizationPercentage
+  # targetMemoryUtilizationPercentage: 80
+
+## @param nodeSelector
+nodeSelector: {}
+
+## @param tolerations
+tolerations: []
+
+## @param affinity
+affinity: {}
