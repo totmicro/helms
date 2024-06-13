@@ -217,13 +217,25 @@ management:
     # runAsUser: 1000
 
   service:
-    ## @param management.service.type
-    ##
-    type: ClusterIP
+    http:
+      ## @param management.service.type
+      ##
+      type: ClusterIP
 
-    ## @param management.service.port
-    ##
-    port: 80
+      ## @param management.service.port
+      ##
+      containerPort: 80
+      port: 80
+
+    grpc:
+      ## @param management.service.type
+      ##
+      type: ClusterIP
+
+      ## @param management.service.port
+      ##
+      containerPort: 33073
+      port: 80
 
   ingress:
     ## @param management.ingress.enabled
@@ -434,6 +446,7 @@ signal:
     ## @param signal.service.port
     ##
     port: 80
+    containerPort: 10000
 
   ingress:
     ## @param signal.ingress.enabled

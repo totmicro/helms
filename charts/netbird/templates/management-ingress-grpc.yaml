@@ -1,7 +1,7 @@
 {{- if .Values.management.ingressGrpc.enabled -}}
 {{- $fullName := printf "%s-management-grpc" (include "netbird.fullname" .) -}}
 {{- $svcName := printf "%s-management" (include "netbird.fullname" .) -}}
-{{- $svcPort := .Values.management.service.port -}}
+{{- $svcPort := .Values.management.service.grpc.port -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -34,7 +34,7 @@ spec:
             pathType: {{ .pathType }}
             backend:
               service:
-                name: {{ $svcName }}
+                name: {{ $svcName }}-grpc
                 port:
                   number: {{ $svcPort }}
           {{- end }}

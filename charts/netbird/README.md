@@ -1,6 +1,6 @@
 # netbird
 
-![Version: 1.0.1](https://img.shields.io/badge/Version-1.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.27.10](https://img.shields.io/badge/AppVersion-0.27.10-informational?style=flat-square)
+![Version: 1.0.2](https://img.shields.io/badge/Version-1.0.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.27.10](https://img.shields.io/badge/AppVersion-0.27.10-informational?style=flat-square)
 
 NetBird VPN management platform
 
@@ -55,8 +55,12 @@ NetBird VPN management platform
 | management.replicaCount | int | `1` |  |
 | management.resources | object | `{}` |  |
 | management.securityContext | object | `{}` |  |
-| management.service.port | int | `80` |  |
-| management.service.type | string | `"ClusterIP"` |  |
+| management.service.grpc.containerPort | int | `33073` |  |
+| management.service.grpc.port | int | `80` |  |
+| management.service.grpc.type | string | `"ClusterIP"` |  |
+| management.service.http.containerPort | int | `80` |  |
+| management.service.http.port | int | `80` |  |
+| management.service.http.type | string | `"ClusterIP"` |  |
 | management.serviceAccount.annotations | object | `{}` |  |
 | management.serviceAccount.create | bool | `true` |  |
 | management.serviceAccount.name | string | `""` |  |
@@ -86,6 +90,7 @@ NetBird VPN management platform
 | signal.replicaCount | int | `1` |  |
 | signal.resources | object | `{}` |  |
 | signal.securityContext | object | `{}` |  |
+| signal.service.containerPort | int | `10000` |  |
 | signal.service.name | string | `"grpc"` |  |
 | signal.service.port | int | `80` |  |
 | signal.service.type | string | `"ClusterIP"` |  |

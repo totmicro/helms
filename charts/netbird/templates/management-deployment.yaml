@@ -77,7 +77,6 @@ spec:
             - {{ . }}
             {{- end }}
           {{- end }}
-
           {{- if or (.Values.env) (.Values.envRaw) }}
           env:
           {{- range $key, $val := .Values.env }}
@@ -95,7 +94,10 @@ spec:
           {{- end }}
           ports:
             - name: http
-              containerPort: {{ .Values.management.service.port }}
+              containerPort: {{ .Values.management.service.http.containerPort }}
+              protocol: TCP
+            - name: grpc
+              containerPort: {{ .Values.management.service.grpc.containerPort }}
               protocol: TCP
           resources:
             {{- toYaml .Values.management.resources | nindent 12 }}
@@ -104,6 +106,12 @@ spec:
               name: config
             - mountPath: /var/lib/netbird
               name: management
+          livenessProbe:
+            tcpSocket:
+              port: {{ .Values.management.service.grpc.containerPort }}
+          readinessProbe:
+            tcpSocket:
+              port: {{ .Values.management.service.grpc.containerPort }}
       {{- with .Values.management.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

@@ -36,7 +36,7 @@ spec:
           args: ["--port", "{{ .Values.signal.service.port }}", "--log-level", "{{ .Values.signal.logLevel }}", "--log-file", "console"]
           ports:
             - name: {{ .Values.signal.service.name }}
-              containerPort: {{ .Values.signal.service.port }}
+              containerPort: {{ .Values.signal.service.containerPort }}
               protocol: TCP
           livenessProbe:
             tcpSocket:
