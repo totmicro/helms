@@ -4,7 +4,8 @@
 ## Check netbird documentation for more information.
 ## https://docs.netbird.io/selfhosted/selfhosted-guide
 
-env: {}
+env:
+  {}
   # # Endpoints
   # NETBIRD_MGMT_API_ENDPOINT: https://netbird.example.com:443
   # NETBIRD_MGMT_GRPC_API_ENDPOINT: https://netbird.example.com:443
@@ -19,7 +20,8 @@ env: {}
   # NGINX_SSL_PORT:
   # LETSENCRYPT_DOMAIN:
   # LETSENCRYPT_EMAIL:
-envRaw: {}
+envRaw:
+  {}
   #- name: AUTH_CLIENT_ID
   #  valueFrom:
   #    secretKeyRef:
@@ -30,6 +32,11 @@ envRaw: {}
   #    secretKeyRef:
   #      name: netbird-management
   #      key: idpClientID
+envFromSecret:
+  {}
+  # AUTH_CLIENT_ID:
+  #   secretKey: key1
+  #   secretName: secret1
 
 disableIPv6: true
 ## @section Common configuration

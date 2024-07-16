@@ -1,4 +1,3 @@
-
 ingress:
   enabled: true
   className: public
@@ -30,14 +29,21 @@ env:
   NGINX_SSL_PORT:
   LETSENCRYPT_DOMAIN:
   LETSENCRYPT_EMAIL:
-envRaw:
-  - name: AUTH_CLIENT_ID
-    valueFrom:
-      secretKeyRef:
-        name: netbird-management
-        key: idpClientID
-  - name: AUTH_AUDIENCE
-    valueFrom:
-      secretKeyRef:
-        name: netbird-management
-        key: idpClientID
+envFromSecret:
+  AUTH_CLIENT_ID:
+    secretKey: netbird-management
+    secretName: idpClientID
+  AUTH_AUDIENCE:
+    secretKey: netbird-management
+    secretName: idpClientID
+# envRaw:
+#   - name: AUTH_CLIENT_ID
+#     valueFrom:
+#       secretKeyRef:
+#         name: netbird-management
+#         key: idpClientID
+#   - name: AUTH_AUDIENCE
+#     valueFrom:
+#       secretKeyRef:
+#         name: netbird-management
+#         key: idpClientID
