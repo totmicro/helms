@@ -3,6 +3,7 @@ apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
   name: {{ include "netbird-dashboard.fullname" . }}
+  namespace: {{ .Release.Namespace | quote }}
   labels:
     {{- include "netbird-dashboard.labels" . | nindent 4 }}
 spec:
