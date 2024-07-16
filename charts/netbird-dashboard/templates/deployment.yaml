@@ -50,8 +50,8 @@ spec:
           - name: {{ $key }}
             valueFrom: 
               secretKeyRef:
-                name: {{ $value.secretName }}
-                key: {{ $value.secretKey }}
+                name: {{ $val.secretName }}
+                key: {{ $val.secretKey }}
           {{- end }}
           {{- end }}
           {{- end }}
