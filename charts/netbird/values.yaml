@@ -146,11 +146,11 @@ management:
       - --log-level=info
       - --disable-anonymous-metrics=false
       - --dns-domain=netbird.selfhosted"
-    xtraArgs: {}
+    xtraArgs:
+      {}
       # - --single-account-mode-domain=example.com
 
   lifecycle: {}
-
 
   ## @param management.replicaCount
   ##
@@ -163,7 +163,7 @@ management:
 
     ## @param management.image.pullPolicy
     ##
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
 
     # yamllint disable-line rule:line-length
     ## @param management.image.tag Overrides the image tag whose default is the chart appVersion.
@@ -527,4 +527,3 @@ signal:
   ## @param signal.affinity
   ##
   affinity: {}
-
