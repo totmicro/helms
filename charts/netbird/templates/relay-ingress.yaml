@@ -1,22 +1,21 @@
-{{- if .Values.management.ingressGrpc.enabled -}}
-{{- $fullName := printf "%s-management-grpc" (include "netbird.fullname" .) -}}
-{{- $svcName := printf "%s-management" (include "netbird.fullname" .) -}}
-{{- $svcPort := .Values.management.service.port -}}
+{{- if .Values.relay.ingress.enabled -}}
+{{- $fullName := printf "%s-relay" (include "netbird.fullname" .) -}}
+{{- $svcPort := .Values.relay.service.port -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
-    {{- include "netbird.management.labels" . | nindent 4 }}
-  {{- with .Values.management.ingressGrpc.annotations }}
+    {{- include "netbird.relay.labels" . | nindent 4 }}
+  {{- with .Values.relay.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  ingressClassName: {{ .Values.management.ingressGrpc.className }}
-  {{- if .Values.management.ingressGrpc.tls }}
+  ingressClassName: {{ .Values.relay.ingress.className }}
+  {{- if .Values.relay.ingress.tls }}
   tls:
-    {{- range .Values.management.ingressGrpc.tls }}
+    {{- range .Values.relay.ingress.tls }}
     - hosts:
         {{- range .hosts }}
         - {{ . | quote }}
@@ -25,7 +24,7 @@ spec:
     {{- end }}
   {{- end }}
   rules:
-    {{- range .Values.management.ingressGrpc.hosts }}
+    {{- range .Values.relay.ingress.hosts }}
     - host: {{ .host | quote }}
       http:
         paths:
@@ -34,7 +33,7 @@ spec:
             pathType: {{ .pathType }}
             backend:
               service:
-                name: {{ $svcName }}
+                name: {{ $fullName }}
                 port:
                   number: {{ $svcPort }}
           {{- end }}

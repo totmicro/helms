@@ -1,6 +1,6 @@
 {{- if .Values.management.ingress.enabled -}}
 {{- $fullName := printf "%s-management" (include "netbird.fullname" .) -}}
-{{- $svcPort := .Values.management.service.http.port -}}
+{{- $svcPort := .Values.management.service.port -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:

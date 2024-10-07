@@ -6,7 +6,7 @@ metadata:
     {{- include "netbird.management.labels" . | nindent 4 }}
 data:
   management.tmpl.json: |-
-    {{- .Values.configuration |nindent 4 }}
+    {{- .Values.management.configmap |nindent 4 }}
   kubeconfig-gen.sh: |-
     #!/bin/bash
 

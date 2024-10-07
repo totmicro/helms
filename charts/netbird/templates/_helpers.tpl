@@ -55,6 +55,18 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
 {{/*
+Common relay labels
+*/}}
+{{- define "netbird.relay.labels" -}}
+helm.sh/chart: {{ include "netbird.chart" . }}
+{{ include "netbird.relay.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+{{/*
 Management selector labels
 */}}
 {{- define "netbird.management.selectorLabels" -}}
@@ -67,6 +79,14 @@ Signal selector labels
 */}}
 {{- define "netbird.signal.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "netbird.name" . }}-signal
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{/*
+Relay selector labels
+*/}}
+{{- define "netbird.relay.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "netbird.name" . }}-relay
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
@@ -89,5 +109,16 @@ Create the name of the signal service account to use
 {{- default (printf "%s-signal" (include "netbird.fullname" .)) .Values.signal.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.signal.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
+{{/*
+Create the name of the relay service account to use
+*/}}
+{{- define "netbird.relay.serviceAccountName" -}}
+{{- if .Values.relay.serviceAccount.create }}
+{{- default (printf "%s-relay" (include "netbird.fullname" .)) .Values.relay.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.relay.serviceAccount.name }}
 {{- end }}
 {{- end }}

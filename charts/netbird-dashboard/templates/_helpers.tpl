@@ -65,7 +65,7 @@ Create the name of the service account to use
 Overrides container entrypoint based on a flag
 */}}
 {{- define "netbird-dashboard.disableIPv6" -}}
-{{- if .Values.disableIPv6 }}
+{{- if .Values.netbird.disableIPv6 }}
 command: ["/bin/sh", "-c"]
 args:
 - >

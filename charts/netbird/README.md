@@ -1,6 +1,6 @@
 # netbird
 
-![Version: 1.0.2](https://img.shields.io/badge/Version-1.0.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.27.10](https://img.shields.io/badge/AppVersion-0.27.10-informational?style=flat-square)
+![Version: 1.1.0](https://img.shields.io/badge/Version-1.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.30.0](https://img.shields.io/badge/AppVersion-0.30.0-informational?style=flat-square)
 
 NetBird VPN management platform
 
@@ -8,17 +8,17 @@ NetBird VPN management platform
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| configuration | string | `"\nconfigmap: |-\n  # Sample configuration to use authentik as idp and read secrets from k8s\n  # Adjust the vals references to fit your needs\n  # {\n  #   \"Stuns\": [\n  #     {\n  #       \"Proto\": \"udp\",\n  #       \"URI\": \"stun:ref+k8s://v1/Secret/netbird/netbird-management/stunServer+\",\n  #       \"Username\": \"\",\n  #       \"Password\": \"\"\n  #     }\n  #   ],\n  #   \"TURNConfig\": {\n  #     \"TimeBasedCredentials\": false,\n  #     \"CredentialsTTL\": \"12h0m0s\",\n  #     \"Secret\": \"secret\",\n  #     \"Turns\": [\n  #       {\n  #         \"Proto\": \"udp\",\n  #         \"URI\": \"turn:ref+k8s://v1/Secret/netbird/netbird-management/turnServer+\",\n  #         \"Username\": \"ref+k8s://v1/Secret/netbird/netbird-management/turnServerUser+\",\n  #         \"Password\": \"ref+k8s://v1/Secret/netbird/netbird-management/turnServerPassword+\"\n  #       }\n  #     ]\n  #   },\n  #   \"Signal\": {\n  #     \"Proto\": \"https\",\n  #     \"URI\": \"netbird.example.com:443\",\n  #     \"Username\": \"\",\n  #     \"Password\": \"\"\n  #   },\n  #   \"HttpConfig\": {\n  #     \"LetsEncryptDomain\": \"\",\n  #     \"CertFile\": \"\",\n  #     \"CertKey\": \"\",\n  #     \"AuthAudience\": \"ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+\",\n  #     \"AuthIssuer\": \"https://authentik.example.com/application/o/netbird/\",\n  #     \"AuthUserIDClaim\": \"\",\n  #     \"AuthKeysLocation\": \"https://authentik.example.com/application/o/netbird/jwks/\",\n  #     \"OIDCConfigEndpoint\": \"https://authentik.example.com/application/o/netbird/.well-known/openid-configuration\",\n  #     \"IdpSignKeyRefreshEnabled\": false\n  #   },\n  #   \"IdpManagerConfig\": {\n  #     \"ManagerType\": \"authentik\",\n  #     \"ClientConfig\": {\n  #       \"Issuer\": \"https://authentik.example.com/application/o/netbird\",\n  #       \"TokenEndpoint\": \"https://authentik.example.com/application/o/token/\",\n  #       \"ClientID\": \"ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+\",\n  #       \"ClientSecret\": \"\",\n  #       \"GrantType\": \"client_credentials\"\n  #     },\n  #     \"ExtraConfig\": {\n  #       \"Password\": \"ref+k8s://v1/Secret/netbird/netbird-management/idpServiceAccountPassword+\",\n  #       \"Username\": \"ref+k8s://v1/Secret/netbird/netbird-management/idpServiceAccountUser+\"\n  #     },\n  #     \"Auth0ClientCredentials\": null,\n  #     \"AzureClientCredentials\": null,\n  #     \"KeycloakClientCredentials\": null,\n  #     \"ZitadelClientCredentials\": null\n  #   },\n  #   \"DeviceAuthorizationFlow\": {\n  #     \"Provider\": \"hosted\",\n  #     \"ProviderConfig\": {\n  #       \"ClientID\": \"ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+\",\n  #       \"ClientSecret\": \"\",\n  #       \"Domain\": \"authentik.example.com\",\n  #       \"Audience\": \"ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+\",\n  #       \"TokenEndpoint\": \"https://authentik.example.com/application/o/token/\",\n  #       \"DeviceAuthEndpoint\": \"https://authentik.example.com/application/o/device/\",\n  #       \"AuthorizationEndpoint\": \"\",\n  #       \"Scope\": \"openid\",\n  #       \"UseIDToken\": false,\n  #       \"RedirectURLs\": null\n  #     }\n  #   },\n  #   \"PKCEAuthorizationFlow\": {\n  #     \"ProviderConfig\": {\n  #       \"ClientID\": \"ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+\",\n  #       \"ClientSecret\": \"\",\n  #       \"Domain\": \"\",\n  #       \"Audience\": \"ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+\",\n  #       \"TokenEndpoint\": \"https://authentik.example.com/application/o/token/\",\n  #       \"DeviceAuthEndpoint\": \"\",\n  #       \"AuthorizationEndpoint\": \"https://authentik.example.com/application/o/authorize/\",\n  #       \"Scope\": \"openid profile email offline_access api\",\n  #       \"UseIDToken\": false,\n  #       \"RedirectURLs\": [\n  #         \"http://localhost:53000\"\n  #       ]\n  #     }\n  #   },\n  #   \"StoreConfig\": {\n  #     \"Engine\": \"postgres\"\n  #   },\n  #   \"ReverseProxy\": {\n  #     \"TrustedHTTPProxies\": null,\n  #     \"TrustedHTTPProxiesCount\": 0,\n  #     \"TrustedPeers\": null\n  #   }\n  # }"` |  |
-| env | object | `{}` |  |
-| envRaw | object | `{}` |  |
 | fullnameOverride | string | `""` |  |
 | management.affinity | object | `{}` |  |
 | management.autoscaling.enabled | bool | `false` |  |
 | management.autoscaling.maxReplicas | int | `100` |  |
 | management.autoscaling.minReplicas | int | `1` |  |
 | management.autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
+| management.configmap | string | `""` |  |
 | management.deploymentAnnotations | object | `{}` |  |
 | management.dnsDomain | string | `"netbird.selfhosted"` |  |
+| management.env | object | `{}` |  |
+| management.envRaw | object | `{}` |  |
 | management.image.pullPolicy | string | `"IfNotPresent"` |  |
 | management.image.repository | string | `"netbirdio/management"` |  |
 | management.image.tag | string | `""` |  |
@@ -37,8 +37,10 @@ NetBird VPN management platform
 | management.ingressGrpc.hosts[0].paths[0].path | string | `"/"` |  |
 | management.ingressGrpc.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
 | management.ingressGrpc.tls | list | `[]` |  |
-| management.initPod.image.repository | string | `"marcportabellaclotet/vals"` |  |
-| management.initPod.image.tag | string | `"0.37.1"` |  |
+| management.init.env | object | `{}` |  |
+| management.init.envRaw | object | `{}` |  |
+| management.init.image.repository | string | `"marcportabellaclotet/vals"` |  |
+| management.init.image.tag | string | `"0.37.1"` |  |
 | management.lifecycle | object | `{}` |  |
 | management.nodeSelector | object | `{}` |  |
 | management.persistentVolume.accessModes[0] | string | `"ReadWriteOnce"` |  |
@@ -49,23 +51,50 @@ NetBird VPN management platform
 | management.podCommand.args[1] | string | `"--log-file=console"` |  |
 | management.podCommand.args[2] | string | `"--log-level=info"` |  |
 | management.podCommand.args[3] | string | `"--disable-anonymous-metrics=false"` |  |
-| management.podCommand.args[4] | string | `"--dns-domain=netbird.selfhosted\""` |  |
-| management.podCommand.xtraArgs | object | `{}` |  |
+| management.podCommand.args[4] | string | `"--single-account-mode-domain=netbird.example.com"` |  |
+| management.podCommand.args[5] | string | `"--dns-domain=netbird.selfhosted\""` |  |
 | management.podSecurityContext | object | `{}` |  |
 | management.replicaCount | int | `1` |  |
 | management.resources | object | `{}` |  |
 | management.securityContext | object | `{}` |  |
-| management.service.grpc.containerPort | int | `33073` |  |
-| management.service.grpc.port | int | `80` |  |
-| management.service.grpc.type | string | `"ClusterIP"` |  |
-| management.service.http.containerPort | int | `80` |  |
-| management.service.http.port | int | `80` |  |
-| management.service.http.type | string | `"ClusterIP"` |  |
+| management.service.port | int | `80` |  |
+| management.service.type | string | `"ClusterIP"` |  |
 | management.serviceAccount.annotations | object | `{}` |  |
 | management.serviceAccount.create | bool | `true` |  |
 | management.serviceAccount.name | string | `""` |  |
 | management.tolerations | list | `[]` |  |
 | nameOverride | string | `""` |  |
+| relay.affinity | object | `{}` |  |
+| relay.autoscaling.enabled | bool | `false` |  |
+| relay.autoscaling.maxReplicas | int | `100` |  |
+| relay.autoscaling.minReplicas | int | `1` |  |
+| relay.autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
+| relay.deploymentAnnotations | object | `{}` |  |
+| relay.image.pullPolicy | string | `"IfNotPresent"` |  |
+| relay.image.repository | string | `"netbirdio/relay"` |  |
+| relay.image.tag | string | `""` |  |
+| relay.imagePullSecrets | list | `[]` |  |
+| relay.ingress.annotations | object | `{}` |  |
+| relay.ingress.className | string | `""` |  |
+| relay.ingress.enabled | bool | `false` |  |
+| relay.ingress.hosts[0].host | string | `"example.com"` |  |
+| relay.ingress.hosts[0].paths[0].path | string | `"/"` |  |
+| relay.ingress.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
+| relay.ingress.tls | list | `[]` |  |
+| relay.logLevel | string | `"info"` |  |
+| relay.nodeSelector | object | `{}` |  |
+| relay.podAnnotations | object | `{}` |  |
+| relay.podSecurityContext | object | `{}` |  |
+| relay.replicaCount | int | `1` |  |
+| relay.resources | object | `{}` |  |
+| relay.securityContext | object | `{}` |  |
+| relay.service.name | string | `"http"` |  |
+| relay.service.port | int | `33080` |  |
+| relay.service.type | string | `"ClusterIP"` |  |
+| relay.serviceAccount.annotations | object | `{}` |  |
+| relay.serviceAccount.create | bool | `true` |  |
+| relay.serviceAccount.name | string | `""` |  |
+| relay.tolerations | list | `[]` |  |
 | signal.affinity | object | `{}` |  |
 | signal.autoscaling.enabled | bool | `false` |  |
 | signal.autoscaling.maxReplicas | int | `100` |  |
@@ -90,7 +119,6 @@ NetBird VPN management platform
 | signal.replicaCount | int | `1` |  |
 | signal.resources | object | `{}` |  |
 | signal.securityContext | object | `{}` |  |
-| signal.service.containerPort | int | `10000` |  |
 | signal.service.name | string | `"grpc"` |  |
 | signal.service.port | int | `80` |  |
 | signal.service.type | string | `"ClusterIP"` |  |

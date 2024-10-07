@@ -5,9 +5,9 @@ metadata:
   labels:
     {{- include "netbird.management.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.management.service.http.type }}
+  type: {{ .Values.management.service.type }}
   ports:
-    - port: {{ .Values.management.service.http.port }}
+    - port: {{ .Values.management.service.port }}
       targetPort: http
       protocol: TCP
       name: http

@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "netbird.fullname" . }}-relay
+  labels:
+    {{- include "netbird.relay.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.relay.autoscaling.enabled }}
+  replicas: {{ .Values.relay.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "netbird.relay.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.relay.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "netbird.relay.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.relay.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "netbird.relay.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}-relay
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.relay.image.repository }}:{{ .Values.relay.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.relay.image.pullPolicy }}
+          ports:
+            - name: {{ .Values.relay.service.name }}
+              containerPort: {{ .Values.relay.service.port }}
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: {{ .Values.relay.service.name }}
+          readinessProbe:
+            tcpSocket:
+              port: {{ .Values.relay.service.name }}
+          resources:
+            {{- toYaml .Values.relay.resources | nindent 12 }}
+          {{- if or (.Values.relay.env) (.Values.relay.envRaw) }}
+          env:
+          {{- range $key, $val := .Values.relay.env }}
+          - name: {{ $key }}
+            value: {{ $val | quote }}
+          {{- end }}
+          {{- if .Values.relay.envRaw }}
+            {{- with .Values.relay.envRaw }}
+              {{- toYaml . | nindent 10 }}
+            {{- end }}
+          {{- end }}
+          {{- end }}
+      {{- with .Values.relay.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.relay.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.relay.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

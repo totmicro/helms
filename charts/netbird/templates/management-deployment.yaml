@@ -34,7 +34,7 @@ spec:
         {{- toYaml .Values.management.podSecurityContext | nindent 8 }}
       initContainers:
         - name: configure
-          image: {{ .Values.management.initPod.image.repository }}:{{ .Values.management.initPod.image.tag }}
+          image: {{ .Values.management.init.image.repository }}:{{ .Values.management.init.image.tag }}
           imagePullPolicy: {{ .Values.management.image.pullPolicy }}
           command: ["/bin/sh", "-c"]
           args:
@@ -44,12 +44,12 @@ spec:
           env:
           - name: KUBECONFIG
             value: /tmp/kubeconfig
-          {{- range $key, $val := .Values.management.initPod.env }}
+          {{- range $key, $val := .Values.management.init.env }}
           - name: {{ $key }}
             value: {{ $val | quote }}
           {{- end }}
-          {{- if .Values.management.initPod.envRaw }}
-            {{- with .Values.management.initPod.envRaw }}
+          {{- if .Values.management.init.envRaw }}
+            {{- with .Values.management.init.envRaw }}
               {{- toYaml . | nindent 10 }}
             {{- end }}
           {{- end }}
@@ -68,23 +68,20 @@ spec:
           command:
           - {{ .Values.management.podCommand.command }}
           {{- end}}
-          {{- if or (hasKey .Values.management.podCommand "args") (hasKey .Values.management.podCommand "xtraArgs")  }}
+          {{- if hasKey .Values.management.podCommand "args" }}
           args:
             {{- range .Values.management.podCommand.args }}
-            - {{ . }}
-            {{- end }}
-            {{- range .Values.management.podCommand.xtraArgs }}
-            - {{ . }}
-            {{- end }}
+          - {{ . }}
           {{- end }}
-          {{- if or (.Values.env) (.Values.envRaw) }}
+          {{- end }}
+          {{- if or (.Values.management.env) (.Values.management.envRaw) }}
           env:
-          {{- range $key, $val := .Values.env }}
+          {{- range $key, $val := .Values.management.env }}
           - name: {{ $key }}
             value: {{ $val | quote }}
           {{- end }}
-          {{- if .Values.envRaw }}
-            {{- with .Values.envRaw }}
+          {{- if .Values.management.envRaw }}
+            {{- with .Values.management.envRaw }}
               {{- toYaml . | nindent 10 }}
             {{- end }}
           {{- end }}
@@ -94,10 +91,7 @@ spec:
           {{- end }}
           ports:
             - name: http
-              containerPort: {{ .Values.management.service.http.containerPort }}
-              protocol: TCP
-            - name: grpc
-              containerPort: {{ .Values.management.service.grpc.containerPort }}
+              containerPort: {{ .Values.management.service.port }}
               protocol: TCP
           resources:
             {{- toYaml .Values.management.resources | nindent 12 }}
@@ -106,12 +100,6 @@ spec:
               name: config
             - mountPath: /var/lib/netbird
               name: management
-          livenessProbe:
-            tcpSocket:
-              port: {{ .Values.management.service.grpc.containerPort }}
-          readinessProbe:
-            tcpSocket:
-              port: {{ .Values.management.service.grpc.containerPort }}
       {{- with .Values.management.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

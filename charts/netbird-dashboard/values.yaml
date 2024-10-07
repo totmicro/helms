@@ -1,37 +1,37 @@
 ---
-## @section Netbird Dashboard configuration
-## Configuration is done via environment variables.
-## Check netbird documentation for more information.
-## https://docs.netbird.io/selfhosted/selfhosted-guide
+## @section Authorization
 
-env: {}
-  # # Endpoints
-  # NETBIRD_MGMT_API_ENDPOINT: https://netbird.example.com:443
-  # NETBIRD_MGMT_GRPC_API_ENDPOINT: https://netbird.example.com:443
-  # # OIDC
-  # AUTH_CLIENT_SECRET:
-  # AUTH_AUTHORITY: https://authentik.example.com/application/o/netbird/
-  # USE_AUTH0: false
-  # AUTH_SUPPORTED_SCOPES: openid profile email offline_access api
-  # AUTH_REDIRECT_URI:
-  # AUTH_SILENT_REDIRECT_URI:
-  # NETBIRD_TOKEN_SOURCE: accessToken
-  # NGINX_SSL_PORT:
-  # LETSENCRYPT_DOMAIN:
-  # LETSENCRYPT_EMAIL:
-envRaw: {}
-  #- name: AUTH_CLIENT_ID
-  #  valueFrom:
-  #    secretKeyRef:
-  #      name: netbird-management
-  #      key: idpClientID
-  #- name: AUTH_AUDIENCE
-  #  valueFrom:
-  #    secretKeyRef:
-  #      name: netbird-management
-  #      key: idpClientID
+auth:
+  # yamllint disable-line rule:line-length
+  ## @param auth.authority Authority to use for authentication. Must expose a .well-known/oidc-configuration endpoint.
+  authority: http://keycloak.localtest.me:9000/realms/helm-charts
 
-disableIPv6: true
+  ## @param auth.audience Audience of the authentication tokens.
+  audience: "netbird-dashboard"
+
+  ## @param auth.clientID OpenID Connect client ID.
+  clientID: netbird-dashboard
+
+  ## @param auth.supportedScopes Supported OpenID scopes
+  # - Auth0: openid profile email offline_access api email_verified
+  # - Keycloak: openid profile email offline_access api
+  supportedScopes: openid profile email offline_access api
+
+  ## @param auth.userIDClaim
+  userIDClaim: sub
+
+## @section NetBird configuration
+
+netbird:
+  ## @param netbird.managementApiEndpoint
+  managementApiEndpoint: http://localtest.me:8081
+
+  ## @param netbird.managementGrpcApiEndpoint
+  managementGrpcApiEndpoint: http://localtest.me:8081
+
+  ## @param netbird.disableIPv6
+  disableIPv6: true
+
 ## @section Common configuration
 
 ## @descriptionStart

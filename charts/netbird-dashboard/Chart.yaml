@@ -1,7 +1,7 @@
 ---
 apiVersion: v2
 name: netbird-dashboard
-description: UI for the NetBird Network Mesh management platform
+description: UI for the NetBird VPN management platform
 type: application
-version: 1.0.0
-appVersion: "v2.3.0"
+version: 1.1.0
+appVersion: "2.6.0"

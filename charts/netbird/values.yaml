@@ -1,126 +1,6 @@
 ---
-## @section Netbird configuration
-## Configuration is done via management.json file and environment variables for database config.
-## Check netbird documentation for more information.
-## https://docs.netbird.io/selfhosted/selfhosted-guide
-## To manage secrets in configuration, we use vals as a helper tool which can get secrets
-## from most of the secret managers and inject them into the configuration file.
-## Check vals documentation for more information. https://github.com/helmfile/vals
+## @section NetBird Parameters
 
-configuration: |-
-
-  configmap: |-
-    # Sample configuration to use authentik as idp and read secrets from k8s
-    # Adjust the vals references to fit your needs
-    # {
-    #   "Stuns": [
-    #     {
-    #       "Proto": "udp",
-    #       "URI": "stun:ref+k8s://v1/Secret/netbird/netbird-management/stunServer+",
-    #       "Username": "",
-    #       "Password": ""
-    #     }
-    #   ],
-    #   "TURNConfig": {
-    #     "TimeBasedCredentials": false,
-    #     "CredentialsTTL": "12h0m0s",
-    #     "Secret": "secret",
-    #     "Turns": [
-    #       {
-    #         "Proto": "udp",
-    #         "URI": "turn:ref+k8s://v1/Secret/netbird/netbird-management/turnServer+",
-    #         "Username": "ref+k8s://v1/Secret/netbird/netbird-management/turnServerUser+",
-    #         "Password": "ref+k8s://v1/Secret/netbird/netbird-management/turnServerPassword+"
-    #       }
-    #     ]
-    #   },
-    #   "Signal": {
-    #     "Proto": "https",
-    #     "URI": "netbird.example.com:443",
-    #     "Username": "",
-    #     "Password": ""
-    #   },
-    #   "HttpConfig": {
-    #     "LetsEncryptDomain": "",
-    #     "CertFile": "",
-    #     "CertKey": "",
-    #     "AuthAudience": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
-    #     "AuthIssuer": "https://authentik.example.com/application/o/netbird/",
-    #     "AuthUserIDClaim": "",
-    #     "AuthKeysLocation": "https://authentik.example.com/application/o/netbird/jwks/",
-    #     "OIDCConfigEndpoint": "https://authentik.example.com/application/o/netbird/.well-known/openid-configuration",
-    #     "IdpSignKeyRefreshEnabled": false
-    #   },
-    #   "IdpManagerConfig": {
-    #     "ManagerType": "authentik",
-    #     "ClientConfig": {
-    #       "Issuer": "https://authentik.example.com/application/o/netbird",
-    #       "TokenEndpoint": "https://authentik.example.com/application/o/token/",
-    #       "ClientID": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
-    #       "ClientSecret": "",
-    #       "GrantType": "client_credentials"
-    #     },
-    #     "ExtraConfig": {
-    #       "Password": "ref+k8s://v1/Secret/netbird/netbird-management/idpServiceAccountPassword+",
-    #       "Username": "ref+k8s://v1/Secret/netbird/netbird-management/idpServiceAccountUser+"
-    #     },
-    #     "Auth0ClientCredentials": null,
-    #     "AzureClientCredentials": null,
-    #     "KeycloakClientCredentials": null,
-    #     "ZitadelClientCredentials": null
-    #   },
-    #   "DeviceAuthorizationFlow": {
-    #     "Provider": "hosted",
-    #     "ProviderConfig": {
-    #       "ClientID": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
-    #       "ClientSecret": "",
-    #       "Domain": "authentik.example.com",
-    #       "Audience": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
-    #       "TokenEndpoint": "https://authentik.example.com/application/o/token/",
-    #       "DeviceAuthEndpoint": "https://authentik.example.com/application/o/device/",
-    #       "AuthorizationEndpoint": "",
-    #       "Scope": "openid",
-    #       "UseIDToken": false,
-    #       "RedirectURLs": null
-    #     }
-    #   },
-    #   "PKCEAuthorizationFlow": {
-    #     "ProviderConfig": {
-    #       "ClientID": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
-    #       "ClientSecret": "",
-    #       "Domain": "",
-    #       "Audience": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
-    #       "TokenEndpoint": "https://authentik.example.com/application/o/token/",
-    #       "DeviceAuthEndpoint": "",
-    #       "AuthorizationEndpoint": "https://authentik.example.com/application/o/authorize/",
-    #       "Scope": "openid profile email offline_access api",
-    #       "UseIDToken": false,
-    #       "RedirectURLs": [
-    #         "http://localhost:53000"
-    #       ]
-    #     }
-    #   },
-    #   "StoreConfig": {
-    #     "Engine": "postgres"
-    #   },
-    #   "ReverseProxy": {
-    #     "TrustedHTTPProxies": null,
-    #     "TrustedHTTPProxiesCount": 0,
-    #     "TrustedPeers": null
-    #   }
-    # }
-
-## Database additional config is managed via env variables
-## https://docs.netbird.io/selfhosted/postgres-store
-env: {}
-envRaw: {}
-# - name: NETBIRD_STORE_ENGINE_POSTGRES_DSN
-#   valueFrom:
-#     secretKeyRef:
-#       name: netbird-management
-#       key: postgresDSN
-
-## @Section for Common configuration
 
 ## @param nameOverride
 ##
@@ -133,28 +13,150 @@ fullnameOverride: ""
 ## @section NetBird Management
 
 management:
-  initPod:
-    image:
-      repository: marcportabellaclotet/vals
-      tag: 0.37.1
-
   podCommand:
     #command: netbird
     args:
-      - --port=80
-      - --log-file=console
-      - --log-level=info
-      - --disable-anonymous-metrics=false
-      - --dns-domain=netbird.selfhosted"
-    xtraArgs: {}
-      # - --single-account-mode-domain=example.com
+     - --port=80
+     - --log-file=console
+     - --log-level=info
+     - --disable-anonymous-metrics=false
+     - --single-account-mode-domain=netbird.example.com
+     - --dns-domain=netbird.selfhosted"
+
+  configmap: |-
+
+  #configmap: |-
+  #  {
+  #    "Stuns": [
+  #      {
+  #        "Proto": "udp",
+  #        "URI": "stun:ref+k8s://v1/Secret/netbird/netbird-management/stunServer+",
+  #        "Username": "",
+  #        "Password": ""
+  #      }
+  #    ],
+  #    "TURNConfig": {
+  #      "TimeBasedCredentials": false,
+  #      "CredentialsTTL": "12h0m0s",
+  #      "Secret": "secret",
+  #      "Turns": [
+  #        {
+  #          "Proto": "udp",
+  #          "URI": "turn:ref+k8s://v1/Secret/netbird/netbird-management/turnServer+",
+  #          "Username": "ref+k8s://v1/Secret/netbird/netbird-management/turnServerUser+",
+  #          "Password": "ref+k8s://v1/Secret/netbird/netbird-management/turnServerPassword+"
+  #        }
+  #      ]
+  #    },
+  #    "Relay": {
+  #      "Addresses": [
+  #        "rels://netbird.example.com:443/relay"
+  #      ],
+  #      "CredentialsTTL": "24h",
+  #      "Secret": "ref+k8s://v1/Secret/netbird/netbird-management/relayPassword+"
+  #    },
+  #    "Signal": {
+  #      "Proto": "https",
+  #      "URI": "netbird.example.com:443",
+  #      "Username": "",
+  #      "Password": ""
+  #    },
+  #    "HttpConfig": {
+  #      "LetsEncryptDomain": "",
+  #      "CertFile": "",
+  #      "CertKey": "",
+  #      "AuthAudience": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
+  #      "AuthIssuer": "https://idp.example.com/application/o/example-netbird/",
+  #      "AuthUserIDClaim": "",
+  #      "AuthKeysLocation": "https://idp.example.com/application/o/example-netbird/jwks/",
+  #      "OIDCConfigEndpoint": "https://idp.example.com/application/o/example-netbird/.well-known/openid-configuration",
+  #      "IdpSignKeyRefreshEnabled": false
+  #    },
+  #    "IdpManagerConfig": {
+  #      "ManagerType": "authentik",
+  #      "ClientConfig": {
+  #        "Issuer": "https://idp.example.com/application/o/example-netbird",
+  #        "TokenEndpoint": "https://idp.example.com/application/o/token/",
+  #        "ClientID": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
+  #        "ClientSecret": "",
+  #        "GrantType": "client_credentials"
+  #      },
+  #      "ExtraConfig": {
+  #        "Password": "ref+k8s://v1/Secret/netbird/netbird-management/idpServiceAccountPassword+",
+  #        "Username": "ref+k8s://v1/Secret/netbird/netbird-management/idpServiceAccountUser+"
+  #      },
+  #      "Auth0ClientCredentials": null,
+  #      "AzureClientCredentials": null,
+  #      "KeycloakClientCredentials": null,
+  #      "ZitadelClientCredentials": null
+  #    },
+  #    "DeviceAuthorizationFlow": {
+  #      "Provider": "hosted",
+  #      "ProviderConfig": {
+  #        "ClientID": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
+  #        "ClientSecret": "",
+  #        "Domain": "idp.example.com",
+  #        "Audience": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
+  #        "TokenEndpoint": "https://idp.example.com/application/o/token/",
+  #        "DeviceAuthEndpoint": "https://idp.example.com/application/o/device/",
+  #        "AuthorizationEndpoint": "",
+  #        "Scope": "openid",
+  #        "UseIDToken": false,
+  #        "RedirectURLs": null
+  #      }
+  #    },
+  #    "PKCEAuthorizationFlow": {
+  #      "ProviderConfig": {
+  #        "ClientID": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
+  #        "ClientSecret": "",
+  #        "Domain": "",
+  #        "Audience": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
+  #        "TokenEndpoint": "https://idp.example.com/application/o/token/",
+  #        "DeviceAuthEndpoint": "",
+  #        "AuthorizationEndpoint": "https://idp.example.com/application/o/authorize/",
+  #        "Scope": "openid profile email offline_access api",
+  #        "UseIDToken": false,
+  #        "RedirectURLs": [
+  #          "http://localhost:53000"
+  #        ]
+  #      }
+  #    },
+  #    "StoreConfig": {
+  #      "Engine": "postgres"
+  #    },
+  #    "ReverseProxy": {
+  #      "TrustedHTTPProxies": null,
+  #      "TrustedHTTPProxiesCount": 0,
+  #      "TrustedPeers": null
+  #    }
+  #  }
 
   lifecycle: {}
 
+  init:
+    image:
+      repository: marcportabellaclotet/vals
+      tag: 0.37.1
+    env: {}
+    envRaw: {}
 
   ## @param management.replicaCount
   ##
   replicaCount: 1
+
+  ## @param management.env
+  ##
+
+  env: {}
+
+  ## @param management.envRaw
+  ##
+  envRaw: {}
+  # - name: NETBIRD_STORE_ENGINE_POSTGRES_DSN
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: netbird-management
+  #       key: postgresDSN
 
   image:
     ## @param management.image.repository
@@ -217,25 +219,13 @@ management:
     # runAsUser: 1000
 
   service:
-    http:
-      ## @param management.service.type
-      ##
-      type: ClusterIP
+    ## @param management.service.type
+    ##
+    type: ClusterIP
 
-      ## @param management.service.port
-      ##
-      containerPort: 80
-      port: 80
-
-    grpc:
-      ## @param management.service.type
-      ##
-      type: ClusterIP
-
-      ## @param management.service.port
-      ##
-      containerPort: 33073
-      port: 80
+    ## @param management.service.port
+    ##
+    port: 80
 
   ingress:
     ## @param management.ingress.enabled
@@ -446,7 +436,6 @@ signal:
     ## @param signal.service.port
     ##
     port: 80
-    containerPort: 10000
 
   ingress:
     ## @param signal.ingress.enabled
@@ -471,7 +460,7 @@ signal:
         paths:
           ## @param signal.ingress.hosts[0].paths[0].path
           ##
-          - path: /
+          - path: /signalexchange.SignalExchange
             ## @param signal.ingress.hosts[0].paths[0].pathType
             ##
             pathType: ImplementationSpecific
@@ -528,3 +517,173 @@ signal:
   ##
   affinity: {}
 
+## @section NetBird relay
+
+relay:
+  ## @param relay.logLevel
+  ##
+  logLevel: info
+
+  ## @param relay.replicaCount
+  ##
+  replicaCount: 1
+
+  image:
+    ## @param relay.image.repository
+    ##
+    repository: netbirdio/relay
+
+    ## @param relay.image.pullPolicy
+    ##
+    pullPolicy: IfNotPresent
+
+    # yamllint disable-line rule:line-length
+    ## @param relay.image.tag Overrides the image tag whose default is the chart appVersion.
+    ##
+    tag: ""
+
+  ## @param relay.imagePullSecrets
+  imagePullSecrets: []
+
+  serviceAccount:
+    # yamllint disable-line rule:line-length
+    ## @param relay.serviceAccount.create Specifies whether a service account should be created.
+    ##
+    create: true
+
+    # yamllint disable-line rule:line-length
+    ## @param relay.serviceAccount.annotations Annotations to add to the service account.
+    ##
+    annotations: {}
+
+    ## @param relay.serviceAccount.name The name of the service account to use.
+    ##
+    name: ""
+
+  # yamllint disable-line rule:line-length
+  ## @param relay.deploymentAnnotations Annotations to add to the relay deployment.
+  ##
+  deploymentAnnotations: {}
+
+  ## @param relay.podAnnotations Annotations to add to the relay pod(s).
+  ##
+  podAnnotations: {}
+
+  ## @param relay.podSecurityContext
+  ##
+  podSecurityContext:
+    {}
+    # fsGroup: 2000
+
+  ## @param relay.securityContext
+  ##
+  securityContext:
+    {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  service:
+    ## @param relay.service.type
+    ##
+    type: ClusterIP
+    name: http
+    ## @param relay.service.port
+    ##
+    port: 33080
+
+  ingress:
+    ## @param relay.ingress.enabled
+    ##
+    enabled: false
+
+    ## @param relay.ingress.className
+    ##
+    className: ""
+
+    ## @param relay.ingress.annotations
+    ##
+    annotations:
+      {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+
+    hosts:
+      ## @param relay.ingress.hosts[0].host
+      ##
+      - host: example.com
+        paths:
+          ## @param relay.ingress.hosts[0].paths[0].path
+          ##
+          - path: /relay
+            ## @param relay.ingress.hosts[0].paths[0].pathType
+            ##
+            pathType: ImplementationSpecific
+    ## @param relay.ingress.tls
+    ##
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+  ## @param relay.resources
+  ##
+  resources:
+    {}
+    # We usually recommend not to specify default resources and to leave this as
+    # a conscious choice for the user. This also increases chances charts run on
+    # environments with little resources, such as Minikube. If you do want to
+    # specify resources, uncomment the following lines, adjust them as
+    # necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  autoscaling:
+    ## @param relay.autoscaling.enabled
+    ##
+    enabled: false
+
+    ## @param relay.autoscaling.minReplicas
+    ##
+    minReplicas: 1
+
+    ## @param relay.autoscaling.maxReplicas
+    ##
+    maxReplicas: 100
+
+    ## @param relay.autoscaling.targetCPUUtilizationPercentage
+    ##
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+  ## @param relay.nodeSelector
+  ##
+  nodeSelector: {}
+
+  ## @param relay.tolerations
+  ##
+  tolerations: []
+
+  ## @param relay.affinity
+  ##
+  affinity: {}
+
+  envRaw: {}
+    # - name: NB_AUTH_SECRET
+    #   valueFrom:
+    #     secretKeyRef:
+    #       name: netbird-management
+    #       key: relayPassword
+    # - name: NB_LOG_LEVEL
+    #   value: info
+    # - name: NB_LISTEN_ADDRESS
+    #   value: ":33080"
+    # - name: NB_EXPOSED_ADDRESS
+    #   value: rels://netbird.example.com:443/relay
