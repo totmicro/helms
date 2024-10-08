@@ -163,7 +163,7 @@ management:
 
     ## @param management.image.pullPolicy
     ##
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
 
     # yamllint disable-line rule:line-length
     ## @param management.image.tag Overrides the image tag whose default is the chart appVersion.
