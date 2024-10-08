@@ -73,3 +73,11 @@ args:
   /usr/bin/supervisord -c /etc/supervisord.conf
 {{- end }}
 {{- end }}
+
+
+{{/*
+Allow the release namespace to be overridden
+*/}}
+{{- define "netbird-dashboard.namespace" -}}
+{{- default .Release.Namespace .Values.global.namespace -}}
+{{- end -}}

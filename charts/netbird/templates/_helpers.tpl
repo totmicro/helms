@@ -91,3 +91,10 @@ Create the name of the signal service account to use
 {{- default "default" .Values.signal.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Allow the release namespace to be overridden
+*/}}
+{{- define "netbird.namespace" -}}
+{{- default .Release.Namespace .Values.global.namespace -}}
+{{- end -}}

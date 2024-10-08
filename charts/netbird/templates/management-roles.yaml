@@ -2,7 +2,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: {{ include "netbird.fullname" . }}-management
-  namespace: {{ .Release.Namespace | quote }}
+  namespace: {{ include "netbird.namespace" . }} 
   labels:
     {{- include "netbird.management.labels" . | nindent 4 }}
 rules:
@@ -14,13 +14,13 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: {{ include "netbird.fullname" . }}-management
-  namespace: {{ .Release.Namespace | quote }}
+  namespace: {{ include "netbird.namespace" . }} 
   labels:
     {{- include "netbird.management.labels" . | nindent 4 }}
 subjects:
 - kind: ServiceAccount
   name: {{ include "netbird.management.serviceAccountName" . }}
-  namespace: {{ .Release.Namespace | quote }}
+  namespace: {{ include "netbird.namespace" . }} 
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
