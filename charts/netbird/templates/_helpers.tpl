@@ -98,3 +98,10 @@ Allow the release namespace to be overridden
 {{- define "netbird.namespace" -}}
 {{- default .Release.Namespace .Values.global.namespace -}}
 {{- end -}}
+
+{{/*
+Allow the secrets name for rbac permissions to be overridden
+*/}}
+{{- define "netbird.rbac_secret_names" -}}
+{{- default (printf "%s-management" (include "netbird.fullname" .)) .Values.management.rbac_secret_names -}}
+{{- end -}}

@@ -133,6 +133,7 @@ fullnameOverride: ""
 ## @section NetBird Management
 
 management:
+  rbac_secret_names: ""
   initPod:
     image:
       repository: marcportabellaclotet/vals
