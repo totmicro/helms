@@ -5,6 +5,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ $fullName }}
+  namespace: {{ include "netbird.namespace" . }}
   labels:
     {{- include "netbird.signal.labels" . | nindent 4 }}
   {{- with .Values.signal.ingress.annotations }}

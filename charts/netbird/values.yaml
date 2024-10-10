@@ -1,6 +1,7 @@
 ---
 ## @section NetBird Parameters
-
+global:
+  namespace: ""
 
 ## @param nameOverride
 ##
@@ -25,120 +26,9 @@ management:
 
   configmap: |-
 
-  #configmap: |-
-  #  {
-  #    "Stuns": [
-  #      {
-  #        "Proto": "udp",
-  #        "URI": "stun:ref+k8s://v1/Secret/netbird/netbird-management/stunServer+",
-  #        "Username": "",
-  #        "Password": ""
-  #      }
-  #    ],
-  #    "TURNConfig": {
-  #      "TimeBasedCredentials": false,
-  #      "CredentialsTTL": "12h0m0s",
-  #      "Secret": "secret",
-  #      "Turns": [
-  #        {
-  #          "Proto": "udp",
-  #          "URI": "turn:ref+k8s://v1/Secret/netbird/netbird-management/turnServer+",
-  #          "Username": "ref+k8s://v1/Secret/netbird/netbird-management/turnServerUser+",
-  #          "Password": "ref+k8s://v1/Secret/netbird/netbird-management/turnServerPassword+"
-  #        }
-  #      ]
-  #    },
-  #    "Relay": {
-  #      "Addresses": [
-  #        "rels://netbird.example.com:443/relay"
-  #      ],
-  #      "CredentialsTTL": "24h",
-  #      "Secret": "ref+k8s://v1/Secret/netbird/netbird-management/relayPassword+"
-  #    },
-  #    "Signal": {
-  #      "Proto": "https",
-  #      "URI": "netbird.example.com:443",
-  #      "Username": "",
-  #      "Password": ""
-  #    },
-  #    "HttpConfig": {
-  #      "LetsEncryptDomain": "",
-  #      "CertFile": "",
-  #      "CertKey": "",
-  #      "AuthAudience": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
-  #      "AuthIssuer": "https://idp.example.com/application/o/example-netbird/",
-  #      "AuthUserIDClaim": "",
-  #      "AuthKeysLocation": "https://idp.example.com/application/o/example-netbird/jwks/",
-  #      "OIDCConfigEndpoint": "https://idp.example.com/application/o/example-netbird/.well-known/openid-configuration",
-  #      "IdpSignKeyRefreshEnabled": false
-  #    },
-  #    "IdpManagerConfig": {
-  #      "ManagerType": "authentik",
-  #      "ClientConfig": {
-  #        "Issuer": "https://idp.example.com/application/o/example-netbird",
-  #        "TokenEndpoint": "https://idp.example.com/application/o/token/",
-  #        "ClientID": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
-  #        "ClientSecret": "",
-  #        "GrantType": "client_credentials"
-  #      },
-  #      "ExtraConfig": {
-  #        "Password": "ref+k8s://v1/Secret/netbird/netbird-management/idpServiceAccountPassword+",
-  #        "Username": "ref+k8s://v1/Secret/netbird/netbird-management/idpServiceAccountUser+"
-  #      },
-  #      "Auth0ClientCredentials": null,
-  #      "AzureClientCredentials": null,
-  #      "KeycloakClientCredentials": null,
-  #      "ZitadelClientCredentials": null
-  #    },
-  #    "DeviceAuthorizationFlow": {
-  #      "Provider": "hosted",
-  #      "ProviderConfig": {
-  #        "ClientID": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
-  #        "ClientSecret": "",
-  #        "Domain": "idp.example.com",
-  #        "Audience": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
-  #        "TokenEndpoint": "https://idp.example.com/application/o/token/",
-  #        "DeviceAuthEndpoint": "https://idp.example.com/application/o/device/",
-  #        "AuthorizationEndpoint": "",
-  #        "Scope": "openid",
-  #        "UseIDToken": false,
-  #        "RedirectURLs": null
-  #      }
-  #    },
-  #    "PKCEAuthorizationFlow": {
-  #      "ProviderConfig": {
-  #        "ClientID": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
-  #        "ClientSecret": "",
-  #        "Domain": "",
-  #        "Audience": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
-  #        "TokenEndpoint": "https://idp.example.com/application/o/token/",
-  #        "DeviceAuthEndpoint": "",
-  #        "AuthorizationEndpoint": "https://idp.example.com/application/o/authorize/",
-  #        "Scope": "openid profile email offline_access api",
-  #        "UseIDToken": false,
-  #        "RedirectURLs": [
-  #          "http://localhost:53000"
-  #        ]
-  #      }
-  #    },
-  #    "StoreConfig": {
-  #      "Engine": "postgres"
-  #    },
-  #    "ReverseProxy": {
-  #      "TrustedHTTPProxies": null,
-  #      "TrustedHTTPProxiesCount": 0,
-  #      "TrustedPeers": null
-  #    }
-  #  }
-
   lifecycle: {}
 
-  init:
-    image:
-      repository: marcportabellaclotet/vals
-      tag: 0.37.1
-    env: {}
-    envRaw: {}
+  secretname: ""
 
   ## @param management.replicaCount
   ##
@@ -152,11 +42,19 @@ management:
   ## @param management.envRaw
   ##
   envRaw: {}
-  # - name: NETBIRD_STORE_ENGINE_POSTGRES_DSN
-  #   valueFrom:
-  #     secretKeyRef:
-  #       name: netbird-management
-  #       key: postgresDSN
+    #- name: NETBIRD_STORE_ENGINE_POSTGRES_DSN
+    #  valueFrom:
+    #    secretKeyRef:
+    #      name: netbird-management
+    #      key: postgresDSN
+
+  envFromSecret: {}
+    #- name: CUSTOM_VAR_1
+    #  secretKey: key1
+    #- name: CUSTOM_VAR_2
+    #  secretKey: key2
+    #- name: ANOTHER_VAR
+    #  secretKey: key3
 
   image:
     ## @param management.image.repository
@@ -322,7 +220,7 @@ management:
 
     ## @param management.autoscaling.maxReplicas
     ##
-    maxReplicas: 100
+    maxReplicas: 1
 
     ## @param management.autoscaling.targetCPUUtilizationPercentage
     ##
@@ -353,7 +251,7 @@ management:
 
     ## @param management.persistentVolume.size
     ##
-    size: 100Mi
+    size: 10Mi
 
   ## @param management.dnsDomain
   ##
@@ -498,7 +396,7 @@ signal:
 
     ## @param signal.autoscaling.maxReplicas
     ##
-    maxReplicas: 100
+    maxReplicas: 1
 
     ## @param signal.autoscaling.targetCPUUtilizationPercentage
     ##
@@ -656,7 +554,7 @@ relay:
 
     ## @param relay.autoscaling.maxReplicas
     ##
-    maxReplicas: 100
+    maxReplicas: 1
 
     ## @param relay.autoscaling.targetCPUUtilizationPercentage
     ##
@@ -675,15 +573,16 @@ relay:
   ##
   affinity: {}
 
-  envRaw: {}
-    # - name: NB_AUTH_SECRET
-    #   valueFrom:
-    #     secretKeyRef:
-    #       name: netbird-management
-    #       key: relayPassword
-    # - name: NB_LOG_LEVEL
-    #   value: info
-    # - name: NB_LISTEN_ADDRESS
-    #   value: ":33080"
-    # - name: NB_EXPOSED_ADDRESS
-    #   value: rels://netbird.example.com:443/relay
+  envRaw:
+    #- name: NB_AUTH_SECRET
+    #  valueFrom:
+    #    secretKeyRef:
+    #      name: netbird-management
+    #      key: relayPassword
+    #- name: NB_LOG_LEVEL
+    #  value: info
+    #- name: NB_LISTEN_ADDRESS
+    #  value: ":33080"
+    #- name: NB_EXPOSED_ADDRESS
+    #  value: rels://netbird.example.com:443/relay
+
