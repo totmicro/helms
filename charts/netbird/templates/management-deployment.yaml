@@ -1,4 +1,4 @@
-{{- $secretName := printf "%s" (include "netbird.management.secretName" .) -}}
+{{- $secretName := printf "%s" (include "netbird.management.secret" .) -}}
 
 apiVersion: apps/v1
 kind: Deployment
@@ -67,7 +67,7 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: {{ $secretName }}
-                key: {{ .secretKey }}  # Corresponding secret key
+                key: {{ .key }}
           {{- end }}
           {{- end }}
           {{- with .Values.management.lifecycle }}

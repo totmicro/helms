@@ -133,6 +133,6 @@ Allow the release namespace to be overridden
 {{/*
 Allow the secrets name for the management service rbac permissions to be overridden
 */}}
-{{- define "netbird.management.secretName" -}}
+{{- define "netbird.management.secret" -}}
 {{- default (printf "%s" (include "netbird.fullname" .)) .Values.management.secretName -}}
 {{- end -}}
