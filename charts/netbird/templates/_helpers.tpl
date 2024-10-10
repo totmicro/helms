@@ -122,3 +122,17 @@ Create the name of the relay service account to use
 {{- default "default" .Values.relay.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{/*
+Allow the release namespace to be overridden
+*/}}
+{{- define "netbird.namespace" -}}
+{{- default .Release.Namespace .Values.global.namespace -}}
+{{- end -}}
+
+{{/*
+Allow the secrets name for the management service rbac permissions to be overridden
+*/}}
+{{- define "netbird.management.secretName" -}}
+{{- default (printf "%s" (include "netbird.fullname" .)) .Values.management.secretName -}}
+{{- end -}}

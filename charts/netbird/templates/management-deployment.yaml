@@ -1,8 +1,11 @@
+{{- $secretName := printf "%s" (include "netbird.management.secretName" .) -}}
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "netbird.fullname" . }}-management
   {{- with .Values.deploymentAnnotations }}
+  namespace: {{ include "netbird.namespace" . }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
@@ -32,32 +35,6 @@ spec:
       serviceAccountName: {{ include "netbird.management.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.management.podSecurityContext | nindent 8 }}
-      initContainers:
-        - name: configure
-          image: {{ .Values.management.init.image.repository }}:{{ .Values.management.init.image.tag }}
-          imagePullPolicy: {{ .Values.management.image.pullPolicy }}
-          command: ["/bin/sh", "-c"]
-          args:
-            - >
-              /bin/sh /tmp/netbird/kubeconfig-gen.sh &&
-              vals get "$(cat /tmp/netbird/management.tmpl.json)" > /etc/netbird/management.json
-          env:
-          - name: KUBECONFIG
-            value: /tmp/kubeconfig
-          {{- range $key, $val := .Values.management.init.env }}
-          - name: {{ $key }}
-            value: {{ $val | quote }}
-          {{- end }}
-          {{- if .Values.management.init.envRaw }}
-            {{- with .Values.management.init.envRaw }}
-              {{- toYaml . | nindent 10 }}
-            {{- end }}
-          {{- end }}
-          volumeMounts:
-            - mountPath: /etc/netbird
-              name: config
-            - mountPath: /tmp/netbird
-              name: config-template
       containers:
         - name: {{ .Chart.Name }}-management
           securityContext:
@@ -74,7 +51,7 @@ spec:
           - {{ . }}
           {{- end }}
           {{- end }}
-          {{- if or (.Values.management.env) (.Values.management.envRaw) }}
+          {{- if or (.Values.management.env) (.Values.management.envRaw) (.Values.management.envFromSecret) }}
           env:
           {{- range $key, $val := .Values.management.env }}
           - name: {{ $key }}
@@ -84,6 +61,13 @@ spec:
             {{- with .Values.management.envRaw }}
               {{- toYaml . | nindent 10 }}
             {{- end }}
+          {{- end }}
+          {{- range $key, $val := .Values.management.envFromSecret }}
+          - name: {{ .name }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ $secretName }}
+                key: {{ .secretKey }}  # Corresponding secret key
           {{- end }}
           {{- end }}
           {{- with .Values.management.lifecycle }}
@@ -114,9 +98,6 @@ spec:
       {{- end }}
       volumes:
         - name: config
-          emptyDir:
-            medium: Memory
-        - name: config-template
           configMap:
             name: {{ include "netbird.fullname" . }}-management
         - name: management
