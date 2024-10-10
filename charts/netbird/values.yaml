@@ -50,11 +50,11 @@ management:
 
   envFromSecret: {}
     #- name: CUSTOM_VAR_1
-    #  secretKey: key1
+    #  key: key1
     #- name: CUSTOM_VAR_2
-    #  secretKey: key2
+    #  key: key2
     #- name: ANOTHER_VAR
-    #  secretKey: key3
+    #  key: key3
 
   image:
     ## @param management.image.repository
