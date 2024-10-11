@@ -123,7 +123,7 @@ Create the name of the relay service account to use
 {{- end }}
 {{- end }}
 
-{/*
+{{/*
 Allow the release namespace to be overridden
 */}}
 {{- define "netbird.namespace" -}}

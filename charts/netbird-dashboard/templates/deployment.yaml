@@ -1,7 +1,10 @@
+{{- $secretName := printf "%s" (include "netbird-dashboard.secret" .) -}}
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "netbird-dashboard.fullname" . }}
+  namespace: {{ include "netbird-dashboard.namespace" . }}
   labels:
     {{- include "netbird-dashboard.labels" . | nindent 4 }}
 spec:
@@ -34,7 +37,7 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if or (.Values.env) (.Values.envRaw) }}
+          {{- if or (.Values.env) (.Values.envRaw) (.Values.envFromSecret) }}
           env:
           {{- range $key, $val := .Values.env }}
           - name: {{ $key }}
@@ -44,6 +47,13 @@ spec:
             {{- with .Values.envRaw }}
               {{- toYaml . | nindent 10 }}
             {{- end }}
+          {{- end }}
+          {{- range $key, $val := .Values.envFromSecret }}
+          - name: {{ .name }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ $secretName }}
+                key: {{ .key }}
           {{- end }}
           {{- end }}
           {{- with .Values.lifecycle }}
