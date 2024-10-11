@@ -422,6 +422,10 @@ relay:
   ##
   logLevel: info
 
+  ## @param relay.secretname
+  ##
+  secretname: ""
+
   ## @param relay.replicaCount
   ##
   replicaCount: 1

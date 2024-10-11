@@ -136,3 +136,10 @@ Allow the secrets name for the management service rbac permissions to be overrid
 {{- define "netbird.management.secret" -}}
 {{- default (printf "%s" (include "netbird.fullname" .)) .Values.management.secretName -}}
 {{- end -}}
+
+{{/*
+Allow the secrets name for the relay service rbac permissions to be overridden
+*/}}
+{{- define "netbird.relay.secret" -}}
+{{- default (printf "%s" (include "netbird.fullname" .)) .Values.relay.secretName -}}
+{{- end -}}
