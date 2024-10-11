@@ -26,4 +26,3 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
   name: {{ include "netbird-dashboard.fullname" . }}
-  namespace: {{ include "netbird-dashboard.namespace" . }}
