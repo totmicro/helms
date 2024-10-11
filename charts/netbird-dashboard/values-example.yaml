@@ -18,7 +18,7 @@ ingress:
       hosts:
         - netbird-dashboard.example.com
 image:
-  tag: v2.6.0
+  tag: v2.6.1
 env:
   # Endpoints
   NETBIRD_MGMT_API_ENDPOINT: https://netbird.example.com:443
@@ -34,32 +34,19 @@ env:
   NGINX_SSL_PORT:
   LETSENCRYPT_DOMAIN:
   LETSENCRYPT_EMAIL:
-envRaw:
+envFromSecret:
   - name: AUTH_CLIENT_ID
-    valueFrom:
-      secretKeyRef:
-        name: netbird-management
-        key: idpClientID
+    key: idpClientID
   - name: AUTH_AUDIENCE
-    valueFrom:
-      secretKeyRef:
-        name: netbird-management
-        key: idpClientID
+    key: idpClientID
+secretName: netbird-dashboard
 
-### The k8s secret should look like this (shared with netbird deployment):
+### The k8s secret should look like this:
 
 #apiVersion: v1
 #kind: Secret
 #metadata:
-#  name: netbird-management
+#  name: netbird-dashboard
 #type: Opaque
 #data:
 #  idpClientID: xxxxxx
-#  idpServiceAccountPassword: xxxxxx
-#  idpServiceAccountUser: xxxxxx
-#  postgresDSN: xxxxxx
-#  relayPassword: xxxxxx
-#  stunServer: xxxxxx
-#  turnServer: xxxxxx
-#  turnServerPassword: xxxxxx
-#  turnServerUser: xxxxxx

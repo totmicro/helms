@@ -1,14 +1,15 @@
 # In this example, we are using secrets stored in the same namespace as the Netbird deployment.
+# It is based for nginx ingress, but it can be modified to fit your needs
 # It uses authentik as the IdP manager and an external PostgreSQL as the store engine.
 # The secrets are created by the user and are not part of the Netbird chart.
-# Refer to [vals](https://github.com/helmfile/vals) for reference on how to create the secrets.
+# In the configmap you can refer to env variables by using {{ .envVarName }}. (Requires netbid v0.30.1+)
 management:
   configmap: |-
     {
       "Stuns": [
         {
           "Proto": "udp",
-          "URI": "stun:ref+k8s://v1/Secret/netbird/netbird-management/stunServer+",
+          "URI": "{{ .STUN_SERVER }}",
           "Username": "",
           "Password": ""
         }
@@ -20,9 +21,9 @@ management:
         "Turns": [
           {
             "Proto": "udp",
-            "URI": "turn:ref+k8s://v1/Secret/netbird/netbird-management/turnServer+",
-            "Username": "ref+k8s://v1/Secret/netbird/netbird-management/turnServerUser+",
-            "Password": "ref+k8s://v1/Secret/netbird/netbird-management/turnServerPassword+"
+            "URI": "{{ .TURN_SERVER }}",
+            "Username": "{{ .TURN_SERVER_USER }}",
+            "Password": "{{ .TURN_SERVER_PASSWORD }}"
           }
         ]
       },
@@ -31,7 +32,7 @@ management:
           "rels://netbird.example.com:443/relay"
         ],
         "CredentialsTTL": "24h",
-        "Secret": "ref+k8s://v1/Secret/netbird/netbird-management/relayPassword+"
+        "Secret": "{{ .RELAY_PASSWORD }}"
       },
       "Signal": {
         "Proto": "https",
@@ -39,11 +40,13 @@ management:
         "Username": "",
         "Password": ""
       },
+      "Datadir": "/var/lib/netbird/",
+      "DataStoreEncryptionKey": "{{ .DATASTORE_ENCRYPTION_KEY }}",
       "HttpConfig": {
         "LetsEncryptDomain": "",
         "CertFile": "",
         "CertKey": "",
-        "AuthAudience": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
+        "AuthAudience": "{{ .IDP_CLIENT_ID }}",
         "AuthIssuer": "https://idp.example.com/application/o/example-netbird/",
         "AuthUserIDClaim": "",
         "AuthKeysLocation": "https://idp.example.com/application/o/example-netbird/jwks/",
@@ -55,13 +58,13 @@ management:
         "ClientConfig": {
           "Issuer": "https://idp.example.com/application/o/example-netbird",
           "TokenEndpoint": "https://idp.example.com/application/o/token/",
-          "ClientID": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
+          "ClientID": "{{ .IDP_CLIENT_ID }}",
           "ClientSecret": "",
           "GrantType": "client_credentials"
         },
         "ExtraConfig": {
-          "Password": "ref+k8s://v1/Secret/netbird/netbird-management/idpServiceAccountPassword+",
-          "Username": "ref+k8s://v1/Secret/netbird/netbird-management/idpServiceAccountUser+"
+          "Password": "{{ .IDP_SERVICE_ACCOUNT_PASSWORD }}",
+          "Username": "{{ .IDP_SERVICE_ACCOUNT_USER }}"
         },
         "Auth0ClientCredentials": null,
         "AzureClientCredentials": null,
@@ -71,10 +74,10 @@ management:
       "DeviceAuthorizationFlow": {
         "Provider": "hosted",
         "ProviderConfig": {
-          "ClientID": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
+          "ClientID": "{{ .IDP_CLIENT_ID }}",
           "ClientSecret": "",
           "Domain": "idp.example.com",
-          "Audience": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
+          "Audience": "{{ .IDP_CLIENT_ID }}",
           "TokenEndpoint": "https://idp.example.com/application/o/token/",
           "DeviceAuthEndpoint": "https://idp.example.com/application/o/device/",
           "AuthorizationEndpoint": "",
@@ -85,10 +88,10 @@ management:
       },
       "PKCEAuthorizationFlow": {
         "ProviderConfig": {
-          "ClientID": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
+          "ClientID": "{{ .IDP_CLIENT_ID }}",
           "ClientSecret": "",
           "Domain": "",
-          "Audience": "ref+k8s://v1/Secret/netbird/netbird-management/idpClientID+",
+          "Audience": "{{ .IDP_CLIENT_ID }}",
           "TokenEndpoint": "https://idp.example.com/application/o/token/",
           "DeviceAuthEndpoint": "",
           "AuthorizationEndpoint": "https://idp.example.com/application/o/authorize/",
@@ -110,7 +113,7 @@ management:
     }
 
   image:
-    tag: 0.30.0
+    tag: 0.30.1
 
   ingress:
     enabled: true
@@ -149,20 +152,33 @@ management:
 
   persistentVolume:
     enabled: false
-    accessModes:
-      - ReadWriteOnce
-    size: 100Mi
 
-  envRaw:
+  secretName: netbird
+  envFromSecret:
     - name: NETBIRD_STORE_ENGINE_POSTGRES_DSN
-      valueFrom:
-        secretKeyRef:
-          name: netbird-management
-          key: postgresDSN
+      key: postgresDSN
+    - name: STUN_SERVER
+      key: stunServer
+    - name: TURN_SERVER
+      key: turnServer
+    - name: TURN_SERVER_USER
+      key: turnServerUser
+    - name: TURN_SERVER_PASSWORD
+      key: turnServerPassword
+    - name: RELAY_PASSWORD
+      key: relayPassword
+    - name: IDP_CLIENT_ID
+      key: idpClientID
+    - name: IDP_SERVICE_ACCOUNT_USER
+      key: idpServiceAccountUser
+    - name: IDP_SERVICE_ACCOUNT_PASSWORD
+      key: idpServiceAccountPassword
+    - name: DATASTORE_ENCRYPTION_KEY
+      key: datastoreEncryptionKey
 
 signal:
   image:
-    tag: 0.30.0
+    tag: 0.30.1
   ingress:
     enabled: true
     className: public
@@ -184,10 +200,9 @@ signal:
         hosts:
           - netbird.example.com
 
-
 relay:
   image:
-    tag: 0.30.0
+    tag: 0.30.1
   ingress:
     enabled: true
     className: public
@@ -201,26 +216,23 @@ relay:
     tls:
       - secretName: netbird-relay-tls
         hosts:
-          - netbird-relay.example.com
-  envRaw:
+          - netbird.example.com
+  secretName: netbird
+  envFromSecret:
     - name: NB_AUTH_SECRET
-      valueFrom:
-        secretKeyRef:
-          name: netbird-management
-          key: relayPassword
-    - name: NB_LOG_LEVEL
-      value: info
-    - name: NB_LISTEN_ADDRESS
-      value: ":33080"
-    - name: NB_EXPOSED_ADDRESS
-      value: rels://netbird.example.com:443/relay
+      key: relayPassword
+  env:
+    NB_LOG_LEVEL: info
+    NB_LISTEN_ADDRESS: ":33080"
+    NB_EXPOSED_ADDRESS: rels://netbird.example.com:443/relay
+
 
 ### The k8s secret should look like this:
 
 #apiVersion: v1
 #kind: Secret
 #metadata:
-#  name: netbird-management
+#  name: netbird
 #type: Opaque
 #data:
 #  idpClientID: xxxxxx
@@ -232,3 +244,4 @@ relay:
 #  turnServer: xxxxxx
 #  turnServerPassword: xxxxxx
 #  turnServerUser: xxxxxx
+#  datastoreEncryptionKey: xxxxxxx #(Created with openssl rand -base64 32)

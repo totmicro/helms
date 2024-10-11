@@ -56,6 +56,7 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | autoscaling.minReplicas | int | `1` |  |
 | autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
 | fullnameOverride | string | `""` |  |
+| global.namespace | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"netbirdio/dashboard"` |  |
 | image.tag | string | `""` |  |
@@ -76,6 +77,7 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | podSecurityContext | object | `{}` |  |
 | replicaCount | int | `1` |  |
 | resources | object | `{}` |  |
+| secretName | string | `""` |  |
 | securityContext | object | `{}` |  |
 | service.port | int | `80` |  |
 | service.type | string | `"ClusterIP"` |  |
