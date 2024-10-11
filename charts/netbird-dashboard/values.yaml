@@ -174,3 +174,16 @@ tolerations: []
 
 ## @param affinity
 affinity: {}
+
+## @param management.env
+##
+env: {}
+
+## @param management.envRaw
+##
+envRaw: {}
+
+secretName: ""
+
+global:
+  namespace: ""
