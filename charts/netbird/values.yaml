@@ -41,14 +41,14 @@ management:
 
   ## @param management.envRaw
   ##
-  envRaw: {}
+  envRaw: []
     #- name: NETBIRD_STORE_ENGINE_POSTGRES_DSN
     #  valueFrom:
     #    secretKeyRef:
     #      name: netbird-management
     #      key: postgresDSN
 
-  envFromSecret: {}
+  envFromSecret: []
     #- name: CUSTOM_VAR_1
     #  key: key1
     #- name: CUSTOM_VAR_2
@@ -577,7 +577,9 @@ relay:
   ##
   affinity: {}
 
-  envRaw:
+  env: {}
+
+  envRaw: []
     #- name: NB_AUTH_SECRET
     #  valueFrom:
     #    secretKeyRef:
@@ -590,3 +592,10 @@ relay:
     #- name: NB_EXPOSED_ADDRESS
     #  value: rels://netbird.example.com:443/relay
 
+  envFromSecret: []
+    #- name: CUSTOM_VAR_1
+    #  key: key1
+    #- name: CUSTOM_VAR_2
+    #  key: key2
+    #- name: ANOTHER_VAR
+    #  key: key3

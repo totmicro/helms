@@ -181,7 +181,13 @@ env: {}
 
 ## @param management.envRaw
 ##
-envRaw: {}
+envRaw: []
+
+## @param management.envFromSecret
+##
+envFromSecret: []
+  #- name: CUSTOM_VAR_1
+  #  key: key1
 
 secretName: ""
 
