@@ -2,16 +2,6 @@ apiVersion: v1
 entries:
   netbird:
   - apiVersion: v2
-    appVersion: 0.30.0
-    created: "2024-10-07T21:08:12.552074506Z"
-    description: NetBird VPN management platform
-    digest: c3f187568349278b058bcfab77870499f77eababe5b583c968852d998baa5c17
-    name: netbird
-    type: application
-    urls:
-    - https://github.com/totmicro/helms/releases/download/netbird-1.1.0/netbird-1.1.0.tgz
-    version: 1.1.0
-  - apiVersion: v2
     appVersion: 0.30.1
     created: "2024-10-11T21:08:12.552074506Z"
     description: NetBird VPN management platform
@@ -21,7 +11,27 @@ entries:
     urls:
     - https://github.com/totmicro/helms/releases/download/netbird-1.2.0/netbird-1.2.0.tgz
     version: 1.2.0
+  - apiVersion: v2
+    appVersion: 0.30.0
+    created: "2024-10-07T21:08:12.552074506Z"
+    description: NetBird VPN management platform
+    digest: c3f187568349278b058bcfab77870499f77eababe5b583c968852d998baa5c17
+    name: netbird
+    type: application
+    urls:
+    - https://github.com/totmicro/helms/releases/download/netbird-1.1.0/netbird-1.1.0.tgz
+    version: 1.1.0
   netbird-dashboard:
+  - apiVersion: v2
+    appVersion: 2.6.1
+    created: "2024-10-11T00:25:27.511628935Z"
+    description: UI for the NetBird VPN management platform
+    digest: a705b79784b394cd6d8b9912140f05e328a89c354ccea366cce8b23e0eb3d99e
+    name: netbird-dashboard
+    type: application
+    urls:
+    - https://github.com/totmicro/helms/releases/download/netbird-dashboard-1.2.0/netbird-dashboard-1.2.0.tgz
+    version: 1.2.0
   - apiVersion: v2
     appVersion: 2.6.0
     created: "2024-10-07T21:08:12.766831389Z"
@@ -32,4 +42,4 @@ entries:
     urls:
     - https://github.com/totmicro/helms/releases/download/netbird-dashboard-1.1.0/netbird-dashboard-1.1.0.tgz
     version: 1.1.0
-generated: "2024-10-07T21:08:12.766842139Z"
+generated: "2024-10-11T00:25:27.511644233Z"
