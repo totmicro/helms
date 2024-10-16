@@ -73,4 +73,3 @@ You can find a working example [here](./values-example-authentik.yaml)
 ## Contributing
 
 We welcome contributions to improve this chart! Please submit a pull request to the GitHub repository with any changes or suggestions.
-

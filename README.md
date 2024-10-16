@@ -22,7 +22,7 @@ To use these Helm charts, you will first need to add this repository to Helm.
 Run the following command to add this Helm repository:
 
 ```bash
-helm repo add netbird-helm https://totmicro.github.io/helms
+helm repo add totmicro https://totmicro.github.io/helms
 ```
 
 ### Installing Charts
@@ -32,13 +32,13 @@ Once the repository is added, you can install any of the charts as follows:
 1. **NetBird Chart**:
 
 ```bash
-helm install netbird netbird-helm/netbird
+helm install netbird totmicro/netbird
 ```
 
 2. **NetBird Dashboard Chart**:
 
 ```bash
-helm install netbird-dashboard netbird-helm/netbird-dashboard
+helm install netbird-dashboard totmicro/netbird-dashboard
 ```
 
 ### Updating Charts
