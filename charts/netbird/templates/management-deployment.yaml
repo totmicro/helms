@@ -4,7 +4,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "netbird.fullname" . }}-management
-  {{- with .Values.deploymentAnnotations }}
+  {{- with .Values.management.deploymentAnnotations }}
   namespace: {{ include "netbird.namespace" . }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -12,9 +12,7 @@ metadata:
   labels:
     {{- include "netbird.management.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.management.autoscaling.enabled }}
   replicas: {{ .Values.management.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
       {{- include "netbird.management.selectorLabels" . | nindent 6 }}

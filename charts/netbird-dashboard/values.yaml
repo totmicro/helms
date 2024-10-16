@@ -150,22 +150,6 @@ resources:
   #   cpu: 100m
   #   memory: 128Mi
 
-autoscaling:
-  ## @param autoscaling.enabled
-  enabled: false
-
-  ## @param autoscaling.minReplicas
-  minReplicas: 1
-
-  ## @param autoscaling.maxReplicas
-  maxReplicas: 100
-
-  ## @param autoscaling.targetCPUUtilizationPercentage
-  targetCPUUtilizationPercentage: 80
-
-  ## @param autoscaling.targetCPUUtilizationPercentage
-  # targetMemoryUtilizationPercentage: 80
-
 ## @param nodeSelector
 nodeSelector: {}
 

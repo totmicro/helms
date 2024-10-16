@@ -209,24 +209,6 @@ management:
     #   cpu: 100m
     #   memory: 128Mi
 
-  autoscaling:
-    ## @param management.autoscaling.enabled
-    ##
-    enabled: false
-
-    ## @param management.autoscaling.minReplicas
-    ##
-    minReplicas: 1
-
-    ## @param management.autoscaling.maxReplicas
-    ##
-    maxReplicas: 1
-
-    ## @param management.autoscaling.targetCPUUtilizationPercentage
-    ##
-    targetCPUUtilizationPercentage: 80
-    # targetMemoryUtilizationPercentage: 80
-
   ## @param management.nodeSelector
   ##
   nodeSelector: {}
@@ -385,24 +367,6 @@ signal:
     #   cpu: 100m
     #   memory: 128Mi
 
-  autoscaling:
-    ## @param signal.autoscaling.enabled
-    ##
-    enabled: false
-
-    ## @param signal.autoscaling.minReplicas
-    ##
-    minReplicas: 1
-
-    ## @param signal.autoscaling.maxReplicas
-    ##
-    maxReplicas: 1
-
-    ## @param signal.autoscaling.targetCPUUtilizationPercentage
-    ##
-    targetCPUUtilizationPercentage: 80
-    # targetMemoryUtilizationPercentage: 80
-
   ## @param signal.nodeSelector
   ##
   nodeSelector: {}
@@ -547,23 +511,6 @@ relay:
     #   cpu: 100m
     #   memory: 128Mi
 
-  autoscaling:
-    ## @param relay.autoscaling.enabled
-    ##
-    enabled: false
-
-    ## @param relay.autoscaling.minReplicas
-    ##
-    minReplicas: 1
-
-    ## @param relay.autoscaling.maxReplicas
-    ##
-    maxReplicas: 1
-
-    ## @param relay.autoscaling.targetCPUUtilizationPercentage
-    ##
-    targetCPUUtilizationPercentage: 80
-    # targetMemoryUtilizationPercentage: 80
 
   ## @param relay.nodeSelector
   ##

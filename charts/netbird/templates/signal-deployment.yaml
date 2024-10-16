@@ -6,9 +6,7 @@ metadata:
   labels:
     {{- include "netbird.signal.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.signal.autoscaling.enabled }}
   replicas: {{ .Values.signal.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
       {{- include "netbird.signal.selectorLabels" . | nindent 6 }}
@@ -27,11 +25,11 @@ spec:
       {{- end }}
       serviceAccountName: {{ include "netbird.signal.serviceAccountName" . }}
       securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+        {{- toYaml .Values.signal.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}-signal
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+            {{- toYaml .Values.signal.securityContext | nindent 12 }}
           image: "{{ .Values.signal.image.repository }}:{{ .Values.signal.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.signal.image.pullPolicy }}
           args: ["--port", "{{ .Values.signal.service.port }}", "--log-level", "{{ .Values.signal.logLevel }}", "--log-file", "console"]

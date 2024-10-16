@@ -8,9 +8,7 @@ metadata:
   labels:
     {{- include "netbird-dashboard.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
       {{- include "netbird-dashboard.selectorLabels" . | nindent 6 }}

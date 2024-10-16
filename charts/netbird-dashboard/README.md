@@ -1,6 +1,6 @@
 # netbird-dashboard
 
-![Version: 1.1.0](https://img.shields.io/badge/Version-1.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.6.0](https://img.shields.io/badge/AppVersion-2.6.0-informational?style=flat-square)
+![Version: 1.3.0](https://img.shields.io/badge/Version-1.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.6.1](https://img.shields.io/badge/AppVersion-2.6.1-informational?style=flat-square)
 
 UI for the NetBird VPN management platform
 # NetBird Dashboard Helm Chart
@@ -51,10 +51,6 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | auth.clientID | string | `"netbird-dashboard"` |  |
 | auth.supportedScopes | string | `"openid profile email offline_access api"` |  |
 | auth.userIDClaim | string | `"sub"` |  |
-| autoscaling.enabled | bool | `false` |  |
-| autoscaling.maxReplicas | int | `100` |  |
-| autoscaling.minReplicas | int | `1` |  |
-| autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
 | fullnameOverride | string | `""` |  |
 | global.namespace | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
@@ -88,7 +84,7 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 
 For more configuration options, refer to the `values.yaml` file.
 
-You can find a working example [here](./values-example.yaml)
+You can find a working example [here](./values-example-authentik.yaml)
 
 ## Contributing
 

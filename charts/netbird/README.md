@@ -1,6 +1,6 @@
 # netbird
 
-![Version: 1.1.0](https://img.shields.io/badge/Version-1.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.30.0](https://img.shields.io/badge/AppVersion-0.30.0-informational?style=flat-square)
+![Version: 1.3.0](https://img.shields.io/badge/Version-1.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.30.2](https://img.shields.io/badge/AppVersion-0.30.2-informational?style=flat-square)
 
 # NetBird Helm Chart
 
@@ -50,7 +50,6 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | `management.image.pullPolicy`      | Management image pull policy                                                                | `IfNotPresent`                         |
 | `management.service.port`          | Port for the management service                                                             | `80`                                   |
 | `management.persistentVolume.size` | Persistent volume size for management                                                       | `100Mi`                                |
-| `management.autoscaling.enabled`   | Enable autoscaling for the management component                                              | `false`                                |
 | `signal.replicaCount`              | Number of signal pod replicas                                                               | `1`                                    |
 | `signal.image.repository`          | Signal image repository                                                                     | `netbirdio/signal`                     |
 | `signal.image.tag`                 | Signal image tag                                                                            | Chart app version                      |
@@ -69,7 +68,7 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 
 For more configuration options, refer to the `values.yaml` file.
 
-You can find a working example [here](./values-example.yaml)
+You can find a working example [here](./values-example-authentik.yaml)
 
 ## Contributing
 

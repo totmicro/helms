@@ -1,0 +1,260 @@
+# In this example, we are using secrets stored in the same namespace as the Netbird deployment.
+# It is based for nginx ingress, but it can be modified to fit your needs
+# It uses auth0 as the IdP manager and an external PostgreSQL as the store engine.
+# The secrets are created by the user and are not part of the Netbird chart.
+# In the configmap you can refer to env variables by using {{ .envVarName }}. (Requires netbid v0.30.1+)
+fullnameOverride: netbird
+management:
+  configmap: |-
+    {
+        "Stuns": [
+            {
+                "Proto": "udp",
+                "URI": "{{ .STUN_SERVER }}",
+                "Username": "",
+                "Password": null
+            }
+        ],
+        "Relay": {
+            "Addresses": [
+                "rels://netbird.example.com:443/relay"
+            ],
+            "CredentialsTTL": "24h",
+            "Secret": "{{ .RELAY_PASSWORD }}"
+        },
+        "TURNConfig": {
+            "Turns": [
+                {
+                    "Proto": "udp",
+                    "URI": "{{ .TURN_SERVER }}",
+                    "Username": "{{ .TURN_SERVER_USER }}",
+                    "Password": "{{ .TURN_SERVER_PASSWORD }}"
+                }
+            ],
+            "CredentialsTTL": "12h",
+            "Secret": "secret",
+            "TimeBasedCredentials": false
+        },
+        "Signal": {
+            "Proto": "https",
+            "URI": "netbird.example.com:443",
+            "Username": "",
+            "Password": null
+        },
+        "ReverseProxy": {
+            "TrustedHTTPProxies": [],
+            "TrustedHTTPProxiesCount": 0,
+            "TrustedPeers": [
+                "0.0.0.0/0"
+            ]
+        },
+        "Datadir": "/var/lib/netbird/",
+        "DataStoreEncryptionKey": "{{ .DATASTORE_ENCRYPTION_KEY }}",
+        "StoreConfig": {
+            "Engine": "sqlite"
+        },
+        "HttpConfig": {
+            "Address": "0.0.0.0:33073",
+            "AuthIssuer": "https://example.eu.auth0.com/",
+            "AuthAudience": "netbird-banking",
+            "AuthKeysLocation": "https://example.eu.auth0.com/.well-known/jwks.json",
+            "AuthUserIDClaim": "",
+            "CertFile": "",
+            "CertKey": "",
+            "IdpSignKeyRefreshEnabled": false,
+            "OIDCConfigEndpoint": "https://example.eu.auth0.com/.well-known/openid-configuration"
+        },
+        "IdpManagerConfig": {
+            "ManagerType": "auth0",
+            "ClientConfig": {
+                "Issuer": "https://example.eu.auth0.com/",
+                "TokenEndpoint": "https://example.eu.auth0.com/oauth/token",
+                "ClientID": "{{ .MANAGEMENT_CLIENT_ID }}",
+                "ClientSecret": "{{ .MANAGEMENT_CLIENT_SECRET }}",
+                "GrantType": "client_credentials"
+            },
+            "ExtraConfig": {
+                "Audience": "https://example.eu.auth0.com/api/v2/"
+            },
+            "Auth0ClientCredentials": null,
+            "AzureClientCredentials": null,
+            "KeycloakClientCredentials": null,
+            "ZitadelClientCredentials": null
+        },
+        "DeviceAuthorizationFlow": {
+            "Provider": "hosted",
+            "ProviderConfig": {
+                "Audience": "netbird-banking",
+                "AuthorizationEndpoint": "",
+                "Domain": "",
+                "ClientID": "{{ .INTERACTIVE_CLIENT_ID }}",
+                "ClientSecret": "",
+                "TokenEndpoint": "https://example.eu.auth0.com/oauth/token",
+                "DeviceAuthEndpoint": "https://example.eu.auth0.com/oauth/device/code",
+                "Scope": "openid",
+                "UseIDToken": false,
+                "RedirectURLs": null
+            }
+        },
+        "PKCEAuthorizationFlow": {
+            "ProviderConfig": {
+                "Audience": "netbird-banking",
+                "ClientID": "{{ .DASHBOARD_CLIENT_ID }}",
+                "ClientSecret": "",
+                "Domain": "",
+                "AuthorizationEndpoint": "https://example.eu.auth0.com/authorize",
+                "TokenEndpoint": "https://example.eu.auth0.com/oauth/token",
+                "Scope": "openid groups profile email offline_access api email_verified groups",
+                "RedirectURLs": [
+                    "http://localhost:53000"
+                ],
+                "UseIDToken": false
+            }
+        }
+    }
+  secretName: netbird-management
+  envFromSecret:
+    - name: STUN_SERVER
+      key: stunServer
+    - name: TURN_SERVER
+      key: turnServer
+    - name: TURN_SERVER_USER
+      key: turnServerUser
+    - name: TURN_SERVER_PASSWORD
+      key: turnServerPassword
+    - name: RELAY_PASSWORD
+      key: relayPassword
+    - name: MANAGEMENT_CLIENT_ID
+      key: managementClientID
+    - name: MANAGEMENT_CLIENT_SECRET
+      key: managementClientSecret
+    - name: INTERACTIVE_CLIENT_ID
+      key: interactiveClientID
+    - name: DASHBOARD_CLIENT_ID
+      key: dashboardClientID
+    - name: DATASTORE_ENCRYPTION_KEY
+      key: datastoreEncryptionKey
+
+  podCommand:
+    args:
+     - --port=80
+     - --log-file=console
+     - --log-level=error
+     - --disable-anonymous-metrics=false
+     - --dns-domain=netbird.selfhosted"
+
+  image:
+    tag: 0.30.1
+
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    hosts:
+      - host: netbird.example.com
+        paths:
+          - path: /api
+            pathType: ImplementationSpecific
+    tls:
+      - secretName: netbird-api-tls
+        hosts:
+          - netbird.example.com
+  ingressGrpc:
+    enabled: true
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/backend-protocol: GRPC
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/server-snippet: |
+        grpc_connect_timeout 3600s;
+        grpc_read_timeout 3600s;
+        grpc_send_timeout 3600s;
+    hosts:
+      - host: netbird.example.com
+        paths:
+          - path: /management.ManagementService
+            pathType: ImplementationSpecific
+    tls:
+      - secretName: netbird-grpc-tls
+        hosts:
+          - netbird.example.com
+  persistentVolume:
+    enabled: true
+
+signal:
+  image:
+    tag: 0.30.1
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/backend-protocol: GRPC
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/server-snippet: |
+        grpc_connect_timeout 3600s;
+        grpc_read_timeout 3600s;
+        grpc_send_timeout 3600s;
+    hosts:
+      - host: netbird.example.com
+        paths:
+          - path: /signalexchange.SignalExchange
+            pathType: ImplementationSpecific
+    tls:
+      - secretName: netbird-signal-tls
+        hosts:
+          - netbird.example.com
+relay:
+  resources:
+    requests:
+      cpu: 300m
+      memory: 128Mi
+    limits:
+      cpu: 1000m
+      memory: 256Mi
+  image:
+    tag: 0.30.1
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    hosts:
+      - host: netbird.example.com
+        paths:
+          - path: /relay
+            pathType: ImplementationSpecific
+    tls:
+      - secretName: netbird-relay-tls
+        hosts:
+          - netbird.example.com
+  secretName: netbird-management
+  envFromSecret:
+    - name: NB_AUTH_SECRET
+      key: relayPassword
+  env:
+    NB_LOG_LEVEL: info
+    NB_LISTEN_ADDRESS: ":33080"
+    NB_EXPOSED_ADDRESS: rels://netbird.example.com:443/relay
+
+### The k8s secret should look like this:
+
+#apiVersion: v1
+#kind: Secret
+#metadata:
+#  name: netbird
+#type: Opaque
+#data:
+#  managementClientID: xxxxxx
+#  managementClientSecret: xxxxxx
+#  interactiveClientID: xxxxxx
+#  dashboardClientID: xxxxxx
+#  postgresDSN: xxxxxx
+#  relayPassword: xxxxxx
+#  stunServer: xxxxxx
+#  turnServer: xxxxxx
+#  turnServerPassword: xxxxxx
+#  turnServerUser: xxxxxx
+#  datastoreEncryptionKey: xxxxxxx #(Created with openssl rand -base64 32)

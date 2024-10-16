@@ -8,9 +8,7 @@ metadata:
   labels:
     {{- include "netbird.relay.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.relay.autoscaling.enabled }}
   replicas: {{ .Values.relay.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
       {{- include "netbird.relay.selectorLabels" . | nindent 6 }}
@@ -29,11 +27,11 @@ spec:
       {{- end }}
       serviceAccountName: {{ include "netbird.relay.serviceAccountName" . }}
       securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+        {{- toYaml .Values.relay.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}-relay
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+            {{- toYaml .Values.relay.securityContext | nindent 12 }}
           image: "{{ .Values.relay.image.repository }}:{{ .Values.relay.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.relay.image.pullPolicy }}
           ports:
