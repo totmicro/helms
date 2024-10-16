@@ -2,7 +2,7 @@
 # It is based for nginx ingress, but it can be modified to fit your needs
 # It uses auth0 as the IdP manager and an external PostgreSQL as the store engine.
 # The secrets are created by the user and are not part of the Netbird chart.
-# In the configmap you can refer to env variables by using {{ .envVarName }}. (Requires netbid v0.30.1+)
+# In the configmap you can refer to env variables by using {{ .envVarName }}. (Requires netbid v0.30.2+)
 fullnameOverride: netbird
 management:
   configmap: |-
@@ -144,7 +144,7 @@ management:
      - --dns-domain=netbird.selfhosted"
 
   image:
-    tag: 0.30.1
+    tag: 0.30.2
 
   ingress:
     enabled: true
@@ -185,7 +185,7 @@ management:
 
 signal:
   image:
-    tag: 0.30.1
+    tag: 0.30.2
   ingress:
     enabled: true
     className: nginx
@@ -215,7 +215,7 @@ relay:
       cpu: 1000m
       memory: 256Mi
   image:
-    tag: 0.30.1
+    tag: 0.30.2
   ingress:
     enabled: true
     className: nginx
