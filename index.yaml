@@ -3,6 +3,17 @@ entries:
   netbird:
   - apiVersion: v2
     appVersion: 0.30.2
+    created: "2024-10-17T18:06:00.255967777Z"
+    description: NetBird VPN management platform
+    digest: 1f5d06e676f718efc691cf57c33654e2f427170574f36ba0cdf3ba705c71f8e4
+    icon: https://images.crunchbase.com/image/upload/c_pad,h_256,w_256,f_auto,q_auto:eco,dpr_1/kuu5tm1wt09ztp6ctlag
+    name: netbird
+    type: application
+    urls:
+    - https://github.com/totmicro/helms/releases/download/netbird-1.4.0/netbird-1.4.0.tgz
+    version: 1.4.0
+  - apiVersion: v2
+    appVersion: 0.30.2
     created: "2024-10-16T21:57:29.61979543Z"
     description: NetBird VPN management platform
     digest: dea4677df3568e59dcde786e04c3693623f51550816dc4bd2fd51dccd23015cb
@@ -35,6 +46,17 @@ entries:
   netbird-dashboard:
   - apiVersion: v2
     appVersion: 2.6.1
+    created: "2024-10-17T18:06:00.350987802Z"
+    description: UI for the NetBird VPN management platform
+    digest: 496fada66088395c8a8121fdc472555333362edc33ee382e40c750a0b70e4a46
+    icon: https://images.crunchbase.com/image/upload/c_pad,h_256,w_256,f_auto,q_auto:eco,dpr_1/kuu5tm1wt09ztp6ctlag
+    name: netbird-dashboard
+    type: application
+    urls:
+    - https://github.com/totmicro/helms/releases/download/netbird-dashboard-1.4.0/netbird-dashboard-1.4.0.tgz
+    version: 1.4.0
+  - apiVersion: v2
+    appVersion: 2.6.1
     created: "2024-10-16T21:57:29.709522594Z"
     description: UI for the NetBird VPN management platform
     digest: 06750ddad2981392e58af22dd33434f4894ad71ec850df2843d8b86d2a41bfdf
@@ -64,4 +86,4 @@ entries:
     urls:
     - https://github.com/totmicro/helms/releases/download/netbird-dashboard-1.1.0/netbird-dashboard-1.1.0.tgz
     version: 1.1.0
-generated: "2024-10-16T21:57:29.70954743Z"
+generated: "2024-10-17T18:06:00.351017818Z"
