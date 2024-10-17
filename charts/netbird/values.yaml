@@ -121,6 +121,11 @@ management:
     ##
     port: 80
 
+    ## @param management.service.name Name for the management service.
+    ##
+    name: http
+
+
   ingress:
     ## @param management.ingress.enabled Enable or disable ingress for the management component.
     ##
@@ -460,7 +465,7 @@ relay:
     ##
     port: 33080
 
-    ## @param relay.service.name Ingress settings for the relay component.
+    ## @param relay.service.name Name for the relay service.
     ##
     name: http
 
@@ -615,6 +620,9 @@ dashboard:
 
     ## @param service.port
     port: 80
+
+    ## @param service.name
+    name: http
 
   ingress:
     ## @param ingress.enabled

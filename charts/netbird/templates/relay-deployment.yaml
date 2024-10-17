@@ -41,9 +41,13 @@ spec:
               containerPort: {{ .Values.relay.service.port }}
               protocol: TCP
           livenessProbe:
+            initialDelaySeconds: 5
+            periodSeconds: 5
             tcpSocket:
               port: {{ .Values.relay.service.name }}
           readinessProbe:
+            initialDelaySeconds: 5
+            periodSeconds: 5
             tcpSocket:
               port: {{ .Values.relay.service.name }}
           resources:

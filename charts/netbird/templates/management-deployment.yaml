@@ -69,9 +69,19 @@ spec:
           lifecycle: {{ toYaml . | nindent 12 }}
           {{- end }}
           ports:
-            - name: http
+            - name: {{ .Values.management.service.name }}
               containerPort: {{ .Values.management.service.port }}
               protocol: TCP
+          livenessProbe:
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            tcpSocket:
+              port: {{ .Values.management.service.name }}
+          readinessProbe:
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            tcpSocket:
+              port: {{ .Values.management.service.name }}
           resources:
             {{- toYaml .Values.management.resources | nindent 12 }}
           volumeMounts:

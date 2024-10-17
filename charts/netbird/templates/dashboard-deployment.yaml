@@ -58,17 +58,20 @@ spec:
           lifecycle: {{ toYaml . | nindent 12 }}
           {{- end }}
           ports:
-            - name: http
+            - name: {{ .Values.dashboard.service.name }}
               containerPort: {{ .Values.dashboard.service.port }}
               protocol: TCP
           livenessProbe:
+            periodSeconds: 5
             httpGet:
               path: /
-              port: http
+              port: {{ .Values.dashboard.service.name }}
           readinessProbe:
+            initialDelaySeconds: 5
+            periodSeconds: 5
             httpGet:
               path: /
-              port: http
+              port: {{ .Values.dashboard.service.name }}
           resources:
             {{- toYaml .Values.dashboard.resources | nindent 12 }}
       {{- with .Values.dashboard.nodeSelector }}

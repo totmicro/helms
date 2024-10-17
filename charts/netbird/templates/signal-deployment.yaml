@@ -46,9 +46,13 @@ spec:
               containerPort: {{ .Values.signal.service.port }}
               protocol: TCP
           livenessProbe:
+            initialDelaySeconds: 5
+            periodSeconds: 5
             tcpSocket:
               port: {{ .Values.signal.service.name }}
           readinessProbe:
+            initialDelaySeconds: 5
+            periodSeconds: 5
             tcpSocket:
               port: {{ .Values.signal.service.name }}
           resources:
