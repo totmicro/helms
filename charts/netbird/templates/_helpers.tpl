@@ -67,6 +67,15 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
 {{/*
+Common dashboard labels
+*/}}
+{{- define "netbird.dashboard.labels" -}}
+helm.sh/chart: {{ include "netbird.chart" . }}
+{{ include "netbird.dashboard.selectorLabels" . }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+{{/*
 Management selector labels
 */}}
 {{- define "netbird.management.selectorLabels" -}}
@@ -87,6 +96,14 @@ Relay selector labels
 */}}
 {{- define "netbird.relay.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "netbird.name" . }}-relay
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{/*
+Dashboard selector labels
+*/}}
+{{- define "netbird.dashboard.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "netbird.name" . }}-dashboard
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
@@ -124,6 +141,17 @@ Create the name of the relay service account to use
 {{- end }}
 
 {{/*
+Create the name of the dashboard service account to use
+*/}}
+{{- define "netbird.dashboard.serviceAccountName" -}}
+{{- if .Values.dashboard.serviceAccount.create }}
+{{- default (printf "%s-dashboard" (include "netbird.fullname" .)) .Values.dashboard.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.dashboard.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
+{{/*
 Allow the release namespace to be overridden
 */}}
 {{- define "netbird.namespace" -}}
@@ -131,15 +159,35 @@ Allow the release namespace to be overridden
 {{- end -}}
 
 {{/*
-Allow the secrets name for the management service rbac permissions to be overridden
+Allow the secrets name for the management service to be overridden
 */}}
 {{- define "netbird.management.secret" -}}
 {{- default (printf "%s" (include "netbird.fullname" .)) .Values.management.secretName -}}
 {{- end -}}
 
 {{/*
-Allow the secrets name for the relay service rbac permissions to be overridden
+Allow the secrets name for the relay service to be overridden
 */}}
 {{- define "netbird.relay.secret" -}}
 {{- default (printf "%s" (include "netbird.fullname" .)) .Values.relay.secretName -}}
 {{- end -}}
+
+{{/*
+Allow the secrets name for the dashboard service to be overridden
+*/}}
+{{- define "netbird.dashboard.secret" -}}
+{{- default (printf "%s" (include "netbird.fullname" .)) .Values.dashboard.secretName -}}
+{{- end -}}
+
+{{/*
+Overrides container entrypoint based on a flag
+*/}}
+{{- define "netbird.dashboard.disableIPv6" -}}
+{{- if .Values.dashboard.disableIPv6 }}
+command: ["/bin/sh", "-c"]
+args:
+- >
+  sed -i 's/listen \[\:\:\]\:80 default_server\;//g' /etc/nginx/http.d/default.conf &&
+  /usr/bin/supervisord -c /etc/supervisord.conf
+{{- end }}
+{{- end }}

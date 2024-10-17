@@ -1,3 +1,4 @@
+{{- if .Values.management.enabled -}}
 {{- $secretName := printf "%s" (include "netbird.management.secret" .) -}}
 
 apiVersion: apps/v1
@@ -39,10 +40,6 @@ spec:
             {{- toYaml .Values.management.securityContext | nindent 12 }}
           image: "{{ .Values.management.image.repository }}:{{ .Values.management.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.management.image.pullPolicy }}
-          {{- if hasKey .Values.management.podCommand "command" }}
-          command:
-          - {{ .Values.management.podCommand.command }}
-          {{- end}}
           {{- if hasKey .Values.management.podCommand "args" }}
           args:
             {{- range .Values.management.podCommand.args }}
@@ -105,3 +102,4 @@ spec:
           {{- else }}
           emptyDir: {}
           {{- end }}
+{{- end -}}
