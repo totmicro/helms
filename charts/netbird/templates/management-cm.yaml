@@ -1,3 +1,4 @@
+{{- if .Values.management.enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -7,4 +8,5 @@ metadata:
     {{- include "netbird.management.labels" . | nindent 4 }}
 data:
   management.json: |-
-    {{- .Values.management.configmap |nindent 4 }}
+    {{- .Values.management.configmap | nindent 4 }}
+{{- end -}}

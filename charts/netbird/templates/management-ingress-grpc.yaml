@@ -1,3 +1,4 @@
+{{- if .Values.management.enabled -}}
 {{- if .Values.management.ingressGrpc.enabled -}}
 {{- $fullName := printf "%s-management-grpc" (include "netbird.fullname" .) -}}
 {{- $svcName := printf "%s-management" (include "netbird.fullname" .) -}}
@@ -40,4 +41,5 @@ spec:
                   number: {{ $svcPort }}
           {{- end }}
     {{- end }}
+{{- end }}
 {{- end }}

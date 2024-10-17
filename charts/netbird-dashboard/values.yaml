@@ -177,3 +177,5 @@ secretName: ""
 
 global:
   namespace: ""
+
+lifecycle: {}

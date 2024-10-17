@@ -1,6 +1,6 @@
 # In this example, we are using secrets stored in the same namespace as the Netbird deployment.
 # It is based for nginx ingress, but it can be modified to fit your needs
-# It uses okta as the IdP manager and an external PostgreSQL as the store engine.
+# It uses okta as the IdP manager and an internal sqlite as the store engine.
 # The secrets are created by the user and are not part of the Netbird chart.
 # In the configmap you can refer to env variables by using {{ .envVarName }}. (Requires netbid v0.30.1+)
 
@@ -236,6 +236,48 @@ relay:
     NB_LOG_LEVEL: info
     NB_LISTEN_ADDRESS: ":33080"
     NB_EXPOSED_ADDRESS: rels://netbird.example:443/relay
+
+dashboard:
+  enabled: true
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    hosts:
+      - host: netbird-dashboard.example.com
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - secretName: netbird-dashboard-tls
+        hosts:
+          - netbird-dashboard.example.com
+  image:
+    tag: v2.6.1
+  env:
+    # Endpoints
+    NETBIRD_MGMT_API_ENDPOINT: https://netbird.example.com:443
+    NETBIRD_MGMT_GRPC_API_ENDPOINT: https://netbird.example.com:443
+    # OIDC
+    AUTH_CLIENT_SECRET:
+    AUTH_AUTHORITY: https://example.okta.com
+    USE_AUTH0: "false"
+    AUTH_SUPPORTED_SCOPES: openid profile email groups
+    AUTH_REDIRECT_URI: /auth
+    AUTH_SILENT_REDIRECT_URI: /silent-auth
+    NETBIRD_TOKEN_SOURCE: idToken
+    # SSL
+    NGINX_SSL_PORT:
+    #Letsencrypt
+    LETSENCRYPT_DOMAIN:
+    LETSENCRYPT_EMAIL:
+  secretName: netbird-dashboard
+  envFromSecret:
+    - name: AUTH_CLIENT_ID
+      key: managementClientID
+    - name: AUTH_AUDIENCE
+      key: managementClientID
 
 ### The k8s secret should look like this:
 

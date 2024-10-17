@@ -1,3 +1,5 @@
+{{- if .Values.signal.enabled -}}
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -32,7 +34,13 @@ spec:
             {{- toYaml .Values.signal.securityContext | nindent 12 }}
           image: "{{ .Values.signal.image.repository }}:{{ .Values.signal.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.signal.image.pullPolicy }}
-          args: ["--port", "{{ .Values.signal.service.port }}", "--log-level", "{{ .Values.signal.logLevel }}", "--log-file", "console"]
+          args:
+            - "--port"
+            - "{{ .Values.signal.service.port }}"
+            - "--log-level"
+            - "{{ .Values.signal.logLevel }}"
+            - "--log-file"
+            - "console"
           ports:
             - name: {{ .Values.signal.service.name }}
               containerPort: {{ .Values.signal.service.port }}
@@ -57,3 +65,5 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+
+{{- end }}

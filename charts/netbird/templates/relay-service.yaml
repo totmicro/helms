@@ -1,3 +1,4 @@
+{{- if .Values.relay.enabled -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -14,3 +15,4 @@ spec:
       name: {{ .Values.relay.service.name }}
   selector:
     {{- include "netbird.relay.selectorLabels" . | nindent 4 }}
+{{- end }}

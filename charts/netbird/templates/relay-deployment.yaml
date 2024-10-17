@@ -1,3 +1,5 @@
+{{- if .Values.relay.enabled -}}
+
 {{- $secretName := printf "%s" (include "netbird.relay.secret" .) -}}
 
 apiVersion: apps/v1
@@ -46,24 +48,24 @@ spec:
               port: {{ .Values.relay.service.name }}
           resources:
             {{- toYaml .Values.relay.resources | nindent 12 }}
-          {{- if or (.Values.relay.env) (.Values.relay.envRaw) (.Values.relay.envFromSecret )}}
+          {{- if or (.Values.relay.env) (.Values.relay.envRaw) (.Values.relay.envFromSecret) }}
           env:
-          {{- range $key, $val := .Values.relay.env }}
-          - name: {{ $key }}
-            value: {{ $val | quote }}
-          {{- end }}
-          {{- if .Values.relay.envRaw }}
-            {{- with .Values.relay.envRaw }}
-              {{- toYaml . | nindent 10 }}
+            {{- range $key, $val := .Values.relay.env }}
+            - name: {{ $key }}
+              value: {{ $val | quote }}
             {{- end }}
-          {{- end }}
-          {{- range $key, $val := .Values.relay.envFromSecret }}
-          - name: {{ .name }}
-            valueFrom:
-              secretKeyRef:
-                name: {{ $secretName }}
-                key: {{ .key }}
-          {{- end }}
+            {{- if .Values.relay.envRaw }}
+              {{- with .Values.relay.envRaw }}
+              {{- toYaml . | nindent 10 }}
+              {{- end }}
+            {{- end }}
+            {{- range .Values.relay.envFromSecret }}
+            - name: {{ .name }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $secretName }}
+                  key: {{ .key }}
+            {{- end }}
           {{- end }}
       {{- with .Values.relay.nodeSelector }}
       nodeSelector:
@@ -77,3 +79,4 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+{{- end }}

@@ -1,3 +1,4 @@
+{{- if .Values.management.enabled -}}
 {{- if .Values.management.ingress.enabled -}}
 {{- $fullName := printf "%s-management" (include "netbird.fullname" .) -}}
 {{- $svcPort := .Values.management.service.port -}}
@@ -39,4 +40,5 @@ spec:
                   number: {{ $svcPort }}
           {{- end }}
     {{- end }}
+{{- end }}
 {{- end }}

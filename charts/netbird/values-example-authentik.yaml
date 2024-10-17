@@ -3,6 +3,7 @@
 # It uses authentik as the IdP manager and an external PostgreSQL as the store engine.
 # The secrets are created by the user and are not part of the Netbird chart.
 # In the configmap you can refer to env variables by using {{ .envVarName }}. (Requires netbid v0.30.1+)
+fullnameOverride: netbird
 management:
   configmap: |-
     {
@@ -226,6 +227,45 @@ relay:
     NB_LISTEN_ADDRESS: ":33080"
     NB_EXPOSED_ADDRESS: rels://netbird.example.com:443/relay
 
+dashboard:
+  enabled: true
+  ingress:
+    enabled: true
+    className: public
+    annotations:
+      cert-manager.io/cluster-issuer: example-issuer
+    hosts:
+      - host: netbird-dashboard.example.com
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - secretName: netbird-dashboard-tls
+        hosts:
+          - netbird-dashboard.example.com
+  image:
+    tag: v2.6.1
+  env:
+    # Endpoints
+    NETBIRD_MGMT_API_ENDPOINT: https://netbird.example.com:443
+    NETBIRD_MGMT_GRPC_API_ENDPOINT: https://netbird.example.com:443
+    # OIDC
+    AUTH_CLIENT_SECRET:
+    AUTH_AUTHORITY: https://idp.example.com/application/o/example-netbird/
+    USE_AUTH0: false
+    AUTH_SUPPORTED_SCOPES: openid profile email offline_access api
+    AUTH_REDIRECT_URI:
+    AUTH_SILENT_REDIRECT_URI:
+    NETBIRD_TOKEN_SOURCE: accessToken
+    NGINX_SSL_PORT:
+    LETSENCRYPT_DOMAIN:
+    LETSENCRYPT_EMAIL:
+  secretName: netbird
+  envFromSecret:
+    - name: AUTH_CLIENT_ID
+      key: idpClientID
+    - name: AUTH_AUDIENCE
+      key: idpClientID
 
 ### The k8s secret should look like this:
 
