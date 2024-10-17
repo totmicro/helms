@@ -28,7 +28,7 @@ management:
 
   lifecycle: {}
 
-  secretname: ""
+  secretName: ""
 
   ## @param management.replicaCount
   ##

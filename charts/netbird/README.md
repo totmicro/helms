@@ -63,7 +63,6 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | `ingress.enabled`                  | Enable ingress for the management, signal, or relay services                                | `false`                                |
 | `ingress.className`                | Ingress class name                                                                          | `""`                                   |
 | `persistentVolume.enabled`         | Enable persistent volume for management                                                     | `true`                                 |
-| `autoscaling.enabled`              | Enable autoscaling for management, signal, or relay components                              | `false`                                |
 | `dnsDomain`                        | DNS domain for the NetBird management service                                               | `netbird.selfhosted`                   |
 
 For more configuration options, refer to the `values.yaml` file.
