@@ -41,6 +41,8 @@ helm install netbird totmicro/netbird
 helm install netbird-dashboard totmicro/netbird-dashboard
 ```
 
+Note: This chart is deprecated since the dashboard is now included in the Netbird chart.
+
 ### Updating Charts
 
 To get the latest version of the charts, run:

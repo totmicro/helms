@@ -1,8 +1,11 @@
 # netbird-dashboard
 
-![Version: 1.3.0](https://img.shields.io/badge/Version-1.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.6.1](https://img.shields.io/badge/AppVersion-2.6.1-informational?style=flat-square)
+![Version: 1.4.0](https://img.shields.io/badge/Version-1.4.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.6.1](https://img.shields.io/badge/AppVersion-2.6.1-informational?style=flat-square)
 
 UI for the NetBird VPN management platform
+
+Note: This chart is deprecated since the dashboard is now included in the Netbird chart.
+
 # NetBird Dashboard Helm Chart
 
 This Helm chart installs and configures the [NetBird-Dashboard](https://github.com/netbirdio/dashboard) services within a Kubernetes cluster. The chart includes the dashboard to manage netbird.
