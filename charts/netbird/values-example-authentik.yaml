@@ -153,7 +153,9 @@ management:
 
   persistentVolume:
     enabled: false
-
+  # This section retrieves keys from the secret specified in the secretName field
+  # and sets them as environment variables in the management pods.
+  # In envFromSecret, you define the environment variable name (name field) and the corresponding key in the secret (key field) from the secretName.
   secretName: netbird
   envFromSecret:
     - name: NETBIRD_STORE_ENGINE_POSTGRES_DSN
@@ -218,6 +220,10 @@ relay:
       - secretName: netbird-relay-tls
         hosts:
           - netbird.example.com
+  # This section retrieves keys from the secret specified in the secretName field
+  # and sets them as environment variables in the relay pods.
+  # In envFromSecret, you define the environment variable name (name field) and the corresponding key in the secret (key field) from the secretName.
+
   secretName: netbird
   envFromSecret:
     - name: NB_AUTH_SECRET
@@ -260,6 +266,9 @@ dashboard:
     NGINX_SSL_PORT:
     LETSENCRYPT_DOMAIN:
     LETSENCRYPT_EMAIL:
+  # This section retrieves keys from the secret specified in the secretName field
+  # and sets them as environment variables in the dashboard pods.
+  # In envFromSecret, you define the environment variable name (name field) and the corresponding key in the secret (key field) from the secretName.
   secretName: netbird
   envFromSecret:
     - name: AUTH_CLIENT_ID
