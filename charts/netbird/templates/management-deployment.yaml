@@ -58,11 +58,11 @@ spec:
             {{- end }}
           {{- end }}
           {{- range $key, $val := .Values.management.envFromSecret }}
-          - name: {{ .name }}
+          - name: {{ $key }}
             valueFrom:
               secretKeyRef:
-                name: {{ $secretName }}
-                key: {{ .key }}
+                name: {{ (split "/" $val)._0 }}
+                key: {{ (split "/" $val)._1 }}
           {{- end }}
           {{- end }}
           {{- with .Values.management.lifecycle }}
@@ -72,16 +72,18 @@ spec:
             - name: {{ .Values.management.service.name }}
               containerPort: {{ .Values.management.service.port }}
               protocol: TCP
+          {{- if .Values.management.livenessProbe }}
+            {{- with .Values.management.livenessProbe }}
           livenessProbe:
-            initialDelaySeconds: 5
-            periodSeconds: 5
-            tcpSocket:
-              port: {{ .Values.management.service.name }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- end }}
+          {{- if .Values.management.readinessProbe }}
+            {{- with .Values.management.readinessProbe }}
           readinessProbe:
-            initialDelaySeconds: 5
-            periodSeconds: 5
-            tcpSocket:
-              port: {{ .Values.management.service.name }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- end }}
           resources:
             {{- toYaml .Values.management.resources | nindent 12 }}
           volumeMounts:

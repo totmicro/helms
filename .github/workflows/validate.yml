@@ -1,0 +1,24 @@
+name: CI Validate Charts Manifests
+on:
+  pull_request:
+
+jobs:
+  helm-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: bmuschko/setup-kubeconform@v1
+      - name: Validate Helm Charts
+        shell: bash
+        run: |
+          set -o pipefail
+          for chart in $(find charts -type f -name 'Chart.yaml' | sed -r 's|/[^/]+$||' | sort | uniq);do helm dep up ${chart};done
+          for d in charts/*/ ; do
+              echo "$d"
+              helm lint --quiet "$d"
+              helm template x "$d" --include-crds > helm_output.yaml
+              echo "Validate K8s 1.30"
+              cat helm_output.yaml | kubeconform -summary -strict -ignore-missing-schemas -kubernetes-version=1.30.0 -cache /tmp
+              echo "Validate K8s 1.31"
+              cat helm_output.yaml | kubeconform -summary -strict -ignore-missing-schemas -kubernetes-version=1.31.0 -cache /tmp
+          done

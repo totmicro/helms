@@ -47,11 +47,11 @@ spec:
             {{- end }}
           {{- end }}
           {{- range $key, $val := .Values.dashboard.envFromSecret }}
-          - name: {{ .name }}
+          - name: {{ $key }}
             valueFrom:
               secretKeyRef:
-                name: {{ $secretName }}
-                key: {{ .key }}
+                name: {{ (split "/" $val)._0 }}
+                key: {{ (split "/" $val)._1 }}
           {{- end }}
           {{- end }}
           {{- with .Values.dashboard.lifecycle }}
@@ -61,17 +61,18 @@ spec:
             - name: {{ .Values.dashboard.service.name }}
               containerPort: {{ .Values.dashboard.service.port }}
               protocol: TCP
+          {{- if .Values.dashboard.livenessProbe }}
+            {{- with .Values.dashboard.livenessProbe }}
           livenessProbe:
-            periodSeconds: 5
-            httpGet:
-              path: /
-              port: {{ .Values.dashboard.service.name }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- end }}
+          {{- if .Values.dashboard.readinessProbe }}
+            {{- with .Values.dashboard.readinessProbe }}
           readinessProbe:
-            initialDelaySeconds: 5
-            periodSeconds: 5
-            httpGet:
-              path: /
-              port: {{ .Values.dashboard.service.name }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- end }}
           resources:
             {{- toYaml .Values.dashboard.resources | nindent 12 }}
       {{- with .Values.dashboard.nodeSelector }}

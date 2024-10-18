@@ -45,16 +45,18 @@ spec:
             - name: {{ .Values.signal.service.name }}
               containerPort: {{ .Values.signal.service.port }}
               protocol: TCP
+          {{- if .Values.signal.livenessProbe }}
+            {{- with .Values.signal.livenessProbe }}
           livenessProbe:
-            initialDelaySeconds: 5
-            periodSeconds: 5
-            tcpSocket:
-              port: {{ .Values.signal.service.name }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- end }}
+          {{- if .Values.signal.readinessProbe }}
+            {{- with .Values.signal.readinessProbe }}
           readinessProbe:
-            initialDelaySeconds: 5
-            periodSeconds: 5
-            tcpSocket:
-              port: {{ .Values.signal.service.name }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- end }}
           resources:
             {{- toYaml .Values.signal.resources | nindent 12 }}
       {{- with .Values.signal.nodeSelector }}

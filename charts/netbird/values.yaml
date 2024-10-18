@@ -1,4 +1,7 @@
 ## @section NetBird Parameters
+
+## @param global.namespace Kubernetes namespace for the NetBird components.
+##
 global:
   namespace: ""
 
@@ -21,18 +24,16 @@ management:
   ##
   podCommand:
     args:
-     - --port=80
-     - --log-file=console
-     - --log-level=info
-     - --disable-anonymous-metrics=false
-     - --single-account-mode-domain=netbird.example.com
-     - --dns-domain=netbird.selfhosted
+      - --port=80
+      - --log-file=console
+      - --log-level=info
+      - --disable-anonymous-metrics=false
+      - --single-account-mode-domain=netbird.example.com
+      - --dns-domain=netbird.selfhosted
 
-  configmap: |-  # Placeholder for ConfigMap data
+  configmap: |- # Placeholder for ConfigMap data
 
-  lifecycle: {}  # Define lifecycle hooks (preStop, postStart) if needed.
-
-  secretName: "netbird"  # Reference to the Kubernetes secret used by the management component.
+  lifecycle: {} # Define lifecycle hooks (preStop, postStart) if needed.
 
   ## @param management.replicaCount Number of management pod replicas.
   ##
@@ -45,19 +46,16 @@ management:
   ## @param management.envRaw Raw environment variables for the management pod.
   ##
   envRaw: []
-    #- name: NETBIRD_STORE_ENGINE_POSTGRES_DSN
-    #  valueFrom:
-    #    secretKeyRef:
-    #      name: netbird-management
-    #      key: postgresDSN
+  #- name: NETBIRD_STORE_ENGINE_POSTGRES_DSN
+  #  valueFrom:
+  #    secretKeyRef:
+  #      name: netbird-management
+  #      key: postgresDSN
 
   ## @param management.envFromSecret Environment variables from secrets.
   ##
-  envFromSecret: []
-    #- name: CUSTOM_VAR_1
-    #  key: key1
-    #- name: CUSTOM_VAR_2
-    #  key: key2
+  envFromSecret: {}
+  #ENV_VAR: secretName/secretKey
 
   image:
     ## @param management.image.repository Docker image repository for the management component.
@@ -100,17 +98,17 @@ management:
   ## @param management.podSecurityContext Security context for the management pod(s).
   ##
   podSecurityContext: {}
-    # fsGroup: 2000
+  # fsGroup: 2000
 
   ## @param management.securityContext Security context for the management container.
   ##
   securityContext: {}
-    # capabilities:
-    #   drop:
-    #   - ALL
-    # readOnlyRootFilesystem: true
-    # runAsNonRoot: true
-    # runAsUser: 1000
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
 
   service:
     ## @param management.service.type Service type for the management component.
@@ -124,7 +122,6 @@ management:
     ## @param management.service.name Name for the management service.
     ##
     name: http
-
 
   ingress:
     ## @param management.ingress.enabled Enable or disable ingress for the management component.
@@ -190,12 +187,12 @@ management:
   ## @param management.resources Resource requests and limits for the management pod.
   ##
   resources: {}
-    # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
 
   ## @param management.nodeSelector Node selector for scheduling the management pod.
   ##
@@ -226,6 +223,26 @@ management:
   ## @param management.dnsDomain DNS domain for the management component.
   ##
   dnsDomain: netbird.selfhosted
+
+  ## @param management.livenessProbe for the management component.
+  ##
+  livenessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 15
+    periodSeconds: 10
+    timeoutSeconds: 3
+    tcpSocket:
+      port: http
+
+  ## @param management.readinessProbe for the management component.
+  ##
+  readinessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 15
+    periodSeconds: 10
+    timeoutSeconds: 3
+    tcpSocket:
+      port: http
 
 ## @section NetBird Signal
 
@@ -280,17 +297,17 @@ signal:
   ## @param signal.podSecurityContext Security context for the signal pod(s).
   ##
   podSecurityContext: {}
-    # fsGroup: 2000
+  # fsGroup: 2000
 
   ## @param signal.securityContext Security context for the signal container.
   ##
   securityContext: {}
-    # capabilities:
-    #   drop:
-    #   - ALL
-    # readOnlyRootFilesystem: true
-    # runAsNonRoot: true
-    # runAsUser: 1000
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
 
   service:
     ## @param signal.service.type Service type for the signal component.
@@ -332,15 +349,14 @@ signal:
 
   ## @
 
-
   ## param signal.resources Resource requests and limits for the signal pod.
   resources: {}
-    # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
 
   ## @param signal.nodeSelector Node selector for scheduling the signal pod.
   ##
@@ -368,6 +384,23 @@ signal:
     ##
     size: 10Mi
 
+  ## @param management.livenessProbe for the signal component.
+  ##
+
+  livenessProbe:
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    tcpSocket:
+      port: grpc
+
+  ## @param dashboard.readinessProbe for the signal component.
+  ##
+  readinessProbe:
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    tcpSocket:
+      port: grpc
+
 ## @section NetBird Relay Parameters
 
 relay:
@@ -393,15 +426,8 @@ relay:
 
   ## @param relay.envFromSecret Environment variables from secrets.
   ##
-  secretName: "netbird"  # Reference to the Kubernetes secret used by the relay component.
-
-  ## @param relay.envFromSecret Environment variables from secrets.
-  ##
-  envFromSecret: []
-    #- name: CUSTOM_VAR_1
-    #  key: key1
-    #- name: CUSTOM_VAR_2
-    #  key: key2
+  envFromSecret: {}
+  #ENV_VAR: secretName/secretKey
 
   image:
     ## @param relay.image.repository Docker image repository for the relay component.
@@ -444,17 +470,17 @@ relay:
   ## @param relay.podSecurityContext Security context for the relay pod(s).
   ##
   podSecurityContext: {}
-    # fsGroup: 2000
+  # fsGroup: 2000
 
   ## @param relay.securityContext Security context for the relay container.
   ##
   securityContext: {}
-    # capabilities:
-    #   drop:
-    #   - ALL
-    # readOnlyRootFilesystem: true
-    # runAsNonRoot: true
-    # runAsUser: 1000
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
 
   service:
     ## @param relay.service.type Service type for the relay component.
@@ -501,12 +527,12 @@ relay:
   ## @param relay.resources Resource requests and limits for the relay pod.
   ##
   resources: {}
-    # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
 
   ## @param relay.nodeSelector Node selector for scheduling the relay pod.
   ##
@@ -520,38 +546,30 @@ relay:
   ##
   affinity: {}
 
+  ## @param management.livenessProbe for the relay component.
+  ##
+  livenessProbe:
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    tcpSocket:
+      port: http
+
+  ## @param dashboard.readinessProbe for the relay component.
+  ##
+  readinessProbe:
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    tcpSocket:
+      port: http
+
 dashboard:
+  ## @param dashboard.enabled Enable or disable the NetBird dashboard component.
+  ##
   enabled: false
 
-  ## @section Authorization
-
-  auth:
-    # yamllint disable-line rule:line-length
-    ## @param auth.authority Authority to use for authentication. Must expose a .well-known/oidc-configuration endpoint.
-    authority: http://keycloak.localtest.me:9000/realms/helm-charts
-
-    ## @param auth.audience Audience of the authentication tokens.
-    audience: "netbird-dashboard"
-
-    ## @param auth.clientID OpenID Connect client ID.
-    clientID: netbird-dashboard
-
-    ## @param auth.supportedScopes Supported OpenID scopes
-    # - Auth0: openid profile email offline_access api email_verified
-    # - Keycloak: openid profile email offline_access api
-    supportedScopes: openid profile email offline_access api
-
-    ## @param auth.userIDClaim
-    userIDClaim: sub
-
-  ## @param netbird.disableIPv6
+  ## @param netbird.disableIPv6 Disable IPv6 for the NetBird dashboard.
+  ##
   disableIPv6: true
-
-  ## @section Common configuration
-
-  ## @descriptionStart
-  ## This section contains parameters, that are common for most Helm charts.
-  ## @descriptionEnd
 
   ## @param replicaCount Number of replicas to deploy
   replicaCount: 1
@@ -569,18 +587,12 @@ dashboard:
   ## @param imagePullSecrets image pull secrets
   imagePullSecrets: []
 
-  ## @param nameOverride String to partially override common.names.fullname
-  nameOverride: ""
-
-  ## @param fullnameOverride String to fully override common.names.fullname
-  fullnameOverride: ""
-
   serviceAccount:
-    ## @param serviceAccount.create Specifies whether a service account should be
+    ## @param dashboard.serviceAccount.create Specifies whether a service account should be
     ## created
     create: true
 
-    ## @param serviceAccount.annotations Annotations to add to the service account
+    ## @param dashboard.serviceAccount.annotations Annotations to add to the service account
     annotations: {}
 
     ## @param serviceAccount.name The name of the service account to use.
@@ -588,7 +600,7 @@ dashboard:
     # template
     name: ""
 
-  ## @param podAnnotations Annotations for pods
+  ## @param dashboard.podAnnotations Annotations for pods
   ## ref:
   ## https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
   podAnnotations: {}
@@ -597,100 +609,111 @@ dashboard:
   ## ref:
   ## https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
   ## @param podSecurityContext
-  podSecurityContext:
-    {}
-    # fsGroup: 2000
+  podSecurityContext: {}
+  # fsGroup: 2000
 
   ## Configure Container Security Context
   ## ref:
   ## https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
-  ## @param securityContext
-  securityContext:
-    {}
-    # capabilities:
-    #   drop:
-    #   - ALL
-    # readOnlyRootFilesystem: true
-    # runAsNonRoot: true
-    # runAsUser: 1000
+  ## @param dashboard.securityContext
+  securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
 
   service:
-    ## @param service.type
+    ## @param dashboard.service.type
     type: ClusterIP
 
-    ## @param service.port
+    ## @param dashboard.service.port
     port: 80
 
-    ## @param service.name
+    ## @param dashboard.service.name
     name: http
 
   ingress:
-    ## @param ingress.enabled
+    ## @param dashboard.ingress.enabled
     enabled: false
 
-    ## @param ingress.className
+    ## @param dashboard.ingress.className
     className: ""
 
-    ## @param ingress.annotations
-    annotations:
-      {}
-      # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
+    ## @param dashboard.ingress.annotations
+    annotations: {}
+    # kubernetes.io/tls-acme: "true"
 
     hosts:
-      ## @param ingress.hosts[0].host
+      ## @param dashboard.ingress.hosts[0].host
       - host: chart-example.local
-        ## @param ingress.hosts[0].host
+        ## @param dashboard.ingress.hosts[0].host
         paths:
-          ## @param ingress.hosts[0].paths[0].path
+          ## @param dashboard.ingress.hosts[0].paths[0].path
           - path: /
-            ## @param ingress.hosts[0].paths[0].pathType
+            ## @param dashboard.ingress.hosts[0].paths[0].pathType
             pathType: ImplementationSpecific
 
-    ## @param ingress.tls
+    ## @param dashboard.ingress.tls
     tls: []
     #  - secretName: chart-example-tls
     #    hosts:
     #      - chart-example.local
 
-  ## @param resources
-  resources:
-    {}
-    # We usually recommend not to specify default resources and to leave this as a
-    # conscious choice for the user. This also increases chances charts run on
-    # environments with little resources, such as Minikube. If you do want to
-    # specify resources, uncomment the following lines, adjust them as necessary,
-    # and remove the curly braces after 'resources:'.
-    # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+  ## @param dashboard.resources
+  resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
 
-  ## @param nodeSelector
+  ## @param dashboard.nodeSelector
   nodeSelector: {}
 
-  ## @param tolerations
+  ## @param dashboard.tolerations
   tolerations: []
 
-  ## @param affinity
+  ## @param dashboard.affinity
   affinity: {}
 
-  ## @param management.env
+  ## @param dashboard.env
   ##
   env: {}
 
-  ## @param management.envRaw
+  ## @param dashboard.envRaw
   ##
   envRaw: []
 
-  ## @param management.envFromSecret
+  ## @param dashboard.envFromSecret
   ##
-  envFromSecret: []
-    #- name: CUSTOM_VAR_1
-    #  key: key1
+  envFromSecret: {}
+  #ENV_VAR: secretName/secretKey
 
-  secretName: ""
+  lifecycle: {} # Define lifecycle hooks (preStop, postStart) if needed.
 
-  lifecycle: {}  # Define lifecycle hooks (preStop, postStart) if needed.
+  ## @param dashboard.livenessProbe for the management component.
+  ##
+  livenessProbe:
+    periodSeconds: 5
+    httpGet:
+      path: /
+      port: http
+
+  ## @param dashboard.readinessProbe for the management component.
+  ##
+  readinessProbe:
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    httpGet:
+      path: /
+      port: http
+
+## @section NetBird Extra Manifests to be included in the chart
+
+extraManifests: {}
+# - apiVersion: v1
+#   kind: ServiceAccount
+#   .....
