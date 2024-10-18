@@ -1,8 +1,0 @@
----
-apiVersion: v2
-name: netbird-dashboard
-description: UI for the NetBird VPN management platform
-type: application
-version: 1.4.0
-appVersion: "2.6.1"
-icon: https://images.crunchbase.com/image/upload/c_pad,h_256,w_256,f_auto,q_auto:eco,dpr_1/kuu5tm1wt09ztp6ctlag

@@ -35,14 +35,6 @@ Once the repository is added, you can install any of the charts as follows:
 helm install netbird totmicro/netbird
 ```
 
-2. **NetBird Dashboard Chart**:
-
-```bash
-helm install netbird-dashboard totmicro/netbird-dashboard
-```
-
-Note: This chart is deprecated since the dashboard is now included in the Netbird chart.
-
 ### Updating Charts
 
 To get the latest version of the charts, run:
@@ -59,12 +51,6 @@ You can uninstall the charts using Helm’s `uninstall` command:
 
 ```bash
 helm uninstall netbird
-```
-
-2. **Uninstall NetBird Dashboard**:
-
-```bash
-helm uninstall netbird-dashboard
 ```
 
 ## Contributing

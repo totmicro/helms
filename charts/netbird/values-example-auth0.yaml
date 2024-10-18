@@ -113,39 +113,27 @@ management:
         }
     }
 
-  # This section retrieves keys from the secret specified in the secretName field
-  # and sets them as environment variables in the management pods.
-  # In envFromSecret, you define the environment variable name (name field) and the corresponding key in the secret (key field) from the secretName.
-  secretName: netbird
+  # This section defines the environment variables that are set in the management pods.
+  # ENV_VAR: secretName/secretKey
   envFromSecret:
-    - name: STUN_SERVER
-      key: stunServer
-    - name: TURN_SERVER
-      key: turnServer
-    - name: TURN_SERVER_USER
-      key: turnServerUser
-    - name: TURN_SERVER_PASSWORD
-      key: turnServerPassword
-    - name: RELAY_PASSWORD
-      key: relayPassword
-    - name: MANAGEMENT_CLIENT_ID
-      key: managementClientID
-    - name: MANAGEMENT_CLIENT_SECRET
-      key: managementClientSecret
-    - name: INTERACTIVE_CLIENT_ID
-      key: interactiveClientID
-    - name: DASHBOARD_CLIENT_ID
-      key: dashboardClientID
-    - name: DATASTORE_ENCRYPTION_KEY
-      key: datastoreEncryptionKey
+    STUN_SERVER: netbird/stunServer
+    TURN_SERVER: netbird/turnServer
+    TURN_SERVER_USER: netbird/turnServerUser
+    TURN_SERVER_PASSWORD: netbird/turnServerPassword
+    RELAY_PASSWORD: netbird/relayPassword
+    MANAGEMENT_CLIENT_ID: netbird/managementClientID
+    MANAGEMENT_CLIENT_SECRET: netbird/managementClientSecret
+    INTERACTIVE_CLIENT_ID: netbird/interactiveClientID
+    DASHBOARD_CLIENT_ID: netbird/dashboardClientID
+    DATASTORE_ENCRYPTION_KEY: netbird/datastoreEncryptionKey
 
   podCommand:
     args:
-     - --port=80
-     - --log-file=console
-     - --log-level=error
-     - --disable-anonymous-metrics=false
-     - --dns-domain=netbird.selfhosted"
+      - --port=80
+      - --log-file=console
+      - --log-level=error
+      - --disable-anonymous-metrics=false
+      - --dns-domain=netbird.selfhosted"
 
   image:
     tag: 0.30.2
@@ -234,13 +222,12 @@ relay:
       - secretName: netbird-relay-tls
         hosts:
           - netbird.example.com
-  # This section retrieves keys from the secret specified in the secretName field
-  # and sets them as environment variables in the relay pods.
-  # In envFromSecret, you define the environment variable name (name field) and the corresponding key in the secret (key field) from the secretName.
-  secretName: netbird
+
+  # This section defines the environment variables that are set in the relay pods.
+  # ENV_VAR: secretName/secretKey
   envFromSecret:
-    - name: NB_AUTH_SECRET
-      key: relayPassword
+    NB_AUTH_SECRET: netbird/relayPassword
+
   env:
     NB_LOG_LEVEL: info
     NB_LISTEN_ADDRESS: ":33080"
@@ -280,14 +267,10 @@ dashboard:
     NGINX_SSL_PORT:
     LETSENCRYPT_DOMAIN:
     LETSENCRYPT_EMAIL:
-  # This section retrieves keys from the secret specified in the secretName field
-  # and sets them as environment variables in the dashboard pods.
-  # In envFromSecret, you define the environment variable name (name field) and the corresponding key in the secret (key field) from the secretName.
-  secretName: netbird
+  # This section defines the environment variables that are set in the dashboard pods.
+  # ENV_VAR: secretName/secretKey
   envFromSecret:
-    - name: AUTH_CLIENT_ID
-      key: dashboardClientID
-
+    AUTH_CLIENT_ID: netbird/dashboardClientID
 ### The k8s secret should look like this:
 
 #apiVersion: v1
