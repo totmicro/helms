@@ -370,20 +370,6 @@ signal:
   ##
   affinity: {}
 
-  persistentVolume:
-    ## @param signal.persistentVolume.enabled Enable or disable persistent volume for the signal component.
-    ##
-    enabled: true
-
-    ## @param signal.persistentVolume.accessModes Access modes for the persistent volume.
-    ##
-    accessModes:
-      - ReadWriteOnce
-
-    ## @param signal.persistentVolume.size Size of the persistent volume for the signal component.
-    ##
-    size: 10Mi
-
   ## @param management.livenessProbe for the signal component.
   ##
 

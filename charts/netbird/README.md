@@ -1,6 +1,6 @@
 # netbird
 
-![Version: 1.4.0](https://img.shields.io/badge/Version-1.4.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.30.2](https://img.shields.io/badge/AppVersion-0.30.2-informational?style=flat-square)
+![Version: 1.5.0](https://img.shields.io/badge/Version-1.5.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.30.2](https://img.shields.io/badge/AppVersion-0.30.2-informational?style=flat-square)
 
 # NetBird Helm Chart
 
@@ -43,17 +43,11 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | dashboard.affinity | object | `{}` |  |
-| dashboard.auth.audience | string | `"netbird-dashboard"` |  |
-| dashboard.auth.authority | string | `"http://keycloak.localtest.me:9000/realms/helm-charts"` |  |
-| dashboard.auth.clientID | string | `"netbird-dashboard"` |  |
-| dashboard.auth.supportedScopes | string | `"openid profile email offline_access api"` |  |
-| dashboard.auth.userIDClaim | string | `"sub"` |  |
 | dashboard.disableIPv6 | bool | `true` |  |
-| dashboard.enabled | bool | `true` |  |
+| dashboard.enabled | bool | `false` |  |
 | dashboard.env | object | `{}` |  |
-| dashboard.envFromSecret | list | `[]` |  |
+| dashboard.envFromSecret | object | `{}` |  |
 | dashboard.envRaw | list | `[]` |  |
-| dashboard.fullnameOverride | string | `""` |  |
 | dashboard.image.pullPolicy | string | `"IfNotPresent"` |  |
 | dashboard.image.repository | string | `"netbirdio/dashboard"` |  |
 | dashboard.image.tag | string | `"2.6.1"` |  |
@@ -66,20 +60,27 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | dashboard.ingress.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
 | dashboard.ingress.tls | list | `[]` |  |
 | dashboard.lifecycle | object | `{}` |  |
-| dashboard.nameOverride | string | `""` |  |
+| dashboard.livenessProbe.httpGet.path | string | `"/"` |  |
+| dashboard.livenessProbe.httpGet.port | string | `"http"` |  |
+| dashboard.livenessProbe.periodSeconds | int | `5` |  |
 | dashboard.nodeSelector | object | `{}` |  |
 | dashboard.podAnnotations | object | `{}` |  |
 | dashboard.podSecurityContext | object | `{}` |  |
+| dashboard.readinessProbe.httpGet.path | string | `"/"` |  |
+| dashboard.readinessProbe.httpGet.port | string | `"http"` |  |
+| dashboard.readinessProbe.initialDelaySeconds | int | `5` |  |
+| dashboard.readinessProbe.periodSeconds | int | `5` |  |
 | dashboard.replicaCount | int | `1` |  |
 | dashboard.resources | object | `{}` |  |
-| dashboard.secretName | string | `""` |  |
 | dashboard.securityContext | object | `{}` |  |
+| dashboard.service.name | string | `"http"` |  |
 | dashboard.service.port | int | `80` |  |
 | dashboard.service.type | string | `"ClusterIP"` |  |
 | dashboard.serviceAccount.annotations | object | `{}` |  |
 | dashboard.serviceAccount.create | bool | `true` |  |
 | dashboard.serviceAccount.name | string | `""` |  |
 | dashboard.tolerations | list | `[]` |  |
+| extraManifests | object | `{}` |  |
 | fullnameOverride | string | `""` |  |
 | global.namespace | string | `""` |  |
 | management.affinity | object | `{}` |  |
@@ -88,7 +89,7 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | management.dnsDomain | string | `"netbird.selfhosted"` |  |
 | management.enabled | bool | `true` |  |
 | management.env | object | `{}` |  |
-| management.envFromSecret | list | `[]` |  |
+| management.envFromSecret | object | `{}` |  |
 | management.envRaw | list | `[]` |  |
 | management.image.pullPolicy | string | `"IfNotPresent"` |  |
 | management.image.repository | string | `"netbirdio/management"` |  |
@@ -109,6 +110,11 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | management.ingressGrpc.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
 | management.ingressGrpc.tls | list | `[]` |  |
 | management.lifecycle | object | `{}` |  |
+| management.livenessProbe.failureThreshold | int | `3` |  |
+| management.livenessProbe.initialDelaySeconds | int | `15` |  |
+| management.livenessProbe.periodSeconds | int | `10` |  |
+| management.livenessProbe.tcpSocket.port | string | `"http"` |  |
+| management.livenessProbe.timeoutSeconds | int | `3` |  |
 | management.nodeSelector | object | `{}` |  |
 | management.persistentVolume.accessModes[0] | string | `"ReadWriteOnce"` |  |
 | management.persistentVolume.enabled | bool | `true` |  |
@@ -121,10 +127,15 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | management.podCommand.args[4] | string | `"--single-account-mode-domain=netbird.example.com"` |  |
 | management.podCommand.args[5] | string | `"--dns-domain=netbird.selfhosted"` |  |
 | management.podSecurityContext | object | `{}` |  |
+| management.readinessProbe.failureThreshold | int | `3` |  |
+| management.readinessProbe.initialDelaySeconds | int | `15` |  |
+| management.readinessProbe.periodSeconds | int | `10` |  |
+| management.readinessProbe.tcpSocket.port | string | `"http"` |  |
+| management.readinessProbe.timeoutSeconds | int | `3` |  |
 | management.replicaCount | int | `1` |  |
 | management.resources | object | `{}` |  |
-| management.secretName | string | `"netbird"` |  |
 | management.securityContext | object | `{}` |  |
+| management.service.name | string | `"http"` |  |
 | management.service.port | int | `80` |  |
 | management.service.type | string | `"ClusterIP"` |  |
 | management.serviceAccount.annotations | object | `{}` |  |
@@ -136,7 +147,7 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | relay.deploymentAnnotations | object | `{}` |  |
 | relay.enabled | bool | `true` |  |
 | relay.env | object | `{}` |  |
-| relay.envFromSecret | list | `[]` |  |
+| relay.envFromSecret | object | `{}` |  |
 | relay.envRaw | list | `[]` |  |
 | relay.image.pullPolicy | string | `"IfNotPresent"` |  |
 | relay.image.repository | string | `"netbirdio/relay"` |  |
@@ -149,13 +160,18 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | relay.ingress.hosts[0].paths[0].path | string | `"/relay"` |  |
 | relay.ingress.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
 | relay.ingress.tls | list | `[]` |  |
+| relay.livenessProbe.initialDelaySeconds | int | `5` |  |
+| relay.livenessProbe.periodSeconds | int | `5` |  |
+| relay.livenessProbe.tcpSocket.port | string | `"http"` |  |
 | relay.logLevel | string | `"info"` |  |
 | relay.nodeSelector | object | `{}` |  |
 | relay.podAnnotations | object | `{}` |  |
 | relay.podSecurityContext | object | `{}` |  |
+| relay.readinessProbe.initialDelaySeconds | int | `5` |  |
+| relay.readinessProbe.periodSeconds | int | `5` |  |
+| relay.readinessProbe.tcpSocket.port | string | `"http"` |  |
 | relay.replicaCount | int | `1` |  |
 | relay.resources | object | `{}` |  |
-| relay.secretName | string | `"netbird"` |  |
 | relay.securityContext | object | `{}` |  |
 | relay.service.name | string | `"http"` |  |
 | relay.service.port | int | `33080` |  |
@@ -178,6 +194,9 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | signal.ingress.hosts[0].paths[0].path | string | `"/signalexchange.SignalExchange"` |  |
 | signal.ingress.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
 | signal.ingress.tls | list | `[]` |  |
+| signal.livenessProbe.initialDelaySeconds | int | `5` |  |
+| signal.livenessProbe.periodSeconds | int | `5` |  |
+| signal.livenessProbe.tcpSocket.port | string | `"grpc"` |  |
 | signal.logLevel | string | `"info"` |  |
 | signal.nodeSelector | object | `{}` |  |
 | signal.persistentVolume.accessModes[0] | string | `"ReadWriteOnce"` |  |
@@ -185,6 +204,9 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | signal.persistentVolume.size | string | `"10Mi"` |  |
 | signal.podAnnotations | object | `{}` |  |
 | signal.podSecurityContext | object | `{}` |  |
+| signal.readinessProbe.initialDelaySeconds | int | `5` |  |
+| signal.readinessProbe.periodSeconds | int | `5` |  |
+| signal.readinessProbe.tcpSocket.port | string | `"grpc"` |  |
 | signal.replicaCount | int | `1` |  |
 | signal.resources | object | `{}` |  |
 | signal.securityContext | object | `{}` |  |
