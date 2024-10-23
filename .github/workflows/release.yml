@@ -30,8 +30,9 @@ jobs:
           fi
 
   helm-validate:
-    runs-on: ubuntu-latest
+    needs: [check-release]
     if: needs.check-release.outputs.release_exists == 'false'
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: bmuschko/setup-kubeconform@v1
@@ -51,7 +52,7 @@ jobs:
           done
 
   release:
-    needs: [check-release]
+    needs: [helm-validate]
     if: needs.check-release.outputs.release_exists == 'false'
     permissions:
       contents: write

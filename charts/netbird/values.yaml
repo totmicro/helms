@@ -158,7 +158,7 @@ management:
   ingressGrpc:
     ## @param management.ingressGrpc.enabled Enable or disable GRPC ingress.
     ##
-    enabled: true
+    enabled: false
 
     ## @param management.ingressGrpc.className Ingress class name for GRPC.
     ##
