@@ -6,9 +6,53 @@ on:
       - main
 
 jobs:
+  check-release:
+    runs-on: ubuntu-latest
+    outputs:
+      release_exists: ${{ steps.check_release.outputs.release_exists }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check if release with the same chart version exists
+        id: check_release
+        run: |
+          VERSION=$(yq ".name + \"-\" + .version" charts/netbird/Chart.yaml)
+          echo "Checking for release $VERSION..."
+          RELEASE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+                    "https://api.github.com/repos/${{ github.repository }}/releases/tags/$VERSION")
+          if [[ "$RELEASE" == *"Not Found"* ]]; then
+            echo "No release found for version $VERSION. Continuing steps..."
+            echo "release_exists=false" >> $GITHUB_ENV
+            echo "release_exists=false" >> $GITHUB_OUTPUT
+          else
+            echo "Release for version $VERSION exists. Skipping steps..."
+            echo "release_exists=true" >> $GITHUB_ENV
+            echo "release_exists=true" >> $GITHUB_OUTPUT
+          fi
+
+  helm-validate:
+    runs-on: ubuntu-latest
+    if: needs.check-release.outputs.release_exists == 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: bmuschko/setup-kubeconform@v1
+      - name: Validate Helm Charts
+        shell: bash
+        run: |
+          set -o pipefail
+          for chart in $(find charts -type f -name 'Chart.yaml' | sed -r 's|/[^/]+$||' | sort | uniq); do helm dep up ${chart}; done
+          for d in charts/*/ ; do
+              echo "$d"
+              helm lint --quiet "$d"
+              helm template x "$d" --include-crds > helm_output.yaml
+              echo "Validate K8s 1.30"
+              cat helm_output.yaml | kubeconform -summary -strict -ignore-missing-schemas -kubernetes-version=1.30.0 -cache /tmp
+              echo "Validate K8s 1.31"
+              cat helm_output.yaml | kubeconform -summary -strict -ignore-missing-schemas -kubernetes-version=1.31.0 -cache /tmp
+          done
+
   release:
-    # depending on default permission settings for your org (contents being read-only or read-write for workloads), you will have to add permissions
-    # see: https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token
+    needs: [check-release]
+    if: needs.check-release.outputs.release_exists == 'false'
     permissions:
       contents: write
     runs-on: ubuntu-latest

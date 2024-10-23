@@ -1,9 +1,3 @@
-# In this example, we are using secrets stored in the same namespace as the Netbird deployment.
-# It is based for nginx ingress, but it can be modified to fit your needs
-# It uses okta as the IdP manager and an internal sqlite as the store engine.
-# The secrets are created by the user and are not part of the Netbird chart.
-# In the configmap you can refer to env variables by using {{ .envVarName }}. (Requires netbid v0.30.1+)
-
 fullnameOverride: netbird
 management:
   configmap: |-
@@ -31,14 +25,14 @@ management:
       },
       "Relay": {
         "Addresses": [
-          "rels://netbird.example:443/relay"
+          "rels://netbird.example.com:443/relay"
         ],
         "CredentialsTTL": "24h",
         "Secret": "{{ .RELAY_PASSWORD }}"
       },
       "Signal": {
         "Proto": "https",
-        "URI": "netbird.example:443",
+        "URI": "netbird.example.com:443",
         "Username": "",
         "Password": null
       },
@@ -112,8 +106,6 @@ management:
       }
     }
 
-  # This section defines the environment variables that are set in the management pods.
-  # ENV_VAR: secretName/secretKey
   envFromSecret:
     STUN_SERVER: netbird/stunServer
     TURN_SERVER: netbird/turnServer
@@ -121,9 +113,9 @@ management:
     TURN_SERVER_PASSWORD: netbird/turnServerPassword
     RELAY_PASSWORD: netbird/relayPassword
     DATASTORE_ENCRYPTION_KEY: netbird/datastoreEncryptionKey
-    MANAGEMENT_CLIENT_ID: netbird/managementClientID
+    MANAGEMENT_CLIENT_ID: netbird/idpClientID
     OKTA_API_TOKEN: netbird/oktaApiToken
-    NATIVEAPP_CLIENT_ID: netbird/nativeAppClientID
+    NATIVEAPP_CLIENT_ID: netbird/idpNativeAppClientID`
 
   podCommand:
     args:
@@ -142,14 +134,14 @@ management:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
     hosts:
-      - host: netbird.example
+      - host: netbird.example.com
         paths:
           - path: /api
             pathType: ImplementationSpecific
     tls:
       - secretName: netbird-api-tls
         hosts:
-          - netbird.example
+          - netbird.example.com
   ingressGrpc:
     enabled: true
     className: nginx
@@ -162,14 +154,14 @@ management:
         grpc_read_timeout 3600s;
         grpc_send_timeout 3600s;
     hosts:
-      - host: netbird.example
+      - host: netbird.example.com
         paths:
           - path: /management.ManagementService
             pathType: ImplementationSpecific
     tls:
       - secretName: netbird-grpc-tls
         hosts:
-          - netbird.example
+          - netbird.example.com
   persistentVolume:
     enabled: true
 
@@ -188,14 +180,14 @@ signal:
         grpc_read_timeout 3600s;
         grpc_send_timeout 3600s;
     hosts:
-      - host: netbird.example
+      - host: netbird.example.com
         paths:
           - path: /signalexchange.SignalExchange
             pathType: ImplementationSpecific
     tls:
       - secretName: netbird-signal-tls
         hosts:
-          - netbird.example
+          - netbird.example.com
 relay:
   resources:
     requests:
@@ -203,7 +195,7 @@ relay:
       memory: 128Mi
     limits:
       cpu: 1000m
-      memory: 256Mi
+      memory: 128Mi
   image:
     tag: 0.30.2
   ingress:
@@ -212,24 +204,22 @@ relay:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
     hosts:
-      - host: netbird.example
+      - host: netbird.example.com
         paths:
           - path: /relay
             pathType: ImplementationSpecific
     tls:
       - secretName: netbird-relay-tls
         hosts:
-          - netbird.example
+          - netbird.example.com
 
-  # This section defines the environment variables that are set in the relay pods.
-  # ENV_VAR: secretName/secretKey
   envFromSecret:
     NB_AUTH_SECRET: netbird/relayPassword
 
   env:
     NB_LOG_LEVEL: info
     NB_LISTEN_ADDRESS: ":33080"
-    NB_EXPOSED_ADDRESS: rels://netbird.example:443/relay
+    NB_EXPOSED_ADDRESS: rels://netbird.example.com:443/relay
 
 dashboard:
   enabled: true
@@ -267,26 +257,6 @@ dashboard:
     LETSENCRYPT_DOMAIN:
     LETSENCRYPT_EMAIL:
 
-  # This section defines the environment variables that are set in the management pods.
-  # ENV_VAR: secretName/secretKey
   envFromSecret:
-    AUTH_CLIENT_ID: netbird/managementClientID
-    AUTH_AUDIENCE: netbird/nativeAppClientID
-### The k8s secret should look like this:
-
-#apiVersion: v1
-#kind: Secret
-#metadata:
-#  name: netbird
-#type: Opaque
-#data:
-#  managementClientID: xxxxxx
-#  oktaApiToken: xxxxxx
-#  nativeAppClientID: xxxxxx
-#  postgresDSN: xxxxxx
-#  relayPassword: xxxxxx
-#  stunServer: xxxxxx
-#  turnServer: xxxxxx
-#  turnServerPassword: xxxxxx
-#  turnServerUser: xxxxxx
-#  datastoreEncryptionKey: xxxxxxx #(Created with openssl rand -base64 32)
+    AUTH_CLIENT_ID: netbird/idpClientID
+    AUTH_AUDIENCE: netbird/idpNativeAppClientID`

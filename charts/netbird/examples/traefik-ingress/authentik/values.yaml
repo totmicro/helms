@@ -1,9 +1,9 @@
 # In this example, we are using secrets stored in the same namespace as the Netbird deployment.
-# It is based for nginx ingress, but it can be modified to fit your needs
-# It uses authentik as the IdP manager and an external PostgreSQL as the store engine.
+# It is based for traefik ingress, but it can be modified to fit your needs
+# It uses authentik as the IdP manager and an postgre external database as the store engine.
 # The secrets are created by the user and are not part of the Netbird chart.
 # In the configmap you can refer to env variables by using {{ .envVarName }}. (Requires netbid v0.30.1+)
-fullnameOverride: netbird
+
 management:
   configmap: |-
     {
@@ -48,16 +48,16 @@ management:
         "CertFile": "",
         "CertKey": "",
         "AuthAudience": "{{ .IDP_CLIENT_ID }}",
-        "AuthIssuer": "https://idp.example.com/application/o/example-netbird/",
+        "AuthIssuer": "https://idp.example.com/application/o/netbird/",
         "AuthUserIDClaim": "",
-        "AuthKeysLocation": "https://idp.example.com/application/o/example-netbird/jwks/",
-        "OIDCConfigEndpoint": "https://idp.example.com/application/o/example-netbird/.well-known/openid-configuration",
+        "AuthKeysLocation": "https://idp.example.com/application/o/netbird/jwks/",
+        "OIDCConfigEndpoint": "https://idp.example.com/application/o/netbird/.well-known/openid-configuration",
         "IdpSignKeyRefreshEnabled": false
       },
       "IdpManagerConfig": {
         "ManagerType": "authentik",
         "ClientConfig": {
-          "Issuer": "https://idp.example.com/application/o/example-netbird",
+          "Issuer": "https://idp.example.com/application/o/totmicro-traefik-netbird",
           "TokenEndpoint": "https://idp.example.com/application/o/token/",
           "ClientID": "{{ .IDP_CLIENT_ID }}",
           "ClientSecret": "",
@@ -116,44 +116,8 @@ management:
   image:
     tag: 0.30.2
 
-  ingress:
-    enabled: true
-    className: public
-    annotations:
-      cert-manager.io/cluster-issuer: example-issuer
-    hosts:
-      - host: netbird.example.com
-        paths:
-          - path: /api
-            pathType: ImplementationSpecific
-    tls:
-      - secretName: netbird-api-tls
-        hosts:
-          - netbird.example.com
-  ingressGrpc:
-    enabled: true
-    className: public
-    annotations:
-      cert-manager.io/cluster-issuer: example-issuer
-      nginx.ingress.kubernetes.io/backend-protocol: GRPC
-      nginx.ingress.kubernetes.io/ssl-redirect: "true"
-      nginx.ingress.kubernetes.io/server-snippet: |
-        grpc_connect_timeout 3600s;
-        grpc_read_timeout 3600s;
-        grpc_send_timeout 3600s;
-    hosts:
-      - host: netbird.example.com
-        paths:
-          - path: /management.ManagementService
-            pathType: ImplementationSpecific
-    tls:
-      - secretName: netbird-grpc-tls
-        hosts:
-          - netbird.example.com
-
   persistentVolume:
     enabled: false
-
   # This section defines the environment variables that are set in the management pods.
   # ENV_VAR: secretName/secretKey
   envFromSecret:
@@ -163,58 +127,36 @@ management:
     TURN_SERVER_USER: netbird/turnServerUser
     TURN_SERVER_PASSWORD: netbird/turnServerPassword
     RELAY_PASSWORD: netbird/relayPassword
-    DATASTORE_ENCRYPTION_KEY: netbird/datastoreEncryptionKey
     IDP_CLIENT_ID: netbird/idpClientID
     IDP_SERVICE_ACCOUNT_USER: netbird/idpServiceAccountUser
     IDP_SERVICE_ACCOUNT_PASSWORD: netbird/idpServiceAccountPassword
+    DATASTORE_ENCRYPTION_KEY: netbird/datastoreEncryptionKey
 
 signal:
   image:
     tag: 0.30.2
-  ingress:
-    enabled: true
-    className: public
-    annotations:
-      cert-manager.io/cluster-issuer: example-issuer
-      nginx.ingress.kubernetes.io/backend-protocol: GRPC
-      nginx.ingress.kubernetes.io/ssl-redirect: "true"
-      nginx.ingress.kubernetes.io/server-snippet: |
-        grpc_connect_timeout 3600s;
-        grpc_read_timeout 3600s;
-        grpc_send_timeout 3600s;
-    hosts:
-      - host: netbird.example.com
-        paths:
-          - path: /signalexchange.SignalExchange
-            pathType: ImplementationSpecific
-    tls:
-      - secretName: netbird-signal-tls
-        hosts:
-          - netbird.example.com
 
 relay:
   image:
     tag: 0.30.2
   ingress:
-    enabled: true
-    className: public
+    enabled: false
+    className: traefik
     annotations:
-      cert-manager.io/cluster-issuer: example-issuer
+      cert-manager.io/cluster-issuer: totmicro-issuer
     hosts:
       - host: netbird.example.com
         paths:
           - path: /relay
             pathType: ImplementationSpecific
     tls:
-      - secretName: netbird-relay-tls
+      - secretName: netbird-traefik-relay-tls
         hosts:
-          - netbird.example.com
-
+          - netbird-traefik-relay.totmicro.com
   # This section defines the environment variables that are set in the relay pods.
   # ENV_VAR: secretName/secretKey
   envFromSecret:
     NB_AUTH_SECRET: netbird/relayPassword
-
   env:
     NB_LOG_LEVEL: info
     NB_LISTEN_ADDRESS: ":33080"
@@ -222,20 +164,6 @@ relay:
 
 dashboard:
   enabled: true
-  ingress:
-    enabled: true
-    className: public
-    annotations:
-      cert-manager.io/cluster-issuer: example-issuer
-    hosts:
-      - host: netbird-dashboard.example.com
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
-    tls:
-      - secretName: netbird-dashboard-tls
-        hosts:
-          - netbird-dashboard.example.com
   image:
     tag: v2.6.1
   env:
@@ -244,7 +172,7 @@ dashboard:
     NETBIRD_MGMT_GRPC_API_ENDPOINT: https://netbird.example.com:443
     # OIDC
     AUTH_CLIENT_SECRET:
-    AUTH_AUTHORITY: https://idp.example.com/application/o/example-netbird/
+    AUTH_AUTHORITY: https://idp.example.com/application/o/netbird/
     USE_AUTH0: false
     AUTH_SUPPORTED_SCOPES: openid profile email offline_access api
     AUTH_REDIRECT_URI:
@@ -253,27 +181,61 @@ dashboard:
     NGINX_SSL_PORT:
     LETSENCRYPT_DOMAIN:
     LETSENCRYPT_EMAIL:
-
   # This section defines the environment variables that are set in the dashboard pods.
   # ENV_VAR: secretName/secretKey
   envFromSecret:
     AUTH_CLIENT_ID: netbird/idpClientID
     AUTH_AUDIENCE: netbird/idpClientID
-### The k8s secret should look like this:
 
-#apiVersion: v1
-#kind: Secret
-#metadata:
-#  name: netbird
-#type: Opaque
-#data:
-#  idpClientID: xxxxxx
-#  idpServiceAccountPassword: xxxxxx
-#  idpServiceAccountUser: xxxxxx
-#  postgresDSN: xxxxxx
-#  relayPassword: xxxxxx
-#  stunServer: xxxxxx
-#  turnServer: xxxxxx
-#  turnServerPassword: xxxxxx
-#  turnServerUser: xxxxxx
-#  datastoreEncryptionKey: xxxxxxx #(Created with openssl rand -base64 32)
+extraManifests:
+  - apiVersion: traefik.io/v1alpha1
+    kind: IngressRoute
+    metadata:
+      name: netbird-traefik
+      labels:
+        argocd.argoproj.io/instance: netbird-traefik
+    spec:
+      entryPoints:
+      - websecure
+      routes:
+      - kind: Rule
+        match: Host(`netbird.example.com`) && !PathPrefix(`/api`) && !PathPrefix(`/management`) && !PathPrefix(`/signalexchange`) && !PathPrefix(`/relay`)
+        services:
+        - name: netbird-traefik-dashboard
+          namespace: netbird-traefik
+          passHostHeader: true
+          port: 80
+      - kind: Rule
+        match: Host(`netbird.example.com`) && PathPrefix(`/api`)
+        services:
+        - name: netbird-traefik-management
+          namespace: netbird-traefik
+          passHostHeader: true
+          port: 80
+      - kind: Rule
+        match: Host(`netbird.example.com`) && PathPrefix(`/relay`)
+        services:
+        - name: netbird-traefik-relay
+          namespace: netbird-traefik
+          passHostHeader: true
+          port: 33080
+      - kind: Rule
+        match: Host(`netbird.example.com`) && PathPrefix(`/management`)
+        services:
+        - name: netbird-traefik-management
+          namespace: netbird-traefik
+          passHostHeader: true
+          port: 80
+          scheme: h2c
+      - kind: Rule
+        match: Host(`netbird.example.com`) && PathPrefix(`/signalexchange`)
+        services:
+        - name: netbird-traefik-signal
+          namespace: netbird-traefik
+          passHostHeader: true
+          port: 80
+          scheme: h2c
+      tls:
+        # It assumes that you are managing the certificates with letsencrypt and you have configured
+        # traefik certicatesresolvers accordingly
+        certResolver: letsencrypt

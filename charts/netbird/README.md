@@ -220,7 +220,7 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 
 For more configuration options, refer to the `values.yaml` file.
 
-You can find a working example [here](./values-example-authentik.yaml)
+You can find working examples [here](./examples)
 
 ## Contributing
 

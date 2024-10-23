@@ -53,6 +53,10 @@ You can uninstall the charts using Helm’s `uninstall` command:
 helm uninstall netbird
 ```
 
+## Releasing New Helm Chart Versions
+
+New chart versions are automatically published through [GitHub Actions](./.github/workflows/release.yml). To deploy a new version, make sure to increment the chart version; otherwise, it will not be published.
+
 ## Contributing
 
 Feel free to open issues or pull requests if you would like to contribute to these Helm charts.
