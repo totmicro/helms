@@ -2,12 +2,12 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: netbird-mgmt-vs
-  namespace: ${ARGOCD_ENV_netbird_namespace}
+  namespace: netbird
 spec:
   gateways:
-    - ${ARGOCD_ENV_netbird_istio_gateway_namespace}/${ARGOCD_ENV_netbird_istio_wildcard_gateway_name}
+    - istio-gw/ext-gw
   hosts:
-    - "netbird.${ARGOCD_ENV_netbird_dns_subdomain}"
+    - "netbird.example.com"
   http:
     - match:
         - uri:
@@ -38,12 +38,12 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: netbird-dashboard-mgmt-vs
-  namespace: ${ARGOCD_ENV_netbird_namespace}
+  namespace: netbird
 spec:
   gateways:
-    - ${ARGOCD_ENV_netbird_istio_gateway_namespace}/${ARGOCD_ENV_netbird_istio_wildcard_gateway_name}
+    - istio-gw/ext-gw
   hosts:
-    - "netbird-dashboard.${ARGOCD_ENV_netbird_dns_subdomain}"
+    - "netbird-dashboard.example.com"
   http:
     - match:
         - uri:
