@@ -1,0 +1,55 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: netbird-mgmt-vs
+  namespace: ${ARGOCD_ENV_netbird_namespace}
+spec:
+  gateways:
+    - ${ARGOCD_ENV_netbird_istio_gateway_namespace}/${ARGOCD_ENV_netbird_istio_wildcard_gateway_name}
+  hosts:
+    - "netbird.${ARGOCD_ENV_netbird_dns_subdomain}"
+  http:
+    - match:
+        - uri:
+            prefix: /api
+      route:
+        - destination:
+            host: netbird-management
+            port:
+              number: 80
+    - match:
+        - uri:
+            prefix: /management.ManagementService
+      route:
+        - destination:
+            host: netbird-management
+            port:
+              number: 80
+    - match:
+        - uri:
+            prefix: /signalexchange.SignalExchange
+      route:
+        - destination:
+            host: netbird-signal
+            port:
+              number: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: netbird-dashboard-mgmt-vs
+  namespace: ${ARGOCD_ENV_netbird_namespace}
+spec:
+  gateways:
+    - ${ARGOCD_ENV_netbird_istio_gateway_namespace}/${ARGOCD_ENV_netbird_istio_wildcard_gateway_name}
+  hosts:
+    - "netbird-dashboard.${ARGOCD_ENV_netbird_dns_subdomain}"
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: netbird-dashboard
+            port:
+              number: 80
