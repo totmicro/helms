@@ -51,7 +51,7 @@ management:
       "HttpConfig": {
         "Address": "0.0.0.0:33073",
         "AuthIssuer": "https://example.okta.com",
-        "AuthAudience": "{{ .MANAGEMENT_CLIENT_ID }}",
+        "AuthAudience": "{{ .IDP_CLIENT_ID }}",
         "AuthKeysLocation": "https://example.okta.com/oauth2/v1/keys",
         "AuthUserIDClaim": "",
         "IdpSignKeyRefreshEnabled": false,
@@ -62,7 +62,7 @@ management:
         "ClientConfig": {
           "Issuer": "https://example.okta.com",
           "TokenEndpoint": "https://example.okta.com/oauth2/v1/token",
-          "ClientID": "{{ .MANAGEMENT_CLIENT_ID }}",
+          "ClientID": "{{ .IDP_CLIENT_ID }}",
           "ClientSecret": "",
           "GrantType": "client_credentials"
         },
@@ -77,7 +77,7 @@ management:
       "DeviceAuthorizationFlow": {
         "Provider": "hosted",
         "ProviderConfig": {
-          "Audience": "{{ .NATIVEAPP_CLIENT_ID }}",
+          "Audience": "{{ .IDP_NATIVEAPP_CLIENT_ID }}",
           "AuthorizationEndpoint": "",
           "Domain": "",
           "ClientID": "nativeclientid",
@@ -91,8 +91,8 @@ management:
       },
       "PKCEAuthorizationFlow": {
         "ProviderConfig": {
-          "Audience": "{{ .MANAGEMENT_CLIENT_ID }}",
-          "ClientID": "{{ .MANAGEMENT_CLIENT_ID }}",
+          "Audience": "{{ .IDP_CLIENT_ID }}",
+          "ClientID": "{{ .IDP_CLIENT_ID }}",
           "ClientSecret": "",
           "Domain": "",
           "AuthorizationEndpoint": "https://example.okta.com/oauth2/v1/authorize",
@@ -113,9 +113,9 @@ management:
     TURN_SERVER_PASSWORD: netbird/turnServerPassword
     RELAY_PASSWORD: netbird/relayPassword
     DATASTORE_ENCRYPTION_KEY: netbird/datastoreEncryptionKey
-    MANAGEMENT_CLIENT_ID: netbird/idpClientID
+    IDP_CLIENT_ID: netbird/idpClientID
     OKTA_API_TOKEN: netbird/oktaApiToken
-    NATIVEAPP_CLIENT_ID: netbird/idpNativeAppClientID`
+    IDP_NATIVEAPP_CLIENT_ID: netbird/idpNativeAppClientID`
 
   podCommand:
     args:
@@ -126,7 +126,7 @@ management:
       - --dns-domain=netbird.selfhosted"
 
   image:
-    tag: 0.30.2
+    tag: 0.30.3
 
   ingress:
     enabled: true
@@ -167,7 +167,7 @@ management:
 
 signal:
   image:
-    tag: 0.30.2
+    tag: 0.30.3
   ingress:
     enabled: true
     className: nginx
@@ -197,7 +197,7 @@ relay:
       cpu: 1000m
       memory: 128Mi
   image:
-    tag: 0.30.2
+    tag: 0.30.3
   ingress:
     enabled: true
     className: nginx
