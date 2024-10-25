@@ -1,9 +1,4 @@
-# In this example, we are using secrets stored in the same namespace as the Netbird deployment.
-# It is based for traefik ingress, but it can be modified to fit your needs
-# It uses authentik as the IdP manager and an postgre external database as the store engine.
-# The secrets are created by the user and are not part of the Netbird chart.
-# In the configmap you can refer to env variables by using {{ .envVarName }}. (Requires netbid v0.30.1+)
-
+fullnameOverride: netbird
 management:
   configmap: |-
     {
@@ -29,9 +24,7 @@ management:
         ]
       },
       "Relay": {
-        "Addresses": [
-          "rels://netbird.example.com:443/relay"
-        ],
+        "Addresses": ["rels://netbird.example.com:443/relay"],
         "CredentialsTTL": "24h",
         "Secret": "{{ .RELAY_PASSWORD }}"
       },
@@ -98,9 +91,7 @@ management:
           "AuthorizationEndpoint": "https://idp.example.com/application/o/authorize/",
           "Scope": "openid profile email offline_access api",
           "UseIDToken": false,
-          "RedirectURLs": [
-            "http://localhost:53000"
-          ]
+          "RedirectURLs": ["http://localhost:53000"]
         }
       },
       "StoreConfig": {
@@ -114,12 +105,9 @@ management:
     }
 
   image:
-    tag: 0.30.2
-
+    tag: 0.30.3
   persistentVolume:
     enabled: false
-  # This section defines the environment variables that are set in the management pods.
-  # ENV_VAR: secretName/secretKey
   envFromSecret:
     NETBIRD_STORE_ENGINE_POSTGRES_DSN: netbird/postgresDSN
     STUN_SERVER: netbird/stunServer
@@ -134,27 +122,11 @@ management:
 
 signal:
   image:
-    tag: 0.30.2
+    tag: 0.30.3
 
 relay:
   image:
-    tag: 0.30.2
-  ingress:
-    enabled: false
-    className: traefik
-    annotations:
-      cert-manager.io/cluster-issuer: totmicro-issuer
-    hosts:
-      - host: netbird.example.com
-        paths:
-          - path: /relay
-            pathType: ImplementationSpecific
-    tls:
-      - secretName: netbird-traefik-relay-tls
-        hosts:
-          - netbird-traefik-relay.totmicro.com
-  # This section defines the environment variables that are set in the relay pods.
-  # ENV_VAR: secretName/secretKey
+    tag: 0.30.3
   envFromSecret:
     NB_AUTH_SECRET: netbird/relayPassword
   env:
@@ -181,8 +153,6 @@ dashboard:
     NGINX_SSL_PORT:
     LETSENCRYPT_DOMAIN:
     LETSENCRYPT_EMAIL:
-  # This section defines the environment variables that are set in the dashboard pods.
-  # ENV_VAR: secretName/secretKey
   envFromSecret:
     AUTH_CLIENT_ID: netbird/idpClientID
     AUTH_AUDIENCE: netbird/idpClientID
@@ -236,6 +206,4 @@ extraManifests:
           port: 80
           scheme: h2c
       tls:
-        # It assumes that you are managing the certificates with letsencrypt and you have configured
-        # traefik certicatesresolvers accordingly
-        certResolver: letsencrypt
+        secretName: netbird-tls

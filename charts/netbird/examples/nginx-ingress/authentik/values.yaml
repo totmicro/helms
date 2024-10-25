@@ -24,9 +24,7 @@ management:
         ]
       },
       "Relay": {
-        "Addresses": [
-          "rels://netbird.example.com:443/relay"
-        ],
+        "Addresses": ["rels://netbird.example.com:443/relay"],
         "CredentialsTTL": "24h",
         "Secret": "{{ .RELAY_PASSWORD }}"
       },
@@ -93,9 +91,7 @@ management:
           "AuthorizationEndpoint": "https://idp.example.com/application/o/authorize/",
           "Scope": "openid profile email offline_access api",
           "UseIDToken": false,
-          "RedirectURLs": [
-            "http://localhost:53000"
-          ]
+          "RedirectURLs": ["http://localhost:53000"]
         }
       },
       "StoreConfig": {
@@ -109,7 +105,7 @@ management:
     }
 
   image:
-    tag: 0.30.2
+    tag: 0.30.3
 
   ingress:
     enabled: true
@@ -163,7 +159,7 @@ management:
 
 signal:
   image:
-    tag: 0.30.2
+    tag: 0.30.3
   ingress:
     enabled: true
     className: public
@@ -187,7 +183,7 @@ signal:
 
 relay:
   image:
-    tag: 0.30.2
+    tag: 0.30.3
   ingress:
     enabled: true
     className: public

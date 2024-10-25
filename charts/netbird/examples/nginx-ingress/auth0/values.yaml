@@ -2,111 +2,106 @@ fullnameOverride: netbird
 management:
   configmap: |-
     {
-        "Stuns": [
-            {
-                "Proto": "udp",
-                "URI": "{{ .STUN_SERVER }}",
-                "Username": "",
-                "Password": null
-            }
-        ],
-        "Relay": {
-            "Addresses": [
-                "rels://netbird.example.com:443/relay"
-            ],
-            "CredentialsTTL": "24h",
-            "Secret": "{{ .RELAY_PASSWORD }}"
-        },
-        "TURNConfig": {
-            "Turns": [
-                {
-                    "Proto": "udp",
-                    "URI": "{{ .TURN_SERVER }}",
-                    "Username": "{{ .TURN_SERVER_USER }}",
-                    "Password": "{{ .TURN_SERVER_PASSWORD }}"
-                }
-            ],
-            "CredentialsTTL": "12h",
-            "Secret": "secret",
-            "TimeBasedCredentials": false
-        },
-        "Signal": {
-            "Proto": "https",
-            "URI": "netbird.example.com:443",
-            "Username": "",
-            "Password": null
-        },
-        "ReverseProxy": {
-            "TrustedHTTPProxies": [],
-            "TrustedHTTPProxiesCount": 0,
-            "TrustedPeers": [
-                "0.0.0.0/0"
-            ]
-        },
-        "Datadir": "/var/lib/netbird/",
-        "DataStoreEncryptionKey": "{{ .DATASTORE_ENCRYPTION_KEY }}",
-        "StoreConfig": {
-            "Engine": "sqlite"
-        },
-        "HttpConfig": {
-            "Address": "0.0.0.0:33073",
-            "AuthIssuer": "https://example.eu.auth0.com/",
-            "AuthAudience": "netbird-banking",
-            "AuthKeysLocation": "https://example.eu.auth0.com/.well-known/jwks.json",
-            "AuthUserIDClaim": "",
-            "CertFile": "",
-            "CertKey": "",
-            "IdpSignKeyRefreshEnabled": false,
-            "OIDCConfigEndpoint": "https://example.eu.auth0.com/.well-known/openid-configuration"
-        },
-        "IdpManagerConfig": {
-            "ManagerType": "auth0",
-            "ClientConfig": {
-                "Issuer": "https://example.eu.auth0.com/",
-                "TokenEndpoint": "https://example.eu.auth0.com/oauth/token",
-                "ClientID": "{{ .MANAGEMENT_CLIENT_ID }}",
-                "ClientSecret": "{{ .MANAGEMENT_CLIENT_SECRET }}",
-                "GrantType": "client_credentials"
-            },
-            "ExtraConfig": {
-                "Audience": "https://example.eu.auth0.com/api/v2/"
-            },
-            "Auth0ClientCredentials": null,
-            "AzureClientCredentials": null,
-            "KeycloakClientCredentials": null,
-            "ZitadelClientCredentials": null
-        },
-        "DeviceAuthorizationFlow": {
-            "Provider": "hosted",
-            "ProviderConfig": {
-                "Audience": "netbird-banking",
-                "AuthorizationEndpoint": "",
-                "Domain": "",
-                "ClientID": "{{ .INTERACTIVE_CLIENT_ID }}",
-                "ClientSecret": "",
-                "TokenEndpoint": "https://example.eu.auth0.com/oauth/token",
-                "DeviceAuthEndpoint": "https://example.eu.auth0.com/oauth/device/code",
-                "Scope": "openid",
-                "UseIDToken": false,
-                "RedirectURLs": null
-            }
-        },
-        "PKCEAuthorizationFlow": {
-            "ProviderConfig": {
-                "Audience": "netbird-banking",
-                "ClientID": "{{ .DASHBOARD_CLIENT_ID }}",
-                "ClientSecret": "",
-                "Domain": "",
-                "AuthorizationEndpoint": "https://example.eu.auth0.com/authorize",
-                "TokenEndpoint": "https://example.eu.auth0.com/oauth/token",
-                "Scope": "openid groups profile email offline_access api email_verified groups",
-                "RedirectURLs": [
-                    "http://localhost:53000"
-                ],
-                "UseIDToken": false
-            }
+      "Stuns": [
+        {
+          "Proto": "udp",
+          "URI": "{{ .STUN_SERVER }}",
+          "Username": "",
+          "Password": null
         }
+      ],
+      "Relay": {
+        "Addresses": ["rels://netbird.example.com:443/relay"],
+        "CredentialsTTL": "24h",
+        "Secret": "{{ .RELAY_PASSWORD }}"
+      },
+      "TURNConfig": {
+        "Turns": [
+          {
+            "Proto": "udp",
+            "URI": "{{ .TURN_SERVER }}",
+            "Username": "{{ .TURN_SERVER_USER }}",
+            "Password": "{{ .TURN_SERVER_PASSWORD }}"
+          }
+        ],
+        "CredentialsTTL": "12h",
+        "Secret": "secret",
+        "TimeBasedCredentials": false
+      },
+      "Signal": {
+        "Proto": "https",
+        "URI": "netbird.example.com:443",
+        "Username": "",
+        "Password": null
+      },
+      "ReverseProxy": {
+        "TrustedHTTPProxies": [],
+        "TrustedHTTPProxiesCount": 0,
+        "TrustedPeers": ["0.0.0.0/0"]
+      },
+      "Datadir": "/var/lib/netbird/",
+      "DataStoreEncryptionKey": "{{ .DATASTORE_ENCRYPTION_KEY }}",
+      "StoreConfig": {
+        "Engine": "sqlite"
+      },
+      "HttpConfig": {
+        "Address": "0.0.0.0:33073",
+        "AuthIssuer": "https://example.eu.auth0.com/",
+        "AuthAudience": "netbird-banking",
+        "AuthKeysLocation": "https://example.eu.auth0.com/.well-known/jwks.json",
+        "AuthUserIDClaim": "",
+        "CertFile": "",
+        "CertKey": "",
+        "IdpSignKeyRefreshEnabled": false,
+        "OIDCConfigEndpoint": "https://example.eu.auth0.com/.well-known/openid-configuration"
+      },
+      "IdpManagerConfig": {
+        "ManagerType": "auth0",
+        "ClientConfig": {
+          "Issuer": "https://example.eu.auth0.com/",
+          "TokenEndpoint": "https://example.eu.auth0.com/oauth/token",
+          "ClientID": "{{ .IDP_CLIENT_ID }}",
+          "ClientSecret": "{{ .IDP_CLIENT_SECRET }}",
+          "GrantType": "client_credentials"
+        },
+        "ExtraConfig": {
+          "Audience": "https://example.eu.auth0.com/api/v2/"
+        },
+        "Auth0ClientCredentials": null,
+        "AzureClientCredentials": null,
+        "KeycloakClientCredentials": null,
+        "ZitadelClientCredentials": null
+      },
+      "DeviceAuthorizationFlow": {
+        "Provider": "hosted",
+        "ProviderConfig": {
+          "Audience": "netbird-banking",
+          "AuthorizationEndpoint": "",
+          "Domain": "",
+          "ClientID": "{{ .IDP_INTERACTIVE_CLIENT_ID }}",
+          "ClientSecret": "",
+          "TokenEndpoint": "https://example.eu.auth0.com/oauth/token",
+          "DeviceAuthEndpoint": "https://example.eu.auth0.com/oauth/device/code",
+          "Scope": "openid",
+          "UseIDToken": false,
+          "RedirectURLs": null
+        }
+      },
+      "PKCEAuthorizationFlow": {
+        "ProviderConfig": {
+          "Audience": "netbird-banking",
+          "ClientID": "{{ .IDP_DASHBOARD_CLIENT_ID }}",
+          "ClientSecret": "",
+          "Domain": "",
+          "AuthorizationEndpoint": "https://example.eu.auth0.com/authorize",
+          "TokenEndpoint": "https://example.eu.auth0.com/oauth/token",
+          "Scope": "openid groups profile email offline_access api email_verified groups",
+          "RedirectURLs": ["http://localhost:53000"],
+          "UseIDToken": false
+        }
+      }
     }
+
 
   envFromSecret:
     STUN_SERVER: netbird/stunServer
@@ -114,10 +109,10 @@ management:
     TURN_SERVER_USER: netbird/turnServerUser
     TURN_SERVER_PASSWORD: netbird/turnServerPassword
     RELAY_PASSWORD: netbird/relayPassword
-    MANAGEMENT_CLIENT_ID: netbird/idpClientID
-    MANAGEMENT_CLIENT_SECRET: netbird/idpClientSecret
-    INTERACTIVE_CLIENT_ID: netbird/idpInteractiveClientID
-    DASHBOARD_CLIENT_ID: netbird/idpDashboardClientID
+    IDP_CLIENT_ID: netbird/idpClientID
+    IDP_CLIENT_SECRET: netbird/idpClientSecret
+    IDP_INTERACTIVE_CLIENT_ID: netbird/idpInteractiveClientID
+    IDP_DASHBOARD_CLIENT_ID: netbird/idpDashboardClientID
     DATASTORE_ENCRYPTION_KEY: netbird/datastoreEncryptionKey
 
   podCommand:
@@ -129,7 +124,7 @@ management:
       - --dns-domain=netbird.selfhosted"
 
   image:
-    tag: 0.30.2
+    tag: 0.30.3
 
   ingress:
     enabled: true
@@ -170,7 +165,7 @@ management:
 
 signal:
   image:
-    tag: 0.30.2
+    tag: 0.30.3
   ingress:
     enabled: true
     className: nginx
@@ -200,7 +195,7 @@ relay:
       cpu: 1000m
       memory: 256Mi
   image:
-    tag: 0.30.2
+    tag: 0.30.3
   ingress:
     enabled: true
     className: nginx
