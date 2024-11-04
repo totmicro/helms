@@ -105,7 +105,7 @@ management:
     }
 
   image:
-    tag: 0.30.3
+    tag: 0.31.0
 
   ingress:
     enabled: true
@@ -128,6 +128,8 @@ management:
       cert-manager.io/cluster-issuer: example-issuer
       nginx.ingress.kubernetes.io/backend-protocol: GRPC
       nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
       nginx.ingress.kubernetes.io/server-snippet: |
         grpc_connect_timeout 3600s;
         grpc_read_timeout 3600s;
@@ -159,7 +161,7 @@ management:
 
 signal:
   image:
-    tag: 0.30.3
+    tag: 0.31.0
   ingress:
     enabled: true
     className: public
@@ -167,6 +169,8 @@ signal:
       cert-manager.io/cluster-issuer: example-issuer
       nginx.ingress.kubernetes.io/backend-protocol: GRPC
       nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
       nginx.ingress.kubernetes.io/server-snippet: |
         grpc_connect_timeout 3600s;
         grpc_read_timeout 3600s;
@@ -183,7 +187,7 @@ signal:
 
 relay:
   image:
-    tag: 0.30.3
+    tag: 0.31.0
   ingress:
     enabled: true
     className: public
@@ -224,7 +228,7 @@ dashboard:
         hosts:
           - netbird-dashboard.example.com
   image:
-    tag: v2.6.1
+    tag: v2.7.0
   env:
     # Endpoints
     NETBIRD_MGMT_API_ENDPOINT: https://netbird.example.com:443

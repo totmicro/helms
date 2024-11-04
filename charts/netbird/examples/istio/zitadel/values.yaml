@@ -101,7 +101,7 @@ management:
     }
 
   image:
-    tag: 0.30.3
+    tag: 0.31.0
   persistentVolume:
     enabled: true
     size: 5Gi
@@ -119,11 +119,11 @@ management:
 
 signal:
   image:
-    tag: 0.30.3
+    tag: 0.31.0
 
 relay:
   image:
-    tag: 0.30.3
+    tag: 0.31.0
   envFromSecret:
     NB_AUTH_SECRET: netbird/relayPassword
   env:
@@ -134,7 +134,7 @@ relay:
 dashboard:
   enabled: true
   image:
-    tag: v2.6.1
+    tag: v2.7.0
   env:
     # Endpoints
     NETBIRD_MGMT_API_ENDPOINT: https://netbird.example.com:443
