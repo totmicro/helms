@@ -222,6 +222,10 @@ For more configuration options, refer to the `values.yaml` file.
 
 You can find working examples [here](./examples)
 
+## STUN/TURN Server
+
+If you need to deploy a High Available stun/turn server, please refer to this [blog](https://medium.com/l7mp-technologies/deploying-a-scalable-stun-service-in-kubernetes-c7b9726fa41d)
+
 ## Contributing
 
 We welcome contributions to improve this chart! Please submit a pull request to the GitHub repository with any changes or suggestions.
