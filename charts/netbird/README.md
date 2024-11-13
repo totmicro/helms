@@ -1,6 +1,6 @@
 # netbird
 
-![Version: 1.5.2](https://img.shields.io/badge/Version-1.5.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.31.1](https://img.shields.io/badge/AppVersion-0.31.1-informational?style=flat-square)
+![Version: 1.5.3](https://img.shields.io/badge/Version-1.5.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.31.1](https://img.shields.io/badge/AppVersion-0.31.1-informational?style=flat-square)
 
 # NetBird Helm Chart
 
@@ -135,9 +135,13 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | management.replicaCount | int | `1` |  |
 | management.resources | object | `{}` |  |
 | management.securityContext | object | `{}` |  |
+| management.useBackwardsGrpcService | bool | `false` |  |
 | management.service.name | string | `"http"` |  |
 | management.service.port | int | `80` |  |
 | management.service.type | string | `"ClusterIP"` |  |
+| management.serviceGrpc.name | string | `"http"` |  |
+| management.serviceGrpc.port | int | `33073` |  |
+| management.serviceGrpc.type | string | `"ClusterIP"` |  |
 | management.serviceAccount.annotations | object | `{}` |  |
 | management.serviceAccount.create | bool | `true` |  |
 | management.serviceAccount.name | string | `""` |  |

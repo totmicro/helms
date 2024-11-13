@@ -110,6 +110,9 @@ management:
   # runAsNonRoot: true
   # runAsUser: 1000
 
+  ## @param management.useBackwardsGrpcService Use the backwards-compatible GRPC service.
+  useBackwardsGrpcService: false
+
   service:
     ## @param management.service.type Service type for the management component.
     ##
@@ -122,6 +125,19 @@ management:
     ## @param management.service.name Name for the management service.
     ##
     name: http
+
+  serviceGrpc:
+    ## @param management.serviceGrpc.type Service type for the management component.
+    ##
+    type: ClusterIP
+
+    ## @param management.serviceGrpc.port Port for the management service.
+    ##
+    port: 33073
+
+    ## @param management.serviceGrpc.name Name for the management service.
+    ##
+    name: grpc
 
   ingress:
     ## @param management.ingress.enabled Enable or disable ingress for the management component.

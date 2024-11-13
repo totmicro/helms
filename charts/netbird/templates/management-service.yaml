@@ -10,9 +10,9 @@ spec:
   type: {{ .Values.management.service.type }}
   ports:
     - port: {{ .Values.management.service.port }}
-      targetPort: http
+      targetPort: {{ .Values.management.service.name }}
       protocol: TCP
-      name: http
+      name: {{ .Values.management.service.name }}
   selector:
     {{- include "netbird.management.selectorLabels" . | nindent 4 }}
 {{- end }}

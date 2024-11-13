@@ -1,6 +1,9 @@
 {{- if .Values.management.enabled -}}
 {{- if .Values.management.ingressGrpc.enabled -}}
 {{- $fullName := printf "%s-management-grpc" (include "netbird.fullname" .) -}}
+{{- $useBackwardsGrpcService := .Values.management.useBackwardsGrpcService -}}
+{{- $svcNameGrpc := printf "%s-management-grpc" (include "netbird.fullname" .) -}}
+{{- $svcPortGrpc := .Values.management.serviceGrpc.port -}}
 {{- $svcName := printf "%s-management" (include "netbird.fullname" .) -}}
 {{- $svcPort := .Values.management.service.port -}}
 apiVersion: networking.k8s.io/v1
@@ -36,9 +39,9 @@ spec:
             pathType: {{ .pathType }}
             backend:
               service:
-                name: {{ $svcName }}
+                name: {{ if $useBackwardsGrpcService }}{{ $svcNameGrpc }}{{ else }}{{ $svcName }}{{ end }}
                 port:
-                  number: {{ $svcPort }}
+                  number: {{ if $useBackwardsGrpcService }}{{ $svcPortGrpc }}{{ else }}{{ $svcPort }}{{ end }}
           {{- end }}
     {{- end }}
 {{- end }}
