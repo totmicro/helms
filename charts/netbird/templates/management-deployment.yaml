@@ -43,7 +43,7 @@ spec:
           {{- if hasKey .Values.management.podCommand "args" }}
           args:
             {{- range .Values.management.podCommand.args }}
-          - {{ . }}
+            - {{ . }}
           {{- end }}
           {{- end }}
           {{- if or (.Values.management.env) (.Values.management.envRaw) (.Values.management.envFromSecret) }}
@@ -54,7 +54,7 @@ spec:
           {{- end }}
           {{- if .Values.management.envRaw }}
             {{- with .Values.management.envRaw }}
-              {{- toYaml . | nindent 10 }}
+              {{- toYaml . | nindent 12 }}
             {{- end }}
           {{- end }}
           {{- range $key, $val := .Values.management.envFromSecret }}

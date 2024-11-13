@@ -9,7 +9,7 @@ metadata:
     {{- include "netbird.management.labels" . | nindent 4 }}
 spec:
   accessModes:
-    {{ toYaml .Values.management.persistentVolume.accessModes | indent 4 }}
+    {{ toYaml .Values.management.persistentVolume.accessModes }}
   resources:
     requests:
       storage: "{{ .Values.management.persistentVolume.size }}"

@@ -101,7 +101,7 @@ management:
     }
 
   image:
-    tag: 0.31.0
+    tag: 0.31.1
   persistentVolume:
     enabled: true
     size: 5Gi
@@ -119,11 +119,11 @@ management:
 
 signal:
   image:
-    tag: 0.31.0
+    tag: 0.31.1
 
 relay:
   image:
-    tag: 0.31.0
+    tag: 0.31.1
   envFromSecret:
     NB_AUTH_SECRET: netbird/relayPassword
   env:

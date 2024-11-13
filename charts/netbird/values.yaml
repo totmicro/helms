@@ -568,7 +568,7 @@ dashboard:
     pullPolicy: IfNotPresent
 
     ## @param image.tag image tag (immutable tags are recommended)
-    tag: "2.6.1"
+    tag: "2.7.0"
 
   ## @param imagePullSecrets image pull secrets
   imagePullSecrets: []

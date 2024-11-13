@@ -62,7 +62,7 @@ spec:
             {{- end }}
             {{- if .Values.relay.envRaw }}
               {{- with .Values.relay.envRaw }}
-              {{- toYaml . | nindent 10 }}
+              {{- toYaml . | nindent 12 }}
               {{- end }}
             {{- end }}
             {{- range $key, $val := .Values.relay.envFromSecret }}

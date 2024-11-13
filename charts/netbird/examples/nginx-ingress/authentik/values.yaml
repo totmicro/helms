@@ -105,7 +105,7 @@ management:
     }
 
   image:
-    tag: 0.31.0
+    tag: 0.31.1
 
   ingress:
     enabled: true
@@ -161,7 +161,7 @@ management:
 
 signal:
   image:
-    tag: 0.31.0
+    tag: 0.31.1
   ingress:
     enabled: true
     className: public
@@ -187,7 +187,7 @@ signal:
 
 relay:
   image:
-    tag: 0.31.0
+    tag: 0.31.1
   ingress:
     enabled: true
     className: public

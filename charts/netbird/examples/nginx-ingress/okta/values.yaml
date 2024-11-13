@@ -126,7 +126,7 @@ management:
       - --dns-domain=netbird.selfhosted"
 
   image:
-    tag: 0.31.0
+    tag: 0.31.1
 
   ingress:
     enabled: true
@@ -169,7 +169,7 @@ management:
 
 signal:
   image:
-    tag: 0.31.0
+    tag: 0.31.1
   ingress:
     enabled: true
     className: nginx
@@ -201,7 +201,7 @@ relay:
       cpu: 1000m
       memory: 128Mi
   image:
-    tag: 0.31.0
+    tag: 0.31.1
   ingress:
     enabled: true
     className: nginx

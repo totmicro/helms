@@ -43,7 +43,7 @@ spec:
           {{- end }}
           {{- if .Values.dashboard.envRaw }}
             {{- with .Values.dashboard.envRaw }}
-              {{- toYaml . | nindent 10 }}
+              {{- toYaml . | nindent 12 }}
             {{- end }}
           {{- end }}
           {{- range $key, $val := .Values.dashboard.envFromSecret }}
