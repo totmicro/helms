@@ -49,8 +49,8 @@ spec:
           {{- if or (.Values.management.env) (.Values.management.envRaw) (.Values.management.envFromSecret) }}
           env:
           {{- range $key, $val := .Values.management.env }}
-          - name: {{ $key }}
-            value: {{ $val | quote }}
+            - name: {{ $key }}
+              value: {{ $val | quote }}
           {{- end }}
           {{- if .Values.management.envRaw }}
             {{- with .Values.management.envRaw }}
@@ -58,11 +58,11 @@ spec:
             {{- end }}
           {{- end }}
           {{- range $key, $val := .Values.management.envFromSecret }}
-          - name: {{ $key }}
-            valueFrom:
-              secretKeyRef:
-                name: {{ (split "/" $val)._0 }}
-                key: {{ (split "/" $val)._1 }}
+            - name: {{ $key }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ (split "/" $val)._0 }}
+                  key: {{ (split "/" $val)._1 }}
           {{- end }}
           {{- end }}
           {{- with .Values.management.lifecycle }}

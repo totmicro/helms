@@ -56,22 +56,22 @@ spec:
             {{- toYaml .Values.relay.resources | nindent 12 }}
           {{- if or (.Values.relay.env) (.Values.relay.envRaw) (.Values.relay.envFromSecret) }}
           env:
-            {{- range $key, $val := .Values.relay.env }}
+          {{- range $key, $val := .Values.relay.env }}
             - name: {{ $key }}
               value: {{ $val | quote }}
+          {{- end }}
+          {{- if .Values.relay.envRaw }}
+            {{- with .Values.relay.envRaw }}
+            {{- toYaml . | nindent 12 }}
             {{- end }}
-            {{- if .Values.relay.envRaw }}
-              {{- with .Values.relay.envRaw }}
-              {{- toYaml . | nindent 12 }}
-              {{- end }}
-            {{- end }}
-            {{- range $key, $val := .Values.relay.envFromSecret }}
+          {{- end }}
+          {{- range $key, $val := .Values.relay.envFromSecret }}
             - name: {{ $key }}
               valueFrom:
                 secretKeyRef:
                   name: {{ (split "/" $val)._0 }}
                   key: {{ (split "/" $val)._1 }}
-            {{- end }}
+          {{- end }}
           {{- end }}
       {{- with .Values.relay.nodeSelector }}
       nodeSelector:
