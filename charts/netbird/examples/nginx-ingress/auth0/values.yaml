@@ -124,7 +124,7 @@ management:
       - --dns-domain=netbird.selfhosted"
 
   image:
-    tag: 0.31.1
+    tag: 0.32.0
 
   ingress:
     enabled: true
@@ -149,10 +149,6 @@ management:
       nginx.ingress.kubernetes.io/ssl-redirect: "true"
       nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
       nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
-      nginx.ingress.kubernetes.io/server-snippet: |
-        grpc_connect_timeout 3600s;
-        grpc_read_timeout 3600s;
-        grpc_send_timeout 3600s;
     hosts:
       - host: netbird.example.com
         paths:
@@ -164,10 +160,10 @@ management:
           - netbird.example.com
   persistentVolume:
     enabled: true
-
+  useBackwardsGrpcService: true
 signal:
   image:
-    tag: 0.31.1
+    tag: 0.32.0
   ingress:
     enabled: true
     className: nginx
@@ -177,10 +173,6 @@ signal:
       nginx.ingress.kubernetes.io/ssl-redirect: "true"
       nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
       nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
-      nginx.ingress.kubernetes.io/server-snippet: |
-        grpc_connect_timeout 3600s;
-        grpc_read_timeout 3600s;
-        grpc_send_timeout 3600s;
     hosts:
       - host: netbird.example.com
         paths:
@@ -199,7 +191,7 @@ relay:
       cpu: 1000m
       memory: 256Mi
   image:
-    tag: 0.31.1
+    tag: 0.32.0
   ingress:
     enabled: true
     className: nginx

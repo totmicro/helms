@@ -105,7 +105,7 @@ management:
     }
 
   image:
-    tag: 0.31.1
+    tag: 0.32.0
 
   ingress:
     enabled: true
@@ -130,10 +130,6 @@ management:
       nginx.ingress.kubernetes.io/ssl-redirect: "true"
       nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
       nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
-      nginx.ingress.kubernetes.io/server-snippet: |
-        grpc_connect_timeout 3600s;
-        grpc_read_timeout 3600s;
-        grpc_send_timeout 3600s;
     hosts:
       - host: netbird.example.com
         paths:
@@ -158,10 +154,10 @@ management:
     IDP_CLIENT_ID: netbird/idpClientID
     IDP_SERVICE_ACCOUNT_USER: netbird/idpServiceAccountUser
     IDP_SERVICE_ACCOUNT_PASSWORD: netbird/idpServiceAccountPassword
-
+  useBackwardsGrpcService: true
 signal:
   image:
-    tag: 0.31.1
+    tag: 0.32.0
   ingress:
     enabled: true
     className: public
@@ -171,10 +167,6 @@ signal:
       nginx.ingress.kubernetes.io/ssl-redirect: "true"
       nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
       nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
-      nginx.ingress.kubernetes.io/server-snippet: |
-        grpc_connect_timeout 3600s;
-        grpc_read_timeout 3600s;
-        grpc_send_timeout 3600s;
     hosts:
       - host: netbird.example.com
         paths:
@@ -187,7 +179,7 @@ signal:
 
 relay:
   image:
-    tag: 0.31.1
+    tag: 0.32.0
   ingress:
     enabled: true
     className: public
