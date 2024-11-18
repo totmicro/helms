@@ -1,7 +1,5 @@
 {{- if .Values.relay.enabled -}}
 
-{{- $secretName := printf "%s" (include "netbird.relay.secret" .) -}}
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:

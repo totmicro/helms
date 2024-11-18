@@ -567,11 +567,13 @@ relay:
 dashboard:
   ## @param dashboard.enabled Enable or disable the NetBird dashboard component.
   ##
-  enabled: false
+  enabled: true
 
-  ## @param netbird.disableIPv6 Disable IPv6 for the NetBird dashboard.
+  ## @param management.podCommand Define the arguments for the management pod.
   ##
-  disableIPv6: true
+  podCommand:
+    args: {}
+    #  - sed -i 's/listen \[\:\:\]\:80 default_server\;//g' /etc/nginx/http.d/default.conf && /usr/bin/supervisord -c /etc/supervisord.conf
 
   ## @param replicaCount Number of replicas to deploy
   replicaCount: 1

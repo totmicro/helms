@@ -158,36 +158,3 @@ Allow the release namespace to be overridden
 {{- default .Release.Namespace .Values.global.namespace -}}
 {{- end -}}
 
-{{/*
-Allow the secrets name for the management service to be overridden
-*/}}
-{{- define "netbird.management.secret" -}}
-{{- default (printf "%s" (include "netbird.fullname" .)) .Values.management.secretName -}}
-{{- end -}}
-
-{{/*
-Allow the secrets name for the relay service to be overridden
-*/}}
-{{- define "netbird.relay.secret" -}}
-{{- default (printf "%s" (include "netbird.fullname" .)) .Values.relay.secretName -}}
-{{- end -}}
-
-{{/*
-Allow the secrets name for the dashboard service to be overridden
-*/}}
-{{- define "netbird.dashboard.secret" -}}
-{{- default (printf "%s" (include "netbird.fullname" .)) .Values.dashboard.secretName -}}
-{{- end -}}
-
-{{/*
-Overrides container entrypoint based on a flag
-*/}}
-{{- define "netbird.dashboard.disableIPv6" -}}
-{{- if .Values.dashboard.disableIPv6 }}
-command: ["/bin/sh", "-c"]
-args:
-- >
-  sed -i 's/listen \[\:\:\]\:80 default_server\;//g' /etc/nginx/http.d/default.conf &&
-  /usr/bin/supervisord -c /etc/supervisord.conf
-{{- end }}
-{{- end }}

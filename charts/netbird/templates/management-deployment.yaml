@@ -1,5 +1,4 @@
 {{- if .Values.management.enabled -}}
-{{- $secretName := printf "%s" (include "netbird.management.secret" .) -}}
 
 apiVersion: apps/v1
 kind: Deployment

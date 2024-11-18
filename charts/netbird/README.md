@@ -1,6 +1,6 @@
 # netbird
 
-![Version: 1.5.3](https://img.shields.io/badge/Version-1.5.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.31.1](https://img.shields.io/badge/AppVersion-0.31.1-informational?style=flat-square)
+![Version: 1.5.4](https://img.shields.io/badge/Version-1.5.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.32.0](https://img.shields.io/badge/AppVersion-0.32.0-informational?style=flat-square)
 
 # NetBird Helm Chart
 
@@ -43,8 +43,8 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | dashboard.affinity | object | `{}` |  |
-| dashboard.disableIPv6 | bool | `true` |  |
 | dashboard.enabled | bool | `false` |  |
+| dashboard.podCommand.args[0] | string | `"args"` |  |
 | dashboard.env | object | `{}` |  |
 | dashboard.envFromSecret | object | `{}` |  |
 | dashboard.envRaw | list | `[]` |  |

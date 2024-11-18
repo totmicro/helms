@@ -1,5 +1,5 @@
 {{- if .Values.dashboard.enabled -}}
-{{- $secretName := printf "%s" (include "netbird.dashboard.secret" .) -}}
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -30,7 +30,13 @@ spec:
         {{- toYaml .Values.dashboard.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
-          {{- include "netbird.dashboard.disableIPv6" . | nindent 10 }}
+          {{- if hasKey .Values.dashboard.podCommand "args" }}
+          command: ["/bin/sh", "-c"]
+          args:
+            {{- range .Values.dashboard.podCommand.args }}
+            - {{ . }}
+          {{- end }}
+          {{- end }}
           securityContext:
             {{- toYaml .Values.dashboard.securityContext | nindent 12 }}
           image: "{{ .Values.dashboard.image.repository }}:{{ .Values.dashboard.image.tag  }}"
