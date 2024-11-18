@@ -2,6 +2,17 @@ apiVersion: v1
 entries:
   netbird:
   - apiVersion: v2
+    appVersion: 0.32.0
+    created: "2024-11-18T20:31:42.080201944Z"
+    description: NetBird VPN management platform
+    digest: c8a072e999f37d2f11d188753c179a59dfebb5b60bf97a1b86ad160fd52e81ff
+    icon: https://images.crunchbase.com/image/upload/c_pad,h_256,w_256,f_auto,q_auto:eco,dpr_1/kuu5tm1wt09ztp6ctlag
+    name: netbird
+    type: application
+    urls:
+    - https://github.com/totmicro/helms/releases/download/netbird-1.5.4/netbird-1.5.4.tgz
+    version: 1.5.4
+  - apiVersion: v2
     appVersion: 0.31.1
     created: "2024-11-13T22:39:15.604933567Z"
     description: NetBird VPN management platform
@@ -130,4 +141,4 @@ entries:
     urls:
     - https://github.com/totmicro/helms/releases/download/netbird-dashboard-1.1.0/netbird-dashboard-1.1.0.tgz
     version: 1.1.0
-generated: "2024-11-13T22:39:15.604972359Z"
+generated: "2024-11-18T20:31:42.080254002Z"
