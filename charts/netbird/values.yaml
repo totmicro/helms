@@ -572,7 +572,7 @@ dashboard:
   ## @param management.podCommand Define the arguments for the management pod.
   ##
   podCommand:
-    args: {}
+    args: []
     #  - sed -i 's/listen \[\:\:\]\:80 default_server\;//g' /etc/nginx/http.d/default.conf && /usr/bin/supervisord -c /etc/supervisord.conf
 
   ## @param replicaCount Number of replicas to deploy
