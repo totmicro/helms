@@ -9,9 +9,9 @@ metadata:
 spec:
   selector:
     matchLabels:
-{{- include "netbird.management.selectorLabels" . | nindent 6 }}
       # app: {{ .Chart.Name }}
       # release: {{ .Release.Name }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
   namespaceSelector:
     matchNames:
       - {{ .Release.Namespace }}
