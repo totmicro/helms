@@ -1,11 +1,12 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ include "netbird.name" . }}-monitor
   namespace: {{ include "netbird.namespace" . }}
   labels:
-    app: {{ .Chart.Name }}
-    release: {{ .Release.Name }}
+{{- include "netbird.common.labels" . | nindent 4 }}
+    app.kubernetes.io/name: {{ include "netbird.name" . }}-monitor
+    app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
   selector:
     matchLabels:
