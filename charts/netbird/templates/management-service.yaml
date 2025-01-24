@@ -13,6 +13,10 @@ spec:
       targetPort: {{ .Values.management.service.name }}
       protocol: TCP
       name: {{ .Values.management.service.name }}
+    - port: 9090
+      targetPort: metrics
+      protocol: TCP
+      name: metrics
   selector:
     {{- include "netbird.management.selectorLabels" . | nindent 4 }}
 {{- end }}
