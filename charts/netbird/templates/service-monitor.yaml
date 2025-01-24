@@ -1,7 +1,7 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: {{ .Release.Name }}-servicemonitor
+  name: {{ .Release.Name }}
   namespace: {{ include "netbird.namespace" . }}
   labels:
     app: {{ .Chart.Name }}
@@ -9,18 +9,10 @@ metadata:
 spec:
   selector:
     matchLabels:
-      # app: {{ .Chart.Name }}
-      # release: {{ .Release.Name }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   namespaceSelector:
     matchNames:
       - {{ .Release.Namespace }}
   endpoints:
     - port: metrics
-      interval: 30s
-  # targets:
-  #   - kind: Service
-  #     namespace: {{ .Release.Namespace }}
-  #     selector:
-  #       matchLabels:
-  #         app.kubernetes.io/managed-by: {{ .Release.Service }}
+      interval: 30s # TODO: inject from values
