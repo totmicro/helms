@@ -1,0 +1,25 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ .Release.Name }}-servicemonitor
+  labels:
+    app: {{ .Chart.Name }}
+    release: {{ .Release.Name }}
+spec:
+  selector:
+    matchLabels:
+{{- include "netbird.management.selectorLabels" . | nindent 6 }}
+      # app: {{ .Chart.Name }}
+      # release: {{ .Release.Name }}
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+  endpoints:
+    - port: metrics
+      interval: 30s
+  # targets:
+  #   - kind: Service
+  #     namespace: {{ .Release.Namespace }}
+  #     selector:
+  #       matchLabels:
+  #         app.kubernetes.io/managed-by: {{ .Release.Service }}
