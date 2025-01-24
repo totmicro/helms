@@ -13,6 +13,10 @@ spec:
       targetPort: {{ .Values.relay.service.name }}
       protocol: TCP
       name: {{ .Values.relay.service.name }}
+    - port: 9090
+      targetPort: metrics
+      protocol: TCP
+      name: metrics
   selector:
     {{- include "netbird.relay.selectorLabels" . | nindent 4 }}
 {{- end }}
