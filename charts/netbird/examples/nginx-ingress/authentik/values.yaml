@@ -220,7 +220,7 @@ dashboard:
         hosts:
           - netbird-dashboard.example.com
   image:
-    tag: v2.7.0
+    tag: v2.9.0
   env:
     # Endpoints
     NETBIRD_MGMT_API_ENDPOINT: https://netbird.example.com:443
