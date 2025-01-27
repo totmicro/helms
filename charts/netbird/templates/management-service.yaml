@@ -13,7 +13,7 @@ spec:
       targetPort: {{ .Values.management.service.name }}
       protocol: TCP
       name: {{ .Values.management.service.name }}
-    - port: 9090
+    - port: {{ .Values.management.metrics.port }}
       targetPort: metrics
       protocol: TCP
       name: metrics

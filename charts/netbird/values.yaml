@@ -25,6 +25,7 @@ management:
   podCommand:
     args:
       - --port=80
+      - --metrics-port=9090
       - --log-file=console
       - --log-level=info
       - --disable-anonymous-metrics=false
@@ -112,6 +113,9 @@ management:
 
   ## @param management.useBackwardsGrpcService Use the backwards-compatible GRPC service.
   useBackwardsGrpcService: false
+
+  metrics:
+    port: 9090
 
   service:
     ## @param management.service.type Service type for the management component.
