@@ -1,13 +1,15 @@
+{{- if and .Values.metrics.enabled .Values.metrics.serviceMonitor.enabled}}
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: {{ include "netbird.name" . }}-monitor
-  namespace: {{ include "netbird.namespace" . }}
+  namespace: {{ default (include "netbird.namespace" .) .Values.metrics.serviceMonitor.namespace }}
   labels:
 {{- include "netbird.common.labels" . | nindent 4 }}
     app.kubernetes.io/name: {{ include "netbird.name" . }}-monitor
     app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
+  jobLabel: {{ .Values.metrics.serviceMonitor.jobLabel | quote }}
   selector:
     matchLabels:
       app.kubernetes.io/instance: {{ .Release.Name }}
@@ -17,3 +19,4 @@ spec:
   endpoints:
     - port: metrics
       interval: 30s # TODO: inject from values
+{{- end }}
