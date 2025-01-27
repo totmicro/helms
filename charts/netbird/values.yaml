@@ -725,9 +725,6 @@ extraManifests: {}
 ## @section Prometheus metrics
 
 metrics:
-  ## @param metrics.enabled Enable the export of Prometheus metrics
-  ##
-  enabled: true
   ## Prometheus Operator ServiceMonitor configuration
   ##
   serviceMonitor:
