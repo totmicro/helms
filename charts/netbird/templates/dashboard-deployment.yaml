@@ -30,7 +30,7 @@ spec:
         {{- toYaml .Values.dashboard.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
-          {{- if and (hasKey .Values.dashboard.podCommand "args") .Values.dashboard.podCommand.args }}
+          {{- if .Values.dashboard.podCommand.args }}
           command: ["/bin/sh", "-c"]
           args:
             {{- range .Values.dashboard.podCommand.args }}
