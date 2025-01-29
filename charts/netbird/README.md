@@ -1,6 +1,6 @@
 # netbird
 
-![Version: 1.5.4-rc11](https://img.shields.io/badge/Version-1.5.4--rc11-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.32.0](https://img.shields.io/badge/AppVersion-0.32.0-informational?style=flat-square)
+![Version: 1.5.4-rc15](https://img.shields.io/badge/Version-1.5.4--rc15-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.32.0](https://img.shields.io/badge/AppVersion-0.32.0-informational?style=flat-square)
 
 NetBird VPN management platform
 
@@ -81,6 +81,7 @@ NetBird VPN management platform
 | management.livenessProbe.periodSeconds | int | `10` |  |
 | management.livenessProbe.tcpSocket.port | string | `"http"` |  |
 | management.livenessProbe.timeoutSeconds | int | `3` |  |
+| management.metrics.enabled | bool | `false` |  |
 | management.metrics.port | int | `9090` |  |
 | management.nodeSelector | object | `{}` |  |
 | management.persistentVolume.accessModes[0] | string | `"ReadWriteOnce"` |  |
@@ -115,7 +116,7 @@ NetBird VPN management platform
 | management.tolerations | list | `[]` |  |
 | management.useBackwardsGrpcService | bool | `false` |  |
 | metrics.serviceMonitor.annotations | object | `{}` |  |
-| metrics.serviceMonitor.enabled | bool | `true` |  |
+| metrics.serviceMonitor.enabled | bool | `false` |  |
 | metrics.serviceMonitor.honorLabels | bool | `false` |  |
 | metrics.serviceMonitor.interval | string | `""` |  |
 | metrics.serviceMonitor.jobLabel | string | `""` |  |
@@ -147,6 +148,8 @@ NetBird VPN management platform
 | relay.livenessProbe.periodSeconds | int | `5` |  |
 | relay.livenessProbe.tcpSocket.port | string | `"http"` |  |
 | relay.logLevel | string | `"info"` |  |
+| relay.metrics.enabled | bool | `false` |  |
+| relay.metrics.port | int | `9090` |  |
 | relay.nodeSelector | object | `{}` |  |
 | relay.podAnnotations | object | `{}` |  |
 | relay.podSecurityContext | object | `{}` |  |
@@ -181,6 +184,8 @@ NetBird VPN management platform
 | signal.livenessProbe.periodSeconds | int | `5` |  |
 | signal.livenessProbe.tcpSocket.port | string | `"grpc"` |  |
 | signal.logLevel | string | `"info"` |  |
+| signal.metrics.enabled | bool | `false` |  |
+| signal.metrics.port | int | `9090` |  |
 | signal.nodeSelector | object | `{}` |  |
 | signal.podAnnotations | object | `{}` |  |
 | signal.podSecurityContext | object | `{}` |  |
