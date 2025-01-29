@@ -2,7 +2,7 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: {{ include "netbird.name" . }}-monitor
+  name: {{ include "netbird.name" . }}
   namespace: {{ default (include "netbird.namespace" .) .Values.metrics.serviceMonitor.namespace | quote }}
   labels:
     {{- include "netbird.common.labels" . | nindent 4 }}
