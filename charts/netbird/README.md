@@ -1,6 +1,6 @@
 # netbird
 
-![Version: 1.5.4-rc15](https://img.shields.io/badge/Version-1.5.4--rc15-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.32.0](https://img.shields.io/badge/AppVersion-0.32.0-informational?style=flat-square)
+![Version: 1.5.5](https://img.shields.io/badge/Version-1.5.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.36.3](https://img.shields.io/badge/AppVersion-0.36.3-informational?style=flat-square)
 
 NetBird VPN management platform
 
@@ -89,12 +89,11 @@ NetBird VPN management platform
 | management.persistentVolume.size | string | `"10Mi"` |  |
 | management.podAnnotations | object | `{}` |  |
 | management.podCommand.args[0] | string | `"--port=80"` |  |
-| management.podCommand.args[1] | string | `"--metrics-port=9090"` |  |
-| management.podCommand.args[2] | string | `"--log-file=console"` |  |
-| management.podCommand.args[3] | string | `"--log-level=info"` |  |
-| management.podCommand.args[4] | string | `"--disable-anonymous-metrics=false"` |  |
-| management.podCommand.args[5] | string | `"--single-account-mode-domain=netbird.example.com"` |  |
-| management.podCommand.args[6] | string | `"--dns-domain=netbird.selfhosted"` |  |
+| management.podCommand.args[1] | string | `"--log-file=console"` |  |
+| management.podCommand.args[2] | string | `"--log-level=info"` |  |
+| management.podCommand.args[3] | string | `"--disable-anonymous-metrics=false"` |  |
+| management.podCommand.args[4] | string | `"--single-account-mode-domain=netbird.example.com"` |  |
+| management.podCommand.args[5] | string | `"--dns-domain=netbird.selfhosted"` |  |
 | management.podSecurityContext | object | `{}` |  |
 | management.readinessProbe.failureThreshold | int | `3` |  |
 | management.readinessProbe.initialDelaySeconds | int | `15` |  |
