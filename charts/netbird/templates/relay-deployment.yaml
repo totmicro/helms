@@ -39,7 +39,7 @@ spec:
               containerPort: {{ .Values.relay.service.port }}
               protocol: TCP
             - name: metrics  
-              containerPort: 9090
+              containerPort: {{ .Values.relay.metrics.port}}
               protocol: TCP
           {{- if .Values.relay.livenessProbe }}
             {{- with .Values.relay.livenessProbe }}

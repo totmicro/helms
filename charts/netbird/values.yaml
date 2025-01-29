@@ -115,6 +115,11 @@ management:
   useBackwardsGrpcService: false
 
   metrics:
+    ## @param signal.metrics.enabled enables/disables metrics 
+    ##
+    enabled: false 
+    ## @param signal.metrics.port target metrics port 
+    ##
     port: 9090
 
   service:
@@ -495,6 +500,14 @@ relay:
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
   # runAsUser: 1000
+
+  metrics:
+    ## @param signal.metrics.enabled enables/disables metrics 
+    ##
+    enabled: false 
+    ## @param signal.metrics.port target metrics port 
+    ##
+    port: 9090
 
   service:
     ## @param relay.service.type Service type for the relay component.
