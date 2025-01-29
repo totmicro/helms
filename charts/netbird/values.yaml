@@ -789,7 +789,6 @@ metrics:
     ##
     relabelings: []
     ## @param metrics.serviceMonitor.selector Prometheus instance selector labels
-    ## ref: https://github.com/bitnami/charts/tree/main/bitnami/prometheus-operator#prometheus-configuration
     ## selector:
     ##   prometheus: my-prometheus
     ##
