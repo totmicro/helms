@@ -329,6 +329,14 @@ signal:
   # runAsNonRoot: true
   # runAsUser: 1000
 
+  metrics:
+    ## @param signal.metrics.enabled enables/disables metrics 
+    ##
+    enabled: false 
+    ## @param signal.metrics.port target metrics port 
+    ##
+    port: 9090
+
   service:
     ## @param signal.service.type Service type for the signal component.
     ##
