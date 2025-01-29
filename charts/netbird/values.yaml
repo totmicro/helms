@@ -25,7 +25,6 @@ management:
   podCommand:
     args:
       - --port=80
-      - --metrics-port=9090
       - --log-file=console
       - --log-level=info
       - --disable-anonymous-metrics=false
