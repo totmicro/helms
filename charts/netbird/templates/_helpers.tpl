@@ -31,6 +31,18 @@ Create chart name and version as used by the chart label.
 {{- end }}
 
 {{/*
+Common labels
+*/}}
+{{- define "netbird.common.labels" -}}
+helm.sh/chart: {{ include "netbird.chart" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+
+{{/*
 Common management labels
 */}}
 {{- define "netbird.management.labels" -}}
@@ -106,6 +118,7 @@ Dashboard selector labels
 app.kubernetes.io/name: {{ include "netbird.name" . }}-dashboard
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
+
 
 {{/*
 Create the name of the management service account to use

@@ -14,6 +14,12 @@ spec:
       targetPort: {{ .Values.signal.service.name }}
       protocol: TCP
       name: {{ .Values.signal.service.name }}
+    {{- if .Values.signal.metrics.enabled }}
+    - port: {{ .Values.signal.metrics.port }}
+      targetPort: metrics
+      protocol: TCP
+      name: metrics
+    {{- end }}
   selector:
     {{- include "netbird.signal.selectorLabels" . | nindent 4 }}
 
