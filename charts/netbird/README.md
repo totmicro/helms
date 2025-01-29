@@ -2,9 +2,43 @@
 
 ![Version: 1.5.5](https://img.shields.io/badge/Version-1.5.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.36.3](https://img.shields.io/badge/AppVersion-0.36.3-informational?style=flat-square)
 
-NetBird VPN management platform
+# NetBird Helm Chart
 
-## Values
+This Helm chart installs and configures the [NetBird](https://github.com/netbirdio/netbird) services within a Kubernetes cluster. The chart includes the management, signal, and relay components of NetBird, providing secure peer-to-peer network connections across various environments.
+
+## Prerequisites
+
+- Helm 3.x
+- Kubernetes 1.19+
+
+## Installation
+
+To install the chart with the release name `netbird`:
+
+```bash
+helm repo add totmicro https://totmicro.github.io/helms
+helm install netbird totmicro/netbird
+```
+
+You can override default values by specifying a `values.yaml` file:
+
+```bash
+helm install netbird totmicro/netbird -f values.yaml
+```
+
+### Uninstalling the Chart
+
+To uninstall/delete the `netbird` release:
+
+```bash
+helm uninstall netbird
+```
+
+This will remove all the resources associated with the release.
+
+## Configuration
+
+The following table lists the configurable parameters of the NetBird Helm chart and their default values.
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
