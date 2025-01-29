@@ -3,8 +3,7 @@ name: Release Charts
 on:
   push:
     branches:
-      # - main
-      - cto-825--enable-scraping-promtheus-metrics
+      - main
 
 jobs:
   check-release:
