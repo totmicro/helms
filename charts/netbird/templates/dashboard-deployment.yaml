@@ -65,7 +65,7 @@ spec:
           {{- end }}
           ports:
             - name: {{ .Values.dashboard.service.name }}
-              containerPort: {{ .Values.dashboard.service.port }}
+              containerPort: {{ .Values.dashboard.service.containerPort | default .Values.dashboard.service.port }}
               protocol: TCP
           {{- if .Values.dashboard.livenessProbe }}
             {{- with .Values.dashboard.livenessProbe }}

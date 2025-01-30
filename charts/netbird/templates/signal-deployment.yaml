@@ -43,7 +43,7 @@ spec:
             - "console"
           ports:
             - name: {{ .Values.signal.service.name }}
-              containerPort: {{ .Values.signal.service.port }}
+              containerPort: {{ .Values.signal.service.containerPort | default .Values.signal.service.port }}
               protocol: TCP
           {{- if .Values.signal.livenessProbe }}
             {{- with .Values.signal.livenessProbe }}

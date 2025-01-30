@@ -69,10 +69,10 @@ spec:
           {{- end }}
           ports:
             - name: {{ .Values.management.service.name }}
-              containerPort: {{ .Values.management.service.port }}
+              containerPort: {{ .Values.management.service.containerPort | default .Values.management.service.port }}
               protocol: TCP
             - name: {{ .Values.management.serviceGrpc.name }}
-              containerPort: {{ .Values.management.serviceGrpc.port }}
+              containerPort: {{ .Values.management.serviceGrpc.containerPort | default .Values.management.serviceGrpc.port }}
               protocol: TCP
           {{- if .Values.management.livenessProbe }}
             {{- with .Values.management.livenessProbe }}
