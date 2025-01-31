@@ -118,6 +118,10 @@ management:
     ##
     type: ClusterIP
 
+    ## @param management.service.containerPort Container port for the management service.
+    ##
+    containerPort: 80
+
     ## @param management.service.port Port for the management service.
     ##
     port: 80
@@ -130,6 +134,10 @@ management:
     ## @param management.serviceGrpc.type Service type for the management component.
     ##
     type: ClusterIP
+
+    ## @param management.serviceGrpc.containerPort Container port for the management service.
+    ##
+    containerPort: 33073
 
     ## @param management.serviceGrpc.port Port for the management service.
     ##
@@ -330,6 +338,9 @@ signal:
     ##
     type: ClusterIP
     name: grpc
+    ## @param signal.service.containerPort Container port for the signal service.
+    ##
+    containerPort: 80
     ## @param signal.service.port Port for the signal service.
     ##
     port: 80
@@ -489,6 +500,10 @@ relay:
     ##
     type: ClusterIP
 
+    ## @param relay.service.containerPort Container port for the relay service.
+    ##
+    containerPort: 33080
+
     ## @param relay.service.port Port for the relay service.
     ##
     port: 33080
@@ -631,6 +646,9 @@ dashboard:
   service:
     ## @param dashboard.service.type
     type: ClusterIP
+
+    ## @param dashboard.service.containerPort
+    containerPort: 80
 
     ## @param dashboard.service.port
     port: 80

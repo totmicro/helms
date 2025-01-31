@@ -36,7 +36,7 @@ spec:
           imagePullPolicy: {{ .Values.relay.image.pullPolicy }}
           ports:
             - name: {{ .Values.relay.service.name }}
-              containerPort: {{ .Values.relay.service.containerPort | default .Values.relay.service.port }}
+              containerPort: {{ .Values.relay.service.containerPort }}
               protocol: TCP
           {{- if .Values.relay.livenessProbe }}
             {{- with .Values.relay.livenessProbe }}
