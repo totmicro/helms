@@ -74,6 +74,7 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | dashboard.resources | object | `{}` |  |
 | dashboard.securityContext | object | `{}` |  |
 | dashboard.service.name | string | `"http"` |  |
+| dashboard.service.containerOort | int | `80` |  |
 | dashboard.service.port | int | `80` |  |
 | dashboard.service.type | string | `"ClusterIP"` |  |
 | dashboard.serviceAccount.annotations | object | `{}` |  |
@@ -137,9 +138,11 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | management.securityContext | object | `{}` |  |
 | management.useBackwardsGrpcService | bool | `false` |  |
 | management.service.name | string | `"http"` |  |
+| management.service.containerPort | int | `80` |  |
 | management.service.port | int | `80` |  |
 | management.service.type | string | `"ClusterIP"` |  |
 | management.serviceGrpc.name | string | `"http"` |  |
+| management.serviceGrpc.containerPort | int | `33073` |  |
 | management.serviceGrpc.port | int | `33073` |  |
 | management.serviceGrpc.type | string | `"ClusterIP"` |  |
 | management.serviceAccount.annotations | object | `{}` |  |
@@ -178,6 +181,7 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | relay.resources | object | `{}` |  |
 | relay.securityContext | object | `{}` |  |
 | relay.service.name | string | `"http"` |  |
+| relay.service.containerPort | int | `33080` |  |
 | relay.service.port | int | `33080` |  |
 | relay.service.type | string | `"ClusterIP"` |  |
 | relay.serviceAccount.annotations | object | `{}` |  |
@@ -215,6 +219,7 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | signal.resources | object | `{}` |  |
 | signal.securityContext | object | `{}` |  |
 | signal.service.name | string | `"grpc"` |  |
+| signal.service.containerPort | int | `80` |  |
 | signal.service.port | int | `80` |  |
 | signal.service.type | string | `"ClusterIP"` |  |
 | signal.serviceAccount.annotations | object | `{}` |  |
