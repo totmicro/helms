@@ -69,10 +69,10 @@ spec:
           {{- end }}
           ports:
             - name: {{ .Values.management.service.name }}
-              containerPort: {{ .Values.management.service.port }}
+              containerPort: {{ .Values.management.containerport }}
               protocol: TCP
             - name: {{ .Values.management.serviceGrpc.name }}
-              containerPort: {{ .Values.management.serviceGrpc.port }}
+              containerPort: {{ .Values.management.gprcContainerport }}
               protocol: TCP
             - name: metrics  
               containerPort: {{ .Values.management.metrics.port }}
