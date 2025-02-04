@@ -38,6 +38,9 @@ spec:
             - name: {{ .Values.relay.service.name }}
               containerPort: {{ .Values.relay.service.containerPort }}
               protocol: TCP
+            - name: metrics  
+              containerPort: {{ .Values.relay.metrics.port}}
+              protocol: TCP
           {{- if .Values.relay.livenessProbe }}
             {{- with .Values.relay.livenessProbe }}
           livenessProbe:

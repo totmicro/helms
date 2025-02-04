@@ -113,6 +113,14 @@ management:
   ## @param management.useBackwardsGrpcService Use the backwards-compatible GRPC service.
   useBackwardsGrpcService: false
 
+  metrics:
+    ## @param signal.metrics.enabled enables/disables metrics 
+    ##
+    enabled: false 
+    ## @param signal.metrics.port target metrics port 
+    ##
+    port: 9090
+
   service:
     ## @param management.service.type Service type for the management component.
     ##
@@ -333,6 +341,14 @@ signal:
   # runAsNonRoot: true
   # runAsUser: 1000
 
+  metrics:
+    ## @param signal.metrics.enabled enables/disables metrics 
+    ##
+    enabled: false 
+    ## @param signal.metrics.port target metrics port 
+    ##
+    port: 9090
+
   service:
     ## @param signal.service.type Service type for the signal component.
     ##
@@ -494,6 +510,14 @@ relay:
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
   # runAsUser: 1000
+
+  metrics:
+    ## @param signal.metrics.enabled enables/disables metrics 
+    ##
+    enabled: false 
+    ## @param signal.metrics.port target metrics port 
+    ##
+    port: 9090
 
   service:
     ## @param relay.service.type Service type for the relay component.
@@ -739,3 +763,51 @@ extraManifests: {}
 # - apiVersion: v1
 #   kind: ServiceAccount
 #   .....
+
+## @section Prometheus metrics
+
+metrics:
+  ## Prometheus Operator ServiceMonitor configuration
+  ##
+  serviceMonitor:
+    ## @param metrics.serviceMonitor.enabled if `true`, creates a Prometheus Operator ServiceMonitor (also requires `metrics.enabled` to be `true`)
+    ##
+    enabled: false
+    ## @param metrics.serviceMonitor.namespace Namespace in which Prometheus is running
+    ##
+    namespace: ""
+    ## @param metrics.serviceMonitor.annotations Additional custom annotations for the ServiceMonitor
+    ##
+    annotations: {}
+    ## @param metrics.serviceMonitor.labels Extra labels for the ServiceMonitor
+    ##
+    labels: {}
+    ## @param metrics.serviceMonitor.jobLabel The name of the label on the target service to use as the job name in Prometheus
+    ##
+    jobLabel: ""
+    ## @param metrics.serviceMonitor.honorLabels honorLabels chooses the metric's labels on collisions with target labels
+    ##
+    honorLabels: false
+    ## @param metrics.serviceMonitor.interval Interval at which metrics should be scraped.
+    ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint
+    ## e.g:
+    ## interval: 10s
+    ##
+    interval: ""
+    ## @param metrics.serviceMonitor.scrapeTimeout Timeout after which the scrape is ended
+    ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint
+    ## e.g:
+    ## scrapeTimeout: 10s
+    ##
+    scrapeTimeout: ""
+    ## @param metrics.serviceMonitor.metricRelabelings Specify additional relabeling of metrics
+    ##
+    metricRelabelings: []
+    ## @param metrics.serviceMonitor.relabelings Specify general relabeling
+    ##
+    relabelings: []
+    ## @param metrics.serviceMonitor.selector Prometheus instance selector labels
+    ## selector:
+    ##   prometheus: my-prometheus
+    ##
+    selector: {}

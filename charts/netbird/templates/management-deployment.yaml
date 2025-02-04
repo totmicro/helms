@@ -74,6 +74,9 @@ spec:
             - name: {{ .Values.management.serviceGrpc.name }}
               containerPort: {{ .Values.management.gprcContainerport }}
               protocol: TCP
+            - name: metrics  
+              containerPort: {{ .Values.management.metrics.port }}
+              protocol: TCP              
           {{- if .Values.management.livenessProbe }}
             {{- with .Values.management.livenessProbe }}
           livenessProbe:
@@ -117,3 +120,4 @@ spec:
           emptyDir: {}
           {{- end }}
 {{- end -}}
+
