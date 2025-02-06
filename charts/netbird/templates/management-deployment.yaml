@@ -68,15 +68,15 @@ spec:
           lifecycle: {{ toYaml . | nindent 12 }}
           {{- end }}
           ports:
-            - name: {{ .Values.management.service.name }}
-              containerPort: {{ .Values.management.service.port }}
+            - name: http
+              containerPort: {{ .Values.management.containerPort }}
               protocol: TCP
-            - name: {{ .Values.management.serviceGrpc.name }}
-              containerPort: {{ .Values.management.serviceGrpc.port }}
+            - name: grpc
+              containerPort: {{ .Values.management.grpcContainerPort }}
               protocol: TCP
-            - name: metrics  
+            - name: metrics
               containerPort: {{ .Values.management.metrics.port }}
-              protocol: TCP              
+              protocol: TCP
           {{- if .Values.management.livenessProbe }}
             {{- with .Values.management.livenessProbe }}
           livenessProbe:

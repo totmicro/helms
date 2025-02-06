@@ -35,10 +35,10 @@ spec:
           image: "{{ .Values.relay.image.repository }}:{{ .Values.relay.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.relay.image.pullPolicy }}
           ports:
-            - name: {{ .Values.relay.service.name }}
-              containerPort: {{ .Values.relay.service.port }}
+            - name: http
+              containerPort: {{ .Values.relay.containerPort }}
               protocol: TCP
-            - name: metrics  
+            - name: metrics
               containerPort: {{ .Values.relay.metrics.port}}
               protocol: TCP
           {{- if .Values.relay.livenessProbe }}

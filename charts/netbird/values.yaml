@@ -114,17 +114,22 @@ management:
   useBackwardsGrpcService: false
 
   metrics:
-    ## @param signal.metrics.enabled enables/disables metrics 
+    ## @param signal.metrics.enabled enables/disables metrics
     ##
-    enabled: false 
-    ## @param signal.metrics.port target metrics port 
+    enabled: false
+    ## @param signal.metrics.port target metrics port
     ##
     port: 9090
+
+  ## @param management.containerPort Container port for the management service.
+  ##
+  containerPort: 80
 
   service:
     ## @param management.service.type Service type for the management component.
     ##
     type: ClusterIP
+
 
     ## @param management.service.port Port for the management service.
     ##
@@ -134,10 +139,15 @@ management:
     ##
     name: http
 
+  ## @param management.grpcContainerPort Container port for the management service.
+  ##
+  grpcContainerPort: 33073
+
   serviceGrpc:
     ## @param management.serviceGrpc.type Service type for the management component.
     ##
     type: ClusterIP
+
 
     ## @param management.serviceGrpc.port Port for the management service.
     ##
@@ -334,12 +344,16 @@ signal:
   # runAsUser: 1000
 
   metrics:
-    ## @param signal.metrics.enabled enables/disables metrics 
+    ## @param signal.metrics.enabled enables/disables metrics
     ##
-    enabled: false 
-    ## @param signal.metrics.port target metrics port 
+    enabled: false
+    ## @param signal.metrics.port target metrics port
     ##
     port: 9090
+
+  ## @param signal.containerPort Container port for the signal service.
+  ##
+  containerPort: 80
 
   service:
     ## @param signal.service.type Service type for the signal component.
@@ -501,17 +515,22 @@ relay:
   # runAsUser: 1000
 
   metrics:
-    ## @param signal.metrics.enabled enables/disables metrics 
+    ## @param signal.metrics.enabled enables/disables metrics
     ##
-    enabled: false 
-    ## @param signal.metrics.port target metrics port 
+    enabled: false
+    ## @param signal.metrics.port target metrics port
     ##
     port: 9090
+
+  ## @param relay.containerPort Container port for the relay service.
+  ##
+  containerPort: 33080
 
   service:
     ## @param relay.service.type Service type for the relay component.
     ##
     type: ClusterIP
+
 
     ## @param relay.service.port Port for the relay service.
     ##
@@ -652,9 +671,13 @@ dashboard:
   # runAsNonRoot: true
   # runAsUser: 1000
 
+  ## @param dashboard.containerPort
+  containerPort: 80
+
   service:
     ## @param dashboard.service.type
     type: ClusterIP
+
 
     ## @param dashboard.service.port
     port: 80

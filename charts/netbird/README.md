@@ -1,6 +1,6 @@
 # netbird
 
-![Version: 1.5.6](https://img.shields.io/badge/Version-1.5.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.36.3](https://img.shields.io/badge/AppVersion-0.36.3-informational?style=flat-square)
+![Version: 1.6.0](https://img.shields.io/badge/Version-1.6.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.36.5](https://img.shields.io/badge/AppVersion-0.36.5-informational?style=flat-square)
 
 # NetBird Helm Chart
 
@@ -43,13 +43,14 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | dashboard.affinity | object | `{}` |  |
+| dashboard.containerPort | int | `80` |  |
 | dashboard.enabled | bool | `true` |  |
 | dashboard.env | object | `{}` |  |
 | dashboard.envFromSecret | object | `{}` |  |
 | dashboard.envRaw | list | `[]` |  |
 | dashboard.image.pullPolicy | string | `"IfNotPresent"` |  |
 | dashboard.image.repository | string | `"netbirdio/dashboard"` |  |
-| dashboard.image.tag | string | `"2.7.0"` |  |
+| dashboard.image.tag | string | `"v2.9.0"` |  |
 | dashboard.imagePullSecrets | list | `[]` |  |
 | dashboard.ingress.annotations | object | `{}` |  |
 | dashboard.ingress.className | string | `""` |  |
@@ -85,12 +86,14 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | global.namespace | string | `""` |  |
 | management.affinity | object | `{}` |  |
 | management.configmap | string | `""` |  |
+| management.containerPort | int | `80` |  |
 | management.deploymentAnnotations | object | `{}` |  |
 | management.dnsDomain | string | `"netbird.selfhosted"` |  |
 | management.enabled | bool | `true` |  |
 | management.env | object | `{}` |  |
 | management.envFromSecret | object | `{}` |  |
 | management.envRaw | list | `[]` |  |
+| management.grpcContainerPort | int | `33073` |  |
 | management.image.pullPolicy | string | `"IfNotPresent"` |  |
 | management.image.repository | string | `"netbirdio/management"` |  |
 | management.image.tag | string | `""` |  |
@@ -181,6 +184,7 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | relay.livenessProbe.periodSeconds | int | `5` |  |
 | relay.livenessProbe.tcpSocket.port | string | `"http"` |  |
 | relay.logLevel | string | `"info"` |  |
+| relay.metrics.containerPort | int | `33080` |  |
 | relay.metrics.enabled | bool | `false` |  |
 | relay.metrics.port | int | `9090` |  |
 | relay.nodeSelector | object | `{}` |  |
@@ -200,6 +204,7 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | relay.serviceAccount.name | string | `""` |  |
 | relay.tolerations | list | `[]` |  |
 | signal.affinity | object | `{}` |  |
+| signal.containerPort | int | `80` |  |
 | signal.deploymentAnnotations | object | `{}` |  |
 | signal.enabled | bool | `true` |  |
 | signal.image.pullPolicy | string | `"IfNotPresent"` |  |

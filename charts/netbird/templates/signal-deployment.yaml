@@ -42,12 +42,12 @@ spec:
             - "--log-file"
             - "console"
           ports:
-            - name: {{ .Values.signal.service.name }}
-              containerPort: {{ .Values.signal.service.port }}
+            - name: grpc
+              containerPort: {{ .Values.signal.containerPort }}
               protocol: TCP
-            - name: metrics  
+            - name: metrics
               containerPort: {{ .Values.signal.metrics.port }}
-              protocol: TCP              
+              protocol: TCP
           {{- if .Values.signal.livenessProbe }}
             {{- with .Values.signal.livenessProbe }}
           livenessProbe:
