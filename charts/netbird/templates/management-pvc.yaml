@@ -10,6 +10,12 @@ metadata:
 spec:
   accessModes:
     {{ toYaml .Values.management.persistentVolume.accessModes }}
+  {{- if or .Values.management.persistentVolume.storageClass (eq .Values.management.persistentVolume.storageClass "") }}
+  storageClassName: "{{ .Values.management.persistentVolume.storageClass }}"
+  {{- end }}
+  {{- if .Values.management.persistentVolume.existingPVName }}
+  volumeName: "{{ .Values.management.persistentVolume.existingPVName }}"
+  {{- end }}
   resources:
     requests:
       storage: "{{ .Values.management.persistentVolume.size }}"
