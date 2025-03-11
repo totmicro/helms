@@ -157,6 +157,11 @@ management:
     ##
     name: grpc
 
+    ## @param management.serviceGrpc.annotations Annotations for the serviceGrpc resource.
+    ##
+    annotations: {}
+
+
   ingress:
     ## @param management.ingress.enabled Enable or disable ingress for the management component.
     ##
@@ -363,6 +368,10 @@ signal:
     ## @param signal.service.port Port for the signal service.
     ##
     port: 80
+
+    ## @param signal.service.annotations Annotations for the service resource.
+    ##
+    annotations: {}
 
   ingress:
     ## @param signal.ingress.enabled Enable or disable ingress for the signal component.
