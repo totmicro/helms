@@ -1,6 +1,6 @@
 # netbird
 
-![Version: 1.6.0](https://img.shields.io/badge/Version-1.6.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.36.5](https://img.shields.io/badge/AppVersion-0.36.5-informational?style=flat-square)
+![Version: 1.6.1](https://img.shields.io/badge/Version-1.6.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.36.5](https://img.shields.io/badge/AppVersion-0.36.5-informational?style=flat-square)
 
 # NetBird Helm Chart
 
@@ -124,6 +124,8 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | management.persistentVolume.accessModes[0] | string | `"ReadWriteOnce"` |  |
 | management.persistentVolume.enabled | bool | `true` |  |
 | management.persistentVolume.size | string | `"10Mi"` |  |
+| management.persistentVolume.storageClass | string | `null` |  |
+| management.persistentVolume.existingPVName | string | `""` |  |
 | management.podAnnotations | object | `{}` |  |
 | management.podCommand.args[0] | string | `"--port=80"` |  |
 | management.podCommand.args[1] | string | `"--log-file=console"` |  |

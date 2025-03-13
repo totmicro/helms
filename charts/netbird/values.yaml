@@ -254,6 +254,14 @@ management:
     ##
     size: 10Mi
 
+    ## @param management.persistentVolume.storageClass Storage Class of the persistent volume.
+    ##
+    storageClass: null
+
+    ## @param management.persistentVolume.existingPVName The name of an existing persistent volume which should be claimed and used for the management pod.
+    ##
+    existingPVName: ""
+
   ## @param management.dnsDomain DNS domain for the management component.
   ##
   dnsDomain: netbird.selfhosted
