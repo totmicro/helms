@@ -124,6 +124,8 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | management.persistentVolume.accessModes[0] | string | `"ReadWriteOnce"` |  |
 | management.persistentVolume.enabled | bool | `true` |  |
 | management.persistentVolume.size | string | `"10Mi"` |  |
+| management.persistentVolume.storageClass | string | `null` |  |
+| management.persistentVolume.existingPVName | string | `""` |  |
 | management.podAnnotations | object | `{}` |  |
 | management.podCommand.args[0] | string | `"--port=80"` |  |
 | management.podCommand.args[1] | string | `"--log-file=console"` |  |
