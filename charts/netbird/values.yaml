@@ -28,7 +28,7 @@ management:
       - --log-file=console
       - --log-level=info
       - --disable-anonymous-metrics=false
-      - --single-account-mode-domain=netbird.example.com
+      - --single-account-mode-domain=netbird.selfhosted
       - --dns-domain=netbird.selfhosted
 
   configmap: |- # Placeholder for ConfigMap data
@@ -261,10 +261,6 @@ management:
     ## @param management.persistentVolume.existingPVName The name of an existing persistent volume which should be claimed and used for the management pod.
     ##
     existingPVName: ""
-
-  ## @param management.dnsDomain DNS domain for the management component.
-  ##
-  dnsDomain: netbird.selfhosted
 
   ## @param management.livenessProbe for the management component.
   ##
@@ -637,7 +633,7 @@ dashboard:
     pullPolicy: IfNotPresent
 
     ## @param image.tag image tag (immutable tags are recommended)
-    tag: "v2.9.0"
+    tag: "v2.10.0"
 
   ## @param imagePullSecrets image pull secrets
   imagePullSecrets: []
