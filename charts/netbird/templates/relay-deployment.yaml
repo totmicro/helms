@@ -74,13 +74,13 @@ spec:
                   key: {{ (split "/" $val)._1 }}
           {{- end }}
           {{- end }}
-          {{- if .Values.relay.VolumeMounts }}
+          {{- if .Values.relay.volumeMounts }}
           volumeMounts:
-          {{- .Values.relay.VolumeMounts | toYaml | nindent 12 }}
+          {{- .Values.relay.volumeMounts | toYaml | nindent 12 }}
           {{- end }}
-      {{- if  .Values.relay.Volumes }}
+      {{- if  .Values.relay.volumes }}
       volumes:
-      {{- .Values.relay.Volumes | toYaml | nindent 8 }}
+      {{- .Values.relay.volumes | toYaml | nindent 8 }}
       {{- end }}
       {{- with .Values.relay.nodeSelector }}
       nodeSelector:

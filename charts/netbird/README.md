@@ -44,8 +44,8 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| dashboard.VolumeMounts | list | `[]` |  |
-| dashboard.Volumes | list | `[]` |  |
+| dashboard.volumeMounts | list | `[]` |  |
+| dashboard.volumes | list | `[]` |  |
 | dashboard.affinity | object | `{}` |  |
 | dashboard.containerPort | int | `80` |  |
 | dashboard.enabled | bool | `true` |  |
@@ -88,8 +88,8 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | extraManifests | object | `{}` |  |
 | fullnameOverride | string | `""` |  |
 | global.namespace | string | `""` |  |
-| management.VolumeMounts | list | `[]` |  |
-| management.Volumes | list | `[]` |  |
+| management.volumeMounts | list | `[]` |  |
+| management.volumes | list | `[]` |  |
 | management.affinity | object | `{}` |  |
 | management.configmap | string | `""` |  |
 | management.containerPort | int | `80` |  |
@@ -170,8 +170,8 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | metrics.serviceMonitor.scrapeTimeout | string | `""` |  |
 | metrics.serviceMonitor.selector | object | `{}` |  |
 | nameOverride | string | `""` |  |
-| relay.VolumeMounts | list | `[]` |  |
-| relay.Volumes | list | `[]` |  |
+| relay.volumeMounts | list | `[]` |  |
+| relay.volumes | list | `[]` |  |
 | relay.affinity | object | `{}` |  |
 | relay.containerPort | int | `33080` |  |
 | relay.deploymentAnnotations | object | `{}` |  |
@@ -212,8 +212,8 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | relay.serviceAccount.create | bool | `true` |  |
 | relay.serviceAccount.name | string | `""` |  |
 | relay.tolerations | list | `[]` |  |
-| signal.VolumeMounts | list | `[]` |  |
-| signal.Volumes | list | `[]` |  |
+| signal.volumeMounts | list | `[]` |  |
+| signal.volumes | list | `[]` |  |
 | signal.affinity | object | `{}` |  |
 | signal.containerPort | int | `80` |  |
 | signal.deploymentAnnotations | object | `{}` |  |

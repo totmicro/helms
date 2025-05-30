@@ -282,13 +282,13 @@ management:
     tcpSocket:
       port: http
 
-  ## @param management.VolumeMounts Volume mounts for the management pod.
-  VolumeMounts: []
+  ## @param management.volumeMounts Volume mounts for the management pod.
+  volumeMounts: []
   # - name: tmp
   #   mountPath: /tmp
 
-  ## @param management.Volumes Volumes for the management pod.
-  Volumes: []
+  ## @param management.volumes volumes for the management pod.
+  volumes: []
   # - name: tmp
   #   emptyDir: {}
 
@@ -447,13 +447,13 @@ signal:
     tcpSocket:
       port: grpc
 
-  ## @param signal.VolumeMounts Volume mounts for the signal pod.
-  VolumeMounts: []
+  ## @param signal.volumeMounts Volume mounts for the signal pod.
+  volumeMounts: []
   # - name: tmp
   #   mountPath: /tmp
 
-  ## @param signal.Volumes Volumes for the signal pod.
-  Volumes: []
+  ## @param signal.volumes volumes for the signal pod.
+  volumes: []
   # - name: tmp
   #   emptyDir: {}
 
@@ -631,13 +631,13 @@ relay:
     tcpSocket:
       port: http
 
-  ## @param relay.VolumeMounts Volume mounts for the relay pod.
-  VolumeMounts: []
+  ## @param relay.volumeMounts Volume mounts for the relay pod.
+  volumeMounts: []
   # - name: tmp
   #   mountPath: /tmp
 
-  ## @param relay.Volumes Volumes for the relay pod.
-  Volumes: []
+  ## @param relay.volumes volumes for the relay pod.
+  volumes: []
   # - name: tmp
   #   emptyDir: {}
 
@@ -796,13 +796,13 @@ dashboard:
       path: /
       port: http
 
-  ## @param dashboard.VolumeMounts Volume mounts for the dashboard pod.
-  VolumeMounts: []
+  ## @param dashboard.volumeMounts Volume mounts for the dashboard pod.
+  volumeMounts: []
   # - name: tmp
   #   mountPath: /tmp
 
-  ## @param dashboard.Volumes Volumes for the dashboard pod.
-  Volumes: []
+  ## @param dashboard.volumes volumes for the dashboard pod.
+  volumes: []
   # - name: tmp
   #   emptyDir: {}
 ## @section NetBird Extra Manifests to be included in the chart

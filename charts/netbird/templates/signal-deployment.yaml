@@ -62,13 +62,13 @@ spec:
           {{- end }}
           resources:
             {{- toYaml .Values.signal.resources | nindent 12 }}
-          {{- if .Values.signal.VolumeMounts }}
+          {{- if .Values.signal.volumeMounts }}
           volumeMounts:
-          {{- .Values.signal.VolumeMounts | toYaml | nindent 12 }}
+          {{- .Values.signal.volumeMounts | toYaml | nindent 12 }}
           {{- end }}
-      {{- if  .Values.signal.Volumes }}
+      {{- if  .Values.signal.volumes }}
       volumes:
-      {{- .Values.signal.Volumes | toYaml | nindent 8 }}
+      {{- .Values.signal.volumes | toYaml | nindent 8 }}
       {{- end }}
       {{- with .Values.signal.nodeSelector }}
       nodeSelector:
