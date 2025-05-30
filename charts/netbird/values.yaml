@@ -282,6 +282,16 @@ management:
     tcpSocket:
       port: http
 
+  ## @param management.VolumeMounts Volume mounts for the management pod.
+  VolumeMounts: []
+  # - name: tmp
+  #   mountPath: /tmp
+
+  ## @param management.Volumes Volumes for the management pod.
+  Volumes: []
+  # - name: tmp
+  #   emptyDir: {}
+
 ## @section NetBird Signal
 
 signal:
@@ -420,7 +430,7 @@ signal:
   ##
   affinity: {}
 
-  ## @param management.livenessProbe for the signal component.
+  ## @param signal.livenessProbe for the signal component.
   ##
 
   livenessProbe:
@@ -429,13 +439,23 @@ signal:
     tcpSocket:
       port: grpc
 
-  ## @param dashboard.readinessProbe for the signal component.
+  ## @param signal.readinessProbe for the signal component.
   ##
   readinessProbe:
     initialDelaySeconds: 5
     periodSeconds: 5
     tcpSocket:
       port: grpc
+
+  ## @param signal.VolumeMounts Volume mounts for the signal pod.
+  VolumeMounts: []
+  # - name: tmp
+  #   mountPath: /tmp
+
+  ## @param signal.Volumes Volumes for the signal pod.
+  Volumes: []
+  # - name: tmp
+  #   emptyDir: {}
 
 ## @section NetBird Relay Parameters
 
@@ -595,7 +615,7 @@ relay:
   ##
   affinity: {}
 
-  ## @param management.livenessProbe for the relay component.
+  ## @param relay.livenessProbe for the relay component.
   ##
   livenessProbe:
     initialDelaySeconds: 5
@@ -603,13 +623,23 @@ relay:
     tcpSocket:
       port: http
 
-  ## @param dashboard.readinessProbe for the relay component.
+  ## @param relay.readinessProbe for the relay component.
   ##
   readinessProbe:
     initialDelaySeconds: 5
     periodSeconds: 5
     tcpSocket:
       port: http
+
+  ## @param relay.VolumeMounts Volume mounts for the relay pod.
+  VolumeMounts: []
+  # - name: tmp
+  #   mountPath: /tmp
+
+  ## @param relay.Volumes Volumes for the relay pod.
+  Volumes: []
+  # - name: tmp
+  #   emptyDir: {}
 
 dashboard:
   ## @param dashboard.enabled Enable or disable the NetBird dashboard component.
@@ -633,7 +663,7 @@ dashboard:
     pullPolicy: IfNotPresent
 
     ## @param image.tag image tag (immutable tags are recommended)
-    tag: "v2.10.0"
+    tag: "v2.12.0"
 
   ## @param imagePullSecrets image pull secrets
   imagePullSecrets: []
@@ -749,7 +779,7 @@ dashboard:
 
   lifecycle: {} # Define lifecycle hooks (preStop, postStart) if needed.
 
-  ## @param dashboard.livenessProbe for the management component.
+  ## @param dashboard.livenessProbe for the dashboard component.
   ##
   livenessProbe:
     periodSeconds: 5
@@ -757,7 +787,7 @@ dashboard:
       path: /
       port: http
 
-  ## @param dashboard.readinessProbe for the management component.
+  ## @param dashboard.readinessProbe for the dashboard component.
   ##
   readinessProbe:
     initialDelaySeconds: 5
@@ -766,6 +796,15 @@ dashboard:
       path: /
       port: http
 
+  ## @param dashboard.VolumeMounts Volume mounts for the dashboard pod.
+  VolumeMounts: []
+  # - name: tmp
+  #   mountPath: /tmp
+
+  ## @param dashboard.Volumes Volumes for the dashboard pod.
+  Volumes: []
+  # - name: tmp
+  #   emptyDir: {}
 ## @section NetBird Extra Manifests to be included in the chart
 
 extraManifests: {}
