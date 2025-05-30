@@ -74,6 +74,14 @@ spec:
                   key: {{ (split "/" $val)._1 }}
           {{- end }}
           {{- end }}
+          {{- if .Values.relay.VolumeMounts }}
+          volumeMounts:
+          {{- .Values.relay.VolumeMounts | toYaml | nindent 8 }}
+          {{- end }}
+      {{- if  .Values.relay.Volumes }}
+      volumes:
+      {{- .Values.relay.Volumes | toYaml | nindent 8 }}
+      {{- end }}
       {{- with .Values.relay.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

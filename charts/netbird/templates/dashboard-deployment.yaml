@@ -81,6 +81,14 @@ spec:
           {{- end }}
           resources:
             {{- toYaml .Values.dashboard.resources | nindent 12 }}
+          {{- if  .Values.dashboard.VolumeMounts }}
+          volumeMounts:
+          {{- .Values.dashboard.VolumeMounts | toYaml | nindent 8 }}
+          {{- end }}
+      {{- if  .Values.dashboard.Volumes }}
+      volumes:
+      {{- .Values.dashboard.Volumes | toYaml | nindent 8 }}
+      {{- end }}
       {{- with .Values.dashboard.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
