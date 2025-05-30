@@ -64,7 +64,7 @@ spec:
             {{- toYaml .Values.signal.resources | nindent 12 }}
           {{- if .Values.signal.VolumeMounts }}
           volumeMounts:
-          {{- .Values.signal.VolumeMounts | toYaml | nindent 8 }}
+          {{- .Values.signal.VolumeMounts | toYaml | nindent 12 }}
           {{- end }}
       {{- if  .Values.signal.Volumes }}
       volumes:

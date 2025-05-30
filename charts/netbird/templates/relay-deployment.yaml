@@ -76,7 +76,7 @@ spec:
           {{- end }}
           {{- if .Values.relay.VolumeMounts }}
           volumeMounts:
-          {{- .Values.relay.VolumeMounts | toYaml | nindent 8 }}
+          {{- .Values.relay.VolumeMounts | toYaml | nindent 12 }}
           {{- end }}
       {{- if  .Values.relay.Volumes }}
       volumes:

@@ -83,7 +83,7 @@ spec:
             {{- toYaml .Values.dashboard.resources | nindent 12 }}
           {{- if  .Values.dashboard.VolumeMounts }}
           volumeMounts:
-          {{- .Values.dashboard.VolumeMounts | toYaml | nindent 8 }}
+          {{- .Values.dashboard.VolumeMounts | toYaml | nindent 12 }}
           {{- end }}
       {{- if  .Values.dashboard.Volumes }}
       volumes:
