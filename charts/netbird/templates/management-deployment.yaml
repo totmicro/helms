@@ -16,6 +16,15 @@ spec:
   selector:
     matchLabels:
       {{- include "netbird.management.selectorLabels" . | nindent 6 }}
+  strategy:
+    type: {{ .Values.management.strategy.type }}
+    {{- if eq .Values.management.strategy.type "RollingUpdate" }}
+    rollingUpdate:
+      {{- if .Values.management.strategy.rollingUpdate }}
+      maxSurge: {{ .Values.management.strategy.rollingUpdate.maxSurge | default "25%" }}
+      maxUnavailable: {{ .Values.management.strategy.rollingUpdate.maxUnavailable | default "25%" }}
+      {{- end }}
+    {{- end }}
   template:
     metadata:
       annotations:
