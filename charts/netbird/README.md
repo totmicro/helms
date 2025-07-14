@@ -156,6 +156,9 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | management.serviceGrpc.name | string | `"grpc"` |  |
 | management.serviceGrpc.port | int | `33073` |  |
 | management.serviceGrpc.type | string | `"ClusterIP"` |  |
+| management.strategy.type | string | `"RollingUpdate"` |  |
+| management.strategy.rollingUpdate.maxSurge | string | `"25%"` |  |
+| management.strategy.rollingUpdate.maxUnavailable | string | `"25%"` |  |
 | management.tolerations | list | `[]` |  |
 | management.useBackwardsGrpcService | bool | `false` |  |
 | metrics.serviceMonitor.annotations | object | `{}` |  |

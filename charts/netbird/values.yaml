@@ -39,6 +39,14 @@ management:
   ##
   replicaCount: 1
 
+  ## @param management.strategy Deployment strategy for the management component.
+  ##
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+
   ## @param management.env Environment variables for the management pod.
   ##
   env: {}
