@@ -1,6 +1,6 @@
 # netbird
 
-![Version: 1.7.1](https://img.shields.io/badge/Version-1.7.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.45.1](https://img.shields.io/badge/AppVersion-0.45.1-informational?style=flat-square)
+![Version: 1.8.0](https://img.shields.io/badge/Version-1.8.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.50.3](https://img.shields.io/badge/AppVersion-0.50.3-informational?style=flat-square)
 
 # NetBird Helm Chart
 
@@ -54,7 +54,7 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | dashboard.envRaw | list | `[]` |  |
 | dashboard.image.pullPolicy | string | `"IfNotPresent"` |  |
 | dashboard.image.repository | string | `"netbirdio/dashboard"` |  |
-| dashboard.image.tag | string | `"v2.12.0"` |  |
+| dashboard.image.tag | string | `"v2.14.0"` |  |
 | dashboard.imagePullSecrets | list | `[]` |  |
 | dashboard.ingress.annotations | object | `{}` |  |
 | dashboard.ingress.className | string | `""` |  |
