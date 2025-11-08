@@ -108,6 +108,12 @@ spec:
           {{- if .Values.management.volumeMounts }}
           {{- .Values.management.volumeMounts | toYaml | nindent 12 }}
           {{- end }}
+          {{- if  .Values.management.gracefulShutdown }}
+          lifecycle:
+            preStop:
+              exec:
+                command: ["sh", "-c", "echo Waiting 5 seconds to allow terminating current connections >/proc/1/fd/1; sleep 5"]
+          {{- end }}
       {{- with .Values.management.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

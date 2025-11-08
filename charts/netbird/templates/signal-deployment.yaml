@@ -66,6 +66,12 @@ spec:
           volumeMounts:
           {{- .Values.signal.volumeMounts | toYaml | nindent 12 }}
           {{- end }}
+          {{- if  .Values.signal.gracefulShutdown }}
+          lifecycle:
+            preStop:
+              exec:
+                command: ["sh", "-c", "echo Waiting 5 seconds to allow terminating current connections >/proc/1/fd/1; sleep 5"]
+          {{- end }}
       {{- if  .Values.signal.volumes }}
       volumes:
       {{- .Values.signal.volumes | toYaml | nindent 8 }}
