@@ -1,6 +1,6 @@
 # netbird
 
-![Version: 1.8.0](https://img.shields.io/badge/Version-1.8.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.50.3](https://img.shields.io/badge/AppVersion-0.50.3-informational?style=flat-square)
+![Version: 1.8.1](https://img.shields.io/badge/Version-1.8.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.50.3](https://img.shields.io/badge/AppVersion-0.50.3-informational?style=flat-square)
 
 # NetBird Helm Chart
 
@@ -54,7 +54,7 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | dashboard.envRaw | list | `[]` |  |
 | dashboard.image.pullPolicy | string | `"IfNotPresent"` |  |
 | dashboard.image.repository | string | `"netbirdio/dashboard"` |  |
-| dashboard.image.tag | string | `"v2.14.0"` |  |
+| dashboard.image.tag | string | `"v2.20.2"` |  |
 | dashboard.imagePullSecrets | list | `[]` |  |
 | dashboard.ingress.annotations | object | `{}` |  |
 | dashboard.ingress.className | string | `""` |  |
@@ -98,6 +98,7 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | management.env | object | `{}` |  |
 | management.envFromSecret | object | `{}` |  |
 | management.envRaw | list | `[]` |  |
+| management.gracefulShutdown |bool | `true` |  |
 | management.grpcContainerPort | int | `33073` |  |
 | management.image.pullPolicy | string | `"IfNotPresent"` |  |
 | management.image.repository | string | `"netbirdio/management"` |  |
@@ -182,6 +183,7 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | relay.env | object | `{}` |  |
 | relay.envFromSecret | object | `{}` |  |
 | relay.envRaw | list | `[]` |  |
+| relay.gracefulShutdown |bool | `true` |  |
 | relay.image.pullPolicy | string | `"IfNotPresent"` |  |
 | relay.image.repository | string | `"netbirdio/relay"` |  |
 | relay.image.tag | string | `""` |  |
@@ -221,6 +223,7 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | signal.containerPort | int | `80` |  |
 | signal.deploymentAnnotations | object | `{}` |  |
 | signal.enabled | bool | `true` |  |
+| signal.gracefulShutdown |bool | `true` |  |
 | signal.image.pullPolicy | string | `"IfNotPresent"` |  |
 | signal.image.repository | string | `"netbirdio/signal"` |  |
 | signal.image.tag | string | `""` |  |

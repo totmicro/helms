@@ -300,6 +300,9 @@ management:
   # - name: tmp
   #   emptyDir: {}
 
+  ## @param management.gracefulShutdown Add a 5-second delay before pod shutdown to allow connections to close gracefully
+  gracefulShutdown: true
+
 ## @section NetBird Signal
 
 signal:
@@ -464,6 +467,9 @@ signal:
   volumes: []
   # - name: tmp
   #   emptyDir: {}
+
+  ## @param signal.gracefulShutdown Add a 5-second delay before pod shutdown to allow connections to close gracefully
+  gracefulShutdown: true
 
 ## @section NetBird Relay Parameters
 
@@ -649,6 +655,9 @@ relay:
   # - name: tmp
   #   emptyDir: {}
 
+  ## @param relay.gracefulShutdown Add a 5-second delay before pod shutdown to allow connections to close gracefully
+  gracefulShutdown: true
+
 dashboard:
   ## @param dashboard.enabled Enable or disable the NetBird dashboard component.
   ##
@@ -671,7 +680,7 @@ dashboard:
     pullPolicy: IfNotPresent
 
     ## @param image.tag image tag (immutable tags are recommended)
-    tag: "v2.14.0"
+    tag: "v2.20.2"
 
   ## @param imagePullSecrets image pull secrets
   imagePullSecrets: []
