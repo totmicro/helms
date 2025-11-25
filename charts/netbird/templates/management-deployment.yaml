@@ -42,6 +42,10 @@ spec:
       serviceAccountName: {{ include "netbird.management.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.management.podSecurityContext | nindent 8 }}
+      {{- with .Values.management.initContainers }}
+      initContainers:
+        {{- tpl (toYaml . ) $ | nindent 6 }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}-management
           securityContext:

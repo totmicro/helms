@@ -28,6 +28,10 @@ spec:
       serviceAccountName: {{ include "netbird.relay.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.relay.podSecurityContext | nindent 8 }}
+      {{- with .Values.relay.initContainers }}
+      initContainers:
+        {{- tpl (toYaml . ) $ | nindent 6 }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}-relay
           securityContext:

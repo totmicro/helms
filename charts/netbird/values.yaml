@@ -303,6 +303,8 @@ management:
   ## @param management.gracefulShutdown Add a 5-second delay before pod shutdown to allow connections to close gracefully
   gracefulShutdown: true
 
+  ## @param signal.initContainers Init containers for the signal pod.
+  initContainers: []
 ## @section NetBird Signal
 
 signal:
@@ -471,6 +473,9 @@ signal:
   ## @param signal.gracefulShutdown Add a 5-second delay before pod shutdown to allow connections to close gracefully
   gracefulShutdown: true
 
+  ## @param signal.initContainers Init containers for the signal pod.
+  initContainers: []
+  
 ## @section NetBird Relay Parameters
 
 relay:
@@ -657,7 +662,10 @@ relay:
 
   ## @param relay.gracefulShutdown Add a 5-second delay before pod shutdown to allow connections to close gracefully
   gracefulShutdown: true
+  ## @param relay.initContainers Init containers for the relay pod.
+  initContainers: []
 
+## @section NetBird Dashboard Parameters
 dashboard:
   ## @param dashboard.enabled Enable or disable the NetBird dashboard component.
   ##
@@ -680,7 +688,7 @@ dashboard:
     pullPolicy: IfNotPresent
 
     ## @param image.tag image tag (immutable tags are recommended)
-    tag: "v2.20.2"
+    tag: "v2.22.2"
 
   ## @param imagePullSecrets image pull secrets
   imagePullSecrets: []
@@ -822,6 +830,9 @@ dashboard:
   volumes: []
   # - name: tmp
   #   emptyDir: {}
+  ## @param.dashoboard.initContainers Init containers for the dashboard pod.
+  initContainers: []
+
 ## @section NetBird Extra Manifests to be included in the chart
 
 extraManifests: {}
@@ -876,3 +887,4 @@ metrics:
     ##   prometheus: my-prometheus
     ##
     selector: {}
+

@@ -1,6 +1,6 @@
 # netbird
 
-![Version: 1.8.1](https://img.shields.io/badge/Version-1.8.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.50.3](https://img.shields.io/badge/AppVersion-0.50.3-informational?style=flat-square)
+![Version: 1.8.2](https://img.shields.io/badge/Version-1.8.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.60.2](https://img.shields.io/badge/AppVersion-0.60.2-informational?style=flat-square)
 
 # NetBird Helm Chart
 
@@ -54,8 +54,9 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | dashboard.envRaw | list | `[]` |  |
 | dashboard.image.pullPolicy | string | `"IfNotPresent"` |  |
 | dashboard.image.repository | string | `"netbirdio/dashboard"` |  |
-| dashboard.image.tag | string | `"v2.20.2"` |  |
+| dashboard.image.tag | string | `"v2.22.2"` |  |
 | dashboard.imagePullSecrets | list | `[]` |  |
+| dashboard.initContainers | list | `[]` | |
 | dashboard.ingress.annotations | object | `{}` |  |
 | dashboard.ingress.className | string | `""` |  |
 | dashboard.ingress.enabled | bool | `false` |  |
@@ -104,6 +105,7 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | management.image.repository | string | `"netbirdio/management"` |  |
 | management.image.tag | string | `""` |  |
 | management.imagePullSecrets | list | `[]` |  |
+| management.initContainers | list | `[]` | |
 | management.ingress.annotations | object | `{}` |  |
 | management.ingress.className | string | `""` |  |
 | management.ingress.enabled | bool | `false` |  |
@@ -188,6 +190,7 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | relay.image.repository | string | `"netbirdio/relay"` |  |
 | relay.image.tag | string | `""` |  |
 | relay.imagePullSecrets | list | `[]` |  |
+| relay.initContainers | list | `[]` | |
 | relay.ingress.annotations | object | `{}` |  |
 | relay.ingress.className | string | `""` |  |
 | relay.ingress.enabled | bool | `false` |  |
@@ -228,6 +231,7 @@ The following table lists the configurable parameters of the NetBird Helm chart 
 | signal.image.repository | string | `"netbirdio/signal"` |  |
 | signal.image.tag | string | `""` |  |
 | signal.imagePullSecrets | list | `[]` |  |
+| signal.initContainers | list | `[]` | |
 | signal.ingress.annotations | object | `{}` |  |
 | signal.ingress.className | string | `""` |  |
 | signal.ingress.enabled | bool | `false` |  |
