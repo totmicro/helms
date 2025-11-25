@@ -28,6 +28,10 @@ spec:
       serviceAccountName: {{ include "netbird.signal.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.signal.podSecurityContext | nindent 8 }}
+      {{- with .Values.signal.initContainers }}
+      initContainers:
+        {{- tpl (toYaml . ) $ | nindent 6 }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}-signal
           securityContext:

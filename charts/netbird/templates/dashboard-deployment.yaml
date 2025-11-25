@@ -28,6 +28,10 @@ spec:
       serviceAccountName: {{ include "netbird.dashboard.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.dashboard.podSecurityContext | nindent 8 }}
+      {{- with .Values.dashboard.initContainers }}
+      initContainers:
+        {{- tpl (toYaml . ) $ | nindent 6 }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           {{- if .Values.dashboard.podCommand.args }}
